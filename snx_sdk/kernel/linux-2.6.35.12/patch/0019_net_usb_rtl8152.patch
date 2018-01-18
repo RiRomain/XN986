@@ -1,0 +1,65 @@
+diff --git a/src/drivers/net/usb/Kconfig b/src/drivers/net/usb/Kconfig
+index d7b7018..f043e58 100644
+--- a/src/drivers/net/usb/Kconfig
++++ b/src/drivers/net/usb/Kconfig
+@@ -93,6 +93,17 @@ config USB_RTL8150
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called rtl8150.
+ 
++config USB_RTL8152
++	tristate "Realtek RTL8152 Based USB 2.0 Ethernet Adapters"
++	select NET_CORE
++	select MII
++	help
++	  This option adds support for Realtek RTL8152 based USB 2.0
++	  10/100 Ethernet adapters.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called r8152.
++
+ config USB_USBNET
+ 	tristate "Multi-purpose USB Networking Framework"
+ 	select MII
+diff --git a/src/drivers/net/usb/Makefile b/src/drivers/net/usb/Makefile
+index b13a279..64d3ec5 100644
+--- a/src/drivers/net/usb/Makefile
++++ b/src/drivers/net/usb/Makefile
+@@ -6,6 +6,7 @@ obj-$(CONFIG_USB_CATC)		+= catc.o
+ obj-$(CONFIG_USB_KAWETH)	+= kaweth.o
+ obj-$(CONFIG_USB_PEGASUS)	+= pegasus.o
+ obj-$(CONFIG_USB_RTL8150)	+= rtl8150.o
++obj-$(CONFIG_USB_RTL8152)	+= r8152.o
+ obj-$(CONFIG_USB_HSO)		+= hso.o
+ obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
+ obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o
+diff --git a/src/drivers/net/usb/cdc_ether.c b/src/drivers/net/usb/cdc_ether.c
+old mode 100644
+new mode 100755
+index b3fe0de..e48d59d
+--- a/src/drivers/net/usb/cdc_ether.c
++++ b/src/drivers/net/usb/cdc_ether.c
+@@ -561,6 +561,24 @@ static const struct usb_device_id	products [] = {
+ 	ZAURUS_MASTER_INTERFACE,
+ 	.driver_info		= 0,
+ },
++{
++        .match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
++                 | USB_DEVICE_ID_MATCH_DEVICE,
++        .idVendor               = 0x0bda,
++        .idProduct              = 0x8152,       /* R-1000 */
++        ZAURUS_MASTER_INTERFACE,
++        .driver_info            = 0,
++},
++
++
++/* Realtek RTL8152 Based USB 2.0 Ethernet Adapters */
++#if 0
++{
++	USB_DEVICE_AND_INTERFACE_INFO(REALTEK_VENDOR_ID, 0x8152, USB_CLASS_COMM,
++			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
++	.driver_info = 0,
++},
++#endif
+ 
+ /*
+  * WHITELIST!!!

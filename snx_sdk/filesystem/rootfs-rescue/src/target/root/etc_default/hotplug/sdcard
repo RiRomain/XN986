@@ -1,0 +1,49 @@
+#!/bin/sh
+
+if [ $ACTION = "add" ]; then
+	mkdir -p /media/$MDEV
+
+	if [ ! -x /tmp/mmc.all.log ]; then
+		fdisk -l | grep "mmc" > /tmp/mmc.all.log
+		grep "FAT32" /tmp/mmc.all.log > /tmp/mmc.vfat.log
+		# grep "exfat" /tmp/mmc.all.log > /tmp/mmc.exfat.log
+		# grep "ntfs" /tmp/mmc.all.log > /tmp/mmc.ntfs.log
+	fi
+
+	grep -w $MDEV /tmp/mmc.vfat.log
+	if [ $? == 0 ]; then
+		mount -t vfat -o rw /dev/$MDEV /media/$MDEV
+		echo "1" > /tmp/$MDEV
+		if [ -f /media/$MDEV/snx_autorun.sh ]; then
+			echo "find snx_autorun.sh" > /dev/console
+			/media/$MDEV/snx_autorun.sh
+		fi                   
+		exit 0
+	fi
+	
+	# grep -w $MDEV /tmp/mmc.exfat.log
+	# if [ $? == 0 ]; then
+	# 	mount.exfat-fuse /dev/$MDEV /media/$MDEV
+	# 	echo "1" > /tmp/$MDEV
+	# 	if [ -f /media/$MDEV/snx_autorun.sh ]; then
+	# 		echo "find snx_autorun.sh" > /dev/console
+	# 		/media/$MDEV/snx_autorun.sh
+	# 	fi
+	# 	exit 0
+	# fi
+	
+	# grep -w $MDEV /tmp/mmc.ntfs.log
+	# if [ $? == 0 ]; then
+	# 	ntfs-3g /dev/$MDEV /media/$MDEV
+	# 	echo "1" > /tmp/$MDEV
+	# 	if [ -f /media/$MDEV/snx_autorun.sh ]; then
+	# 		echo "find snx_autorun.sh" > /dev/console
+	# 		/media/$MDEV/snx_autorun.sh
+	# 	fi  
+	# 	exit 0
+	# fi
+else
+	umount /dev/$MDEV
+	rm -rf /media/$MDEV
+	rm -f /tmp/mmc*
+fi

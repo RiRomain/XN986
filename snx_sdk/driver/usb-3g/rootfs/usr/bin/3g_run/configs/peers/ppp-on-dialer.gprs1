@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# This is part 2 of the ppp-on script. It will perform the connection
+# protocol for the desired connection.
+#
+
+exec /usr/sbin/chat -v -f /etc/ppp/chat/chat.ttySx
+

@@ -1,0 +1,87 @@
+#!/bin/sh
+source script_lib/script.lib
+
+ECHO "PATCH SDK" COLOR_YELLOW
+
+if [ -f "$1" ] 
+then
+	ECHO ""
+else
+	ERR "patch file $1 is't exist !!!"
+	exit 1
+fi
+
+if [ "$#" -eq "3" ]
+then
+	tar_path="package/$3"
+	pushd $tar_path >/dev/null
+	tar_module_path=`find ./ -name "$2.tgz" -print`
+	popd >/dev/null
+	sdk_path="snx_sdk/$3"
+	pushd $sdk_path >/dev/null
+	sdk_module_path=`find ./ -name "$2" -print`
+	popd >/dev/null
+elif [ "$#" -eq "2" ]
+then
+	tar_path="package"
+	pushd $tar_path >/dev/null
+	tar_module_path=`find ./ -maxdepth 1 -name "$2.tgz" -print`
+	popd >/dev/null
+	sdk_path="snx_sdk"
+	pushd $sdk_path >/dev/null
+	sdk_module_path=`find ./ -maxdepth 1 -name "$2" -print`
+	popd >/dev/null
+else
+	ERR "wrong params !!!"
+	exit 1
+fi
+		
+	if [ -z "$sdk_module_path" ]
+	then 
+		ERR "you don't unpack $2 !!!"
+		exit 1
+	fi
+
+	WARN "THE MODULE $sdk_module_path FILES WILL BE DELETED, FILES YOU MOTIFIED WILL BE LOST !!!"
+	ECHO ""
+	ECHO "To continue, type 'yes' and then press ENTER ..."
+	read choice
+	if [ $choice != Y ] && [ $choice != y ]
+	then 
+		exit 1;
+	fi	
+
+	if [ -z "$tar_module_path" ]
+	then 
+		ERR "$tar_module_path is not exist!!!"
+		exit 1
+	fi
+
+	pushd $sdk_path >/dev/null
+	run_command "rm $sdk_module_path -frv" 0 "find $sdk_module_path | wc -l"
+	popd >/dev/null
+
+	str=`echo ${tar_module_path#*/}`
+	tar_full_path=$tar_path/$str
+	str=`echo ${sdk_module_path#*/}`
+	sdk_full_path=$sdk_path/$str
+	dst_path=`echo ${sdk_full_path%/*}`
+	str="$1"
+	patch_file_name=`echo ${str##*/}`
+	mkdir -p $dst_path/
+	run_command "tar -xvzf $tar_full_path -C $dst_path" 0 "tar -tzf $tar_full_path | wc -l"
+	cp $1 $sdk_full_path
+	pushd $sdk_full_path >/dev/null
+	patch -i $patch_file_name -p 1 	
+	rm $patch_file_name
+	popd >/dev/null	
+
+
+
+
+	
+	
+
+
+	 
+

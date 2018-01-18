@@ -1,0 +1,39 @@
+--- ../src/arch/arm/kernel/setup.c	2014-01-15 10:17:29.989860000 +0800
++++ /home/user/leo_huang/system/modifty/setup.c	2014-01-15 11:14:46.742958000 +0800
+@@ -206,16 +206,19 @@
+ int cpu_architecture(void)
+ {
+ 	int cpu_arch;
++	unsigned int cpu_id;
+ 
+-	if ((read_cpuid_id() & 0x0008f000) == 0) {
++	cpu_id = read_cpuid_id();
++
++	if ((cpu_id & 0x0008f000) == 0) {
+ 		cpu_arch = CPU_ARCH_UNKNOWN;
+-	} else if ((read_cpuid_id() & 0x0008f000) == 0x00007000) {
+-		cpu_arch = (read_cpuid_id() & (1 << 23)) ? CPU_ARCH_ARMv4T : CPU_ARCH_ARMv3;
+-	} else if ((read_cpuid_id() & 0x00080000) == 0x00000000) {
+-		cpu_arch = (read_cpuid_id() >> 16) & 7;
++	} else if ((cpu_id & 0x0008f000) == 0x00007000) {
++		cpu_arch = (cpu_id & (1 << 23)) ? CPU_ARCH_ARMv4T : CPU_ARCH_ARMv3;
++	} else if ((cpu_id & 0x00080000) == 0x00000000) {
++		cpu_arch = (cpu_id >> 16) & 7;
+ 		if (cpu_arch)
+ 			cpu_arch += CPU_ARCH_ARMv3;
+-	} else if ((read_cpuid_id() & 0x000f0000) == 0x000f0000) {
++	} else if ((cpu_id & 0x000f0000) == 0x000f0000) {
+ 		unsigned int mmfr0;
+ 
+ 		/* Revised CPUID format. Read the Memory Model Feature
+@@ -230,8 +233,9 @@
+ 			cpu_arch = CPU_ARCH_ARMv6;
+ 		else
+ 			cpu_arch = CPU_ARCH_UNKNOWN;
+-	} else
++	} else {	
+ 		cpu_arch = CPU_ARCH_UNKNOWN;
++	}
+ 
+ 	return cpu_arch;
+ }

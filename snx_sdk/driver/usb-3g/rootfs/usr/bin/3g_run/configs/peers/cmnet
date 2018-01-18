@@ -1,0 +1,23 @@
+/dev/ttyACM0
+115200
+nocrtscts
+nocdtrcts
+#nobsdcomp
+#+pap
+modem
+#noauth
+#auth
+#user card
+#nodetach
+#debug
+#logfile /var/ppp-chaplog
+usepeerdns
+defaultroute
+noipdefault
+0.0.0.0:0.0.0.0
+ipcp-accept-remote
+noccp
+#persist
+lock
+connect "chat -s -v -f /etc/ppp/chat/cmtc-isp"
+

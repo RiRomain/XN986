@@ -1,0 +1,37 @@
+debug
+
+nodetach
+
+lock
+
+/dev/ttyUSB0
+
+115200
+
+user "CARD"
+
+password "CARD"
+
+crtscts
+
+show-password
+
+usepeerdns
+
+noauth
+
+noipdefault
+
+novj
+
+novjccomp
+
+noccp
+
+defaultroute
+
+ipcp-accept-local
+
+ipcp-accept-remote
+
+connect '/sbin/chat -s -v -f /etc/ppp/cdma2000-connect-chat'

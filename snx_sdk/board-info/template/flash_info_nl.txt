@@ -1,0 +1,2 @@
+#Feild: Operate	Rescue	Vendor	Product	total_block	page_size	pages_per_block	
+	0x0000ffff	0xb0060400	0x534f4e49	0x58434f4d	1024	2048	64	

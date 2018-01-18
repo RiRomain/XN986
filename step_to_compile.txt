@@ -1,0 +1,10 @@
+./SN986/snx_sdk/buildscript/setup_env.sh
+export PATH=~/SN986/snx_sdk/toolchain/crosstool-4.5.2/bin:$PATH
+export C_INCLUDE_PATH=~/SN986/snx_sdk/middleware/rate_ctl/middleware/include/snx_rc:~/SN986/snx_sdk/middleware/video/middleware/include/snx_vc
+cd ~/SN986/snx_sdk/app/example/src/ipc_func/snapshot;
+make
+scp snx_snapshot_fix_name root@192.168.0.113:/media/mmcblk0p1/record
+./snx_snapshot -m -q 10 -n 1
+
+/media/mmcblk0p1/record/./snx_snapshot_fix_name  -m -q 10 -n 1
+touch /tmp/snapshot_en

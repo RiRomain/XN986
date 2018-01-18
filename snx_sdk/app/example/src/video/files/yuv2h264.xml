@@ -1,0 +1,19 @@
+<config>
+	<record id="1">
+		<fileheader>output</fileheader>
+		<path>/media/mmcblk0p1</path>
+		<prerecord>0</prerecord>
+		<videocodec>h264</videocodec>
+		<videores>640x480</videores>
+		<videofps>15</videofps>
+		<enableaudio>0</enableaudio>
+		<audiocodec>alaw</audiocodec>
+		<audiobitrate>64000</audiobitrate>
+		<audiosimplerate>8000</audiosimplerate>
+		<audioframesize>800</audioframesize>
+		<segmenttime>99999</segmenttime>
+		<ddrbufsize>32768</ddrbufsize>
+		<slicesize>3145728</slicesize>
+		<filetype>avi</filetype>
+	</record>
+</config>

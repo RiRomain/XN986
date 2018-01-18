@@ -1,0 +1,1 @@
+/home/rrinie/SN986/snx_sdk/buildscript/include/libnvram/nvram.h

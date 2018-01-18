@@ -1,0 +1,10 @@
+<user>
+<name>root</name>
+<pwd></pwd>
+<level>0</level>
+</user>
+<user>
+<name>guest</name>
+<pwd></pwd>
+<level>3</level>
+</user>

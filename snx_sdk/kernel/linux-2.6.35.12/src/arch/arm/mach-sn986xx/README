@@ -1,0 +1,10 @@
+/** \mainpage Sonix Timer Driver For Linux
+  * \section intro_sec Introduction
+  * This document explains Sonix Timer driver for linux, including :
+  * \n 1.The interface of special hardware timer
+  * \n 2.Driver implementation
+  * \n
+  * \n <B> <SPAN style='color:blue'>This document belong to Sonix Code Version 0.1.0.0</SPAN></B>  	
+  * \author yanjie_yang
+  * \date   2011-12-22
+  */

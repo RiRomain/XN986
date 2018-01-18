@@ -1,0 +1,38 @@
+#!/bin/sh
+
+sd_device=$MDEV
+sd_mount_dir=mmcblk0p1
+if [ $ACTION = "add" ]; then
+	P=`ls /dev/mmcblk0p*`
+	if [ "$P" != "" ]; then
+		if [ $sd_device = "mmcblk0" ]; then
+			exit
+		fi
+		mkdir -p /media/$sd_device
+		mount -t vfat /dev/$sd_device /media/$sd_device
+		if [ $? -ne 0 ]; then
+			echo "mount '$sd_device' fail" > /dev/console
+			rmdir /media/$sd_device
+	        elif [ -f /media/$sd_device/snx_autorun.sh ]; then
+			echo "find snx_autorun.sh" > /dev/console
+			/media/$sd_device/snx_autorun.sh
+		fi
+	else
+		mkdir -p /media/$sd_mount_dir
+		mount -t vfat /dev/$sd_device /media/$sd_mount_dir
+		if [ $? -ne 0 ]; then
+			echo "mount '$sd_device' fail" > /dev/console
+			rmdir /media/$sd_mount_dir
+		elif [ -f /media/$sd_mount_dir/snx_autorun.sh ]; then
+			echo "find snx_autorun.sh" > /dev/console
+			/media/$sd_mount_dir/snx_autorun.sh
+		fi
+	fi
+else
+	umount /dev/$sd_device
+	if [ "$sd_device" != "mmcblk0" ]; then
+		rmdir /media/$sd_device
+	else
+		rmdir /media/$sd_mount_dir
+	fi
+fi

@@ -1,0 +1,3 @@
+proc /proc proc rw 0 0
+sysfs /sys sysfs rw 0 0
+none /proc/bus/usb usbfs rw 0 0

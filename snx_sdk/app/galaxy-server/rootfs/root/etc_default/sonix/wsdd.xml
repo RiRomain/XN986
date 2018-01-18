@@ -1,0 +1,5 @@
+<!--
+	WSDD 服务专用配置
+	只保存服务器实例ID,用以兼容WSDD协议
+-->
+<instance-id>27</instance-id>

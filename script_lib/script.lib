@@ -1,0 +1,144 @@
+#!/bin/sh
+
+# COLORS
+COLOR_NORMAL="[0;39m"
+COLOR_RED="[1;31m"
+COLOR_YELLOW="[1;33m"
+
+PROGRESS_RANGE=60
+#$1: echo string
+#$2: string color
+ECHO()
+{
+	[ -n "$2" ] && eval echo -n \"\${${2}}\";
+	echo "${1}${COLOR_NORMAL}"
+}
+
+ERR()
+{
+	echo "${COLOR_RED} ERR: ${1}${COLOR_NORMAL}" >&2
+}
+
+WARN()
+{
+	echo "${COLOR_YELLOW}WARN: ${1}${COLOR_NORMAL}" >&2
+}
+
+# $1: file type
+# $2: dst path
+tar_module_type()
+{
+	src_list=`find ./ -name "*$1" -print`
+
+	for src_path in $src_list
+	do
+		str=`echo ${src_path#*/}`
+		str=$2/$str
+		dst_path=`echo ${str%/*}`
+		mkdir -p $dst_path
+		run_command "tar -xvzf $src_path -C $dst_path" 0 "tar -tzf $src_path | wc -l"
+	done
+}
+
+# $1: main command
+# $2: file total
+# $3: command to calc file totals
+run_command()
+{
+	local rcp_lines=0
+	local rcp_nextpos=1
+	local rcp_total=0
+	local progress_bar=
+	local rcp_prog=0
+	local rcp_tmp=0
+	local prog_bar_base=
+	local rcp_percent=0
+
+	ECHO "run command: '$1'" 
+	set +e
+
+	if [ -n "$3" ] ;
+	then
+		echo -n "Initializing progress bar ..."
+		rcp_total=`eval $3`;
+		echo -n "\r"
+		[ -z "$rcp_total" ] && rcp_total=1
+	else
+		[ -n "$2" ] && rcp_total=$2
+	fi
+
+	[ -z "$rcp_total" ] && rcp_total=1
+	[ $rcp_total -le 0 ] && rcp_total=1
+
+	prog_bar_base="[    ]["
+	while [ $rcp_tmp -lt $PROGRESS_RANGE ]
+	do
+		prog_bar_base="$prog_bar_base-"
+		((rcp_tmp++)) 
+	done
+	prog_bar_base="${prog_bar_base}]"
+	printf "\r$prog_bar_base\r"
+
+	eval $1 | while read line
+	do
+		((rcp_lines++))
+
+		if [ $rcp_lines -ge $rcp_nextpos ]
+		then
+			rcp_percent=`expr \( $rcp_lines \* 101 - 1 \) / $rcp_total `
+			rcp_prog=`expr \( $rcp_lines \* \( $PROGRESS_RANGE + 1 \) - 1 \) / $rcp_total `
+			[ $rcp_prog -gt $PROGRESS_RANGE ] && rcp_prog=$PROGRESS_RANGE
+			rcp_nextpos=`expr \( \( $rcp_percent + 1 \) \* $rcp_total \) / 120`
+			[ $rcp_nextpos -gt $rcp_total ] && rcp_nextpos=$rcp_total
+
+			rcp_tmp=0
+			progress_bar=""
+			while [ $rcp_tmp -lt $rcp_prog ]
+			do
+				progress_bar="$progress_bar#"
+				((rcp_tmp++))
+			done
+			printf "\r$prog_bar_base\r[%3d%%][$progress_bar\r" $rcp_percent
+		fi
+	done
+	set -e
+
+	echo ""
+}
+
+#$1: file or directory path
+function_delete()
+{
+       	rm -rf $1
+	[ $? -ne 0 ] && ERR "$$$ remove $1 failed $$$"
+}
+
+#$1: source file or directory path
+#$2: dst file or directory path
+function_move()
+{
+       	mv $1 $2
+	[ $? -ne 0 ] && ERR "$$$ move $1 to $2 failed $$$" && exit 1
+}
+
+#$1: src file or directory path
+#$2: dst file or directory path
+function_copy()
+{
+       	cp -a $1 $2
+	[ $? -ne 0 ] && ERR "$$$ copy $1 to $2 failed $$$" && exit 1
+}
+
+#$1: file name
+#$2: section begin name
+#$3: section end name
+show_section()
+{
+        sed -n "/\[$2\]/,/\[$3\]/{
+          /^\[.*\]/d
+          /^[ ]*$/d
+          s/#.*$//
+         p
+          }" $1
+}
+

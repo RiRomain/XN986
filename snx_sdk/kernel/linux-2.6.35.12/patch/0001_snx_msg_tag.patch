@@ -1,0 +1,297 @@
+--- kernel/printk.c	2013-08-15 08:59:27.088548767 +0800
++++ kernel/printk_snx.c	2013-08-15 09:13:56.490202519 +0800
+@@ -457,6 +457,66 @@
+ 
+ early_param("ignore_loglevel", ignore_loglevel_setup);
+ 
++#ifdef CONFIG_SNX_MSG_TAG
++
++
++snx_msg_tag_t console_snx_msg_tag = {
++    .msg_tag = default_snx_msg_tag_mask,
++};
++
++snx_msg_tag_t snx_msg_tag;
++
++static int _get_str_from_log_buf (unsigned char *c, unsigned start, unsigned int len)
++{
++    int ret = -1;
++    if ((c != NULL) && (LOG_BUF(start + 0) == '^') && (LOG_BUF(start + 9) == '^'))
++    {
++        while (len)
++        {
++                c[len - 1] = LOG_BUF(start + len);
++		--len;
++        }
++        ret = 0;
++    }
++    return ret;
++}
++
++static unsigned int _get_snx_msg_tag (unsigned char *in)
++{
++    unsigned int len = 8;
++    unsigned int msg_tag = 0;
++	unsigned int mult = 1;
++	unsigned char c;
++
++	while (len) {
++		c = in[len - 1];
++		if ((c >= '0') && (c <= '9'))
++			msg_tag += mult * (c - '0');
++		else if ((c >= 'A') && (c <= 'F'))
++			msg_tag += mult * (c - ('A' - 10));
++		else if ((c >= 'a') && (c <= 'f'))
++			msg_tag += mult * (c - ('a' - 10));
++        else {
++            msg_tag = 0;
++            break;
++        }
++		mult = mult << 4;
++		--len;
++	}
++	return msg_tag;
++}
++
++static unsigned int get_snx_msg_tag (unsigned char *in, unsigned start)
++{
++    int ret = 0;
++    if(_get_str_from_log_buf(in, start, 8) != 0)
++        return ret;
++    ret = _get_snx_msg_tag(in);
++    return ret;
++}
++
++#endif
++
+ /*
+  * Write out chars from start to end - 1 inclusive
+  */
+@@ -465,6 +525,10 @@
+ {
+ 	if ((msg_log_level < console_loglevel || ignore_loglevel) &&
+ 			console_drivers && start != end) {
++#ifdef CONFIG_SNX_MSG_TAG
++	    if (snx_msg_tag.msg_tag & console_snx_msg_tag.msg_tag)
++		{
++#endif
+ 		if ((start & LOG_BUF_MASK) > (end & LOG_BUF_MASK)) {
+ 			/* wrapped write */
+ 			__call_console_drivers(start & LOG_BUF_MASK,
+@@ -473,6 +537,9 @@
+ 		} else {
+ 			__call_console_drivers(start, end);
+ 		}
++#ifdef CONFIG_SNX_MSG_TAG
++		}
++#endif
+ 	}
+ }
+ 
+@@ -485,7 +552,9 @@
+ {
+ 	unsigned cur_index, start_print;
+ 	static int msg_level = -1;
+-
++#ifdef CONFIG_SNX_MSG_TAG
++    unsigned char c[8];
++#endif
+ 	BUG_ON(((int)(start - end)) > 0);
+ 
+ 	cur_index = start;
+@@ -500,6 +569,20 @@
+ 			cur_index += 3;
+ 			start_print = cur_index;
+ 		}
++
++#ifdef CONFIG_SNX_MSG_TAG
++		snx_msg_tag.msg_tag = default_snx_msg_tag;
++		if ((snx_msg_tag.msg_tag == default_snx_msg_tag) && ((end - cur_index) > 9)) 
++		{
++				snx_msg_tag.msg_tag = get_snx_msg_tag(c, cur_index);
++				if (snx_msg_tag.msg_tag) {
++					cur_index += 10;
++					start_print = cur_index;
++				} else {
++					snx_msg_tag.msg_tag = default_snx_msg_tag;
++				}
++		}
++#endif
+ 		while (cur_index != end) {
+ 			char c = LOG_BUF(cur_index);
+ 
+@@ -536,6 +619,32 @@
+ 		logged_chars++;
+ }
+ 
++#ifdef CONFIG_SNX_MSG_TAG
++static int insert_snx_msg_tag(unsigned int msg_tag)
++{
++        int len = (8 - 1);
++        int shift = 0;
++        int _shift = 0;
++        unsigned char c;
++        /* Always output the token */
++        emit_log_char('^');
++        while(len >= 0)
++	    {
++            shift = (len << 2);
++            _shift = ((8 - 1) - len) << 2;
++
++            c = (msg_tag & (0xf0000000 >> _shift)) >> (shift);
++
++            if(c < 10)
++                emit_log_char(c + '0');
++            else
++                emit_log_char((c - 10) + 'A');
++            len--;
++        }
++        emit_log_char('^');
++        return 0;
++}
++#endif
+ /*
+  * Zap console related locks when oopsing. Only zap at most once
+  * every 10 seconds, to leave time for slow consoles to print a
+@@ -694,6 +803,9 @@
+ 	unsigned long flags;
+ 	int this_cpu;
+ 	char *p;
++#ifdef CONFIG_SNX_MSG_TAG
++	unsigned int current_snx_msg_tag = 0;
++#endif
+ 
+ 	boot_delay_msec();
+ 	printk_delay();
+@@ -758,6 +870,28 @@
+ 		}
+ 	}
+ 
++#ifdef CONFIG_SNX_MSG_TAG
++	/* Do we have a module ID in the string? */
++    /* 32-Bits Module ID */
++	if (p[0] == '^') {
++		unsigned char *c;
++		c = &p[1];
++		if (p[9] == '^') {
++			current_snx_msg_tag = _get_snx_msg_tag(c);
++            if (current_snx_msg_tag) {
++                if (!new_text_line) {
++			        emit_log_char('\n');
++			        new_text_line = 1;
++                }
++                p += 10;
++            } 
++			//else {
++            //    current_snx_msg_tag = default_snx_msg_tag;
++            //}
++		}
++	}
++#endif
++
+ 	/*
+ 	 * Copy the output into log_buf.  If the caller didn't provide
+ 	 * appropriate log level tags, we insert them here
+@@ -769,6 +903,12 @@
+ 			emit_log_char(current_log_level + '0');
+ 			emit_log_char('>');
+ 			printed_len += 3;
++#ifdef CONFIG_SNX_MSG_TAG
++			if(current_snx_msg_tag) {
++				insert_snx_msg_tag(current_snx_msg_tag);
++				printed_len += 10;
++			}
++#endif
+ 			new_text_line = 0;
+ 
+ 			if (printk_time) {
+--- kernel/sysctl.c	2013-08-15 08:59:27.089548743 +0800
++++ kernel/sysctl_snx.c	2013-08-14 17:37:30.105773050 +0800
+@@ -702,6 +702,15 @@
+ 		.extra1		= &zero,
+ 		.extra2		= &ten_thousand,
+ 	},
++#ifdef CONFIG_SNX_MSG_TAG
++	{
++		.procname	= "snx_msg_tag",
++		.data		= &console_snx_msg_tag.msg_tag,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec,
++	},
++#endif
+ #endif
+ 	{
+ 		.procname	= "ngroups_max",
+--- include/linux/kernel.h	2013-08-15 10:54:35.750033726 +0800
++++ include/linux/kernel_snx.h	2013-08-15 10:57:14.308330180 +0800
+@@ -125,6 +125,68 @@
+ #define minimum_console_loglevel (console_printk[2])
+ #define default_console_loglevel (console_printk[3])
+ 
++//USE SNX MSG TAG
++#define CONFIG_SNX_MSG_TAG
++
++#ifdef CONFIG_SNX_MSG_TAG
++
++typedef struct snx_msg_tag_s {
++    unsigned int msg_tag;
++} snx_msg_tag_t;
++
++/* The default snx msg tag allows all modules shown. */
++
++#define default_snx_msg_tag_mask     	(0x0ff01fff)
++/* 
++ * By default, we use SNX_MSGTAG_SYSTEM as the msg tag
++ * But this default tag WONT be attached into the log ring buffer
++ */
++#define default_snx_msg_tag			 	(0x00000001)
++
++#define SNX_MSGTAG_SYSTEM       		"^00000001^"
++#define SNX_MSGTAG_SPI          		"^00000002^"
++#define SNX_MSGTAG_UART         		"^00000004^"
++#define SNX_MSGTAG_I2C          		"^00000008^"
++#define SNX_MSGTAG_PWM          		"^00000010^"
++#define SNX_MSGTAG_I2S          		"^00000020^"
++#define SNX_MSGTAG_CRC16        		"^00000040^"
++#define SNX_MSGTAG_DMA          		"^00000080^"
++#define SNX_MSGTAG_FLASH        		"^00000100^"
++#define SNX_MSGTAG_SD           		"^00000200^"
++#define SNX_MSGTAG_USB          		"^00000400^"
++#define SNX_MSGTAG_MAC          		"^00000800^"
++#define SNX_MSGTAG_CRYPT        		"^00001000^"
++#define SNX_MSGTAG_SENSOR       		"^00100000^"
++#define SNX_MSGTAG_ISP          		"^00200000^"
++#define SNX_MSGTAG_VC           		"^00400000^"
++#define SNX_MSGTAG_VO           		"^00800000^"
++#define SNX_MSGTAG_AUDIO        		"^01000000^"
++
++extern snx_msg_tag_t console_snx_msg_tag;
++
++#else
++
++#define SNX_MSGTAG_SYSTEM       
++#define SNX_MSGTAG_SPI          
++#define SNX_MSGTAG_UART         
++#define SNX_MSGTAG_I2C          
++#define SNX_MSGTAG_PWM          
++#define SNX_MSGTAG_I2S          
++#define SNX_MSGTAG_CRC16        
++#define SNX_MSGTAG_DMA          
++#define SNX_MSGTAG_FLASH        
++#define SNX_MSGTAG_SD           
++#define SNX_MSGTAG_USB          
++#define SNX_MSGTAG_MAC          
++#define SNX_MSGTAG_CRYPT        
++#define SNX_MSGTAG_SENSOR       
++#define SNX_MSGTAG_ISP          
++#define SNX_MSGTAG_VC           
++#define SNX_MSGTAG_VO           
++#define SNX_MSGTAG_AUDIO        
++
++#endif
++
+ struct completion;
+ struct pt_regs;
+ struct user;
+

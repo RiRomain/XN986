@@ -1,0 +1,11 @@
+prefix=/media/data/hudson_build/32bitProduct_SN986_1.50/ST58600_SRC/middleware/audio/middleware
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Fraunhofer FDK AAC Codec Library
+Description: AAC codec library
+Version: 0.1.4
+Libs: -L${libdir} -lfdk-aac 
+Libs.private: -lm 
+Cflags: -I${includedir}

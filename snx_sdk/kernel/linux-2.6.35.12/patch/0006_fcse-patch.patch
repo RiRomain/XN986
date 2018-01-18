@@ -1,0 +1,1877 @@
+diff --git a/src/arch/arm/Makefile b/src/arch/arm/Makefile
+index 66e8c2e..23d7bc5 100644
+--- a/src/arch/arm/Makefile
++++ b/src/arch/arm/Makefile
+@@ -74,7 +74,7 @@ tune-$(CONFIG_CPU_ARM946E)	:=$(call cc-option,-mtune=arm9e,-mtune=arm9tdmi)
+ tune-$(CONFIG_CPU_ARM920T)	:=-mtune=arm9tdmi
+ tune-$(CONFIG_CPU_ARM922T)	:=-mtune=arm9tdmi
+ tune-$(CONFIG_CPU_ARM925T)	:=-mtune=arm9tdmi
+-tune-$(CONFIG_CPU_ARM926T)	:=-mtune=arm9tdmi
++tune-$(CONFIG_CPU_ARM926T)	:=-mtune=arm926ej-s
+ tune-$(CONFIG_CPU_FA526)	:=-mtune=arm9tdmi
+ tune-$(CONFIG_CPU_SA110)	:=-mtune=strongarm110
+ tune-$(CONFIG_CPU_SA1100)	:=-mtune=strongarm1100
+diff --git a/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig b/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
+index 3941e77..5d14fdb 100755
+--- a/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
++++ b/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
+@@ -264,6 +264,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98600_ltp_defconfig b/src/arch/arm/configs/sn98600_ltp_defconfig
+index d4c0c6d..0b01b3b 100755
+--- a/src/arch/arm/configs/sn98600_ltp_defconfig
++++ b/src/arch/arm/configs/sn98600_ltp_defconfig
+@@ -300,6 +300,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98600_nand_defconfig b/src/arch/arm/configs/sn98600_nand_defconfig
+index 81405dc..2ebd075 100755
+--- a/src/arch/arm/configs/sn98600_nand_defconfig
++++ b/src/arch/arm/configs/sn98600_nand_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98600_sf_defconfig b/src/arch/arm/configs/sn98600_sf_defconfig
+index 94048a1..9425c4b 100755
+--- a/src/arch/arm/configs/sn98600_sf_defconfig
++++ b/src/arch/arm/configs/sn98600_sf_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98605_sf_defconfig b/src/arch/arm/configs/sn98605_sf_defconfig
+index 94048a1..9425c4b 100755
+--- a/src/arch/arm/configs/sn98605_sf_defconfig
++++ b/src/arch/arm/configs/sn98605_sf_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98600_usb_defconfig b/src/arch/arm/configs/sn98600_usb_defconfig
+index 30c02d9..30d3ab2 100755
+--- a/src/arch/arm/configs/sn98600_usb_defconfig
++++ b/src/arch/arm/configs/sn98600_usb_defconfig
+@@ -272,6 +272,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98601_nand_defconfig b/src/arch/arm/configs/sn98601_nand_defconfig
+index 40d027b..ed26de3 100755
+--- a/src/arch/arm/configs/sn98601_nand_defconfig
++++ b/src/arch/arm/configs/sn98601_nand_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98601_sf_defconfig b/src/arch/arm/configs/sn98601_sf_defconfig
+index 7a85139..25e1c78 100755
+--- a/src/arch/arm/configs/sn98601_sf_defconfig
++++ b/src/arch/arm/configs/sn98601_sf_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98610_nand_defconfig b/src/arch/arm/configs/sn98610_nand_defconfig
+index fc99429..b3543b6 100755
+--- a/src/arch/arm/configs/sn98610_nand_defconfig
++++ b/src/arch/arm/configs/sn98610_nand_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn98610_sf_defconfig b/src/arch/arm/configs/sn98610_sf_defconfig
+index fb6e218..b8dde6f 100755
+--- a/src/arch/arm/configs/sn98610_sf_defconfig
++++ b/src/arch/arm/configs/sn98610_sf_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+index b75f5d8..4198a21 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+index c1402c9..d9443ea 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+@@ -271,6 +271,12 @@ CONFIG_CPU_CP15_MMU=y
+ # CONFIG_CPU_DCACHE_WRITETHROUGH is not set
+ CONFIG_CPU_CACHE_ROUND_ROBIN=y
+ CONFIG_ARM_L1_CACHE_SHIFT=5
++CONFIG_ARM_FCSE=y
++CONFIG_ARM_FCSE_BEST_EFFORT=y
++# CONFIG_ARM_FCSE_DYNPID is not set
++# CONFIG_ARM_FCSE_PREEMPT_FLUSH is not set
++# CONFIG_ARM_FCSE_MESSAGES is not set
++# CONFIG_ARM_FCSE_DEBUG is not set
+ 
+ #
+ # Bus support
+diff --git a/src/arch/arm/include/asm/cacheflush.h b/src/arch/arm/include/asm/cacheflush.h
+index 4656a24..c190ff7 100644
+--- a/src/arch/arm/include/asm/cacheflush.h
++++ b/src/arch/arm/include/asm/cacheflush.h
+@@ -16,6 +16,7 @@
+ #include <asm/shmparam.h>
+ #include <asm/cachetype.h>
+ #include <asm/outercache.h>
++#include <asm/fcse.h>
+ 
+ #define CACHE_COLOUR(vaddr)	((vaddr & (SHMLBA - 1)) >> PAGE_SHIFT)
+ 
+@@ -276,6 +277,27 @@ extern void dmac_flush_range(const void *, const void *);
+ 
+ #endif
+ 
++#ifdef CONFIG_ARM_FCSE
++#define FCSE_CACHE_MASK (~(L1_CACHE_BYTES - 1))
++#define FCSE_CACHE_ALIGN(addr) (((addr) + ~FCSE_CACHE_MASK) & FCSE_CACHE_MASK)
++
++static inline void
++fcse_flush_cache_user_range(struct vm_area_struct *vma,
++			    unsigned long start, unsigned long end)
++{
++	if (cache_is_vivt()
++	    && fcse_mm_in_cache(vma->vm_mm)) {
++		start = fcse_va_to_mva(vma->vm_mm, start & FCSE_CACHE_MASK);
++		end = fcse_va_to_mva(vma->vm_mm, FCSE_CACHE_ALIGN(end));
++		__cpuc_flush_user_range(start, end, vma->vm_flags);
++	}
++}
++#undef FCSE_CACHE_MASK
++#undef FCSE_CACHE_ALIGN
++#else /* ! CONFIG_ARM_FCSE */
++#define fcse_flush_cache_user_range(vma, start, end) do { } while (0)
++#endif /* ! CONFIG_ARM_FCSE */
++
+ /*
+  * Copy user data from/to a page which is mapped into a different
+  * processes address space.  Really, we want to allow our "user
+@@ -283,9 +305,10 @@ extern void dmac_flush_range(const void *, const void *);
+  */
+ extern void copy_to_user_page(struct vm_area_struct *, struct page *,
+ 	unsigned long, void *, const void *, unsigned long);
+-#define copy_from_user_page(vma, page, vaddr, dst, src, len) \
+-	do {							\
+-		memcpy(dst, src, len);				\
++#define copy_from_user_page(vma, page, vaddr, dst, src, len)		\
++	do {								\
++		fcse_flush_cache_user_range(vma, vaddr, vaddr + len);	\
++		memcpy(dst, src, len);					\
+ 	} while (0)
+ 
+ /*
+@@ -295,23 +318,29 @@ extern void copy_to_user_page(struct vm_area_struct *, struct page *,
+ 
+ static inline void vivt_flush_cache_mm(struct mm_struct *mm)
+ {
+-	if (cpumask_test_cpu(smp_processor_id(), mm_cpumask(mm)))
++	if (fcse_mm_in_cache(mm)) {
++		unsigned seq = fcse_flush_all_start();
+ 		__cpuc_flush_user_all();
++		fcse_flush_all_done(seq, 1);
++	}
+ }
+ 
+ static inline void
+ vivt_flush_cache_range(struct vm_area_struct *vma, unsigned long start, unsigned long end)
+ {
+-	if (cpumask_test_cpu(smp_processor_id(), mm_cpumask(vma->vm_mm)))
+-		__cpuc_flush_user_range(start & PAGE_MASK, PAGE_ALIGN(end),
+-					vma->vm_flags);
++	if (fcse_mm_in_cache(vma->vm_mm)) {
++		start = fcse_va_to_mva(vma->vm_mm, start & PAGE_MASK);
++		end = fcse_va_to_mva(vma->vm_mm, PAGE_ALIGN(end));
++		__cpuc_flush_user_range(start, end, vma->vm_flags);
++	}
+ }
+ 
+ static inline void
+ vivt_flush_cache_page(struct vm_area_struct *vma, unsigned long user_addr, unsigned long pfn)
+ {
+-	if (cpumask_test_cpu(smp_processor_id(), mm_cpumask(vma->vm_mm))) {
+-		unsigned long addr = user_addr & PAGE_MASK;
++	if (fcse_mm_in_cache(vma->vm_mm)) {
++		unsigned long addr;
++		addr = fcse_va_to_mva(vma->vm_mm, user_addr) & PAGE_MASK;
+ 		__cpuc_flush_user_range(addr, addr + PAGE_SIZE, vma->vm_flags);
+ 	}
+ }
+@@ -336,14 +365,22 @@ extern void flush_cache_page(struct vm_area_struct *vma, unsigned long user_addr
+  * Harvard caches are synchronised for the user space address range.
+  * This is used for the ARM private sys_cacheflush system call.
+  */
+-#define flush_cache_user_range(vma,start,end) \
+-	__cpuc_coherent_user_range((start) & PAGE_MASK, PAGE_ALIGN(end))
++#define flush_cache_user_range(vma, start, end)				\
++	({								\
++		struct mm_struct *_mm = (vma)->vm_mm;			\
++		unsigned long _start, _end;				\
++		_start = fcse_va_to_mva(_mm, start) & PAGE_MASK;	\
++		_end = PAGE_ALIGN(fcse_va_to_mva(_mm, end));		\
++		__cpuc_coherent_user_range(_start, _end);		\
++	})
+ 
+ /*
+  * Perform necessary cache operations to ensure that data previously
+  * stored within this range of addresses can be executed by the CPU.
+  */
+-#define flush_icache_range(s,e)		__cpuc_coherent_kern_range(s,e)
++#define flush_icache_range(s,e)						\
++	__cpuc_coherent_kern_range(fcse_va_to_mva(current->mm, (s)),	\
++				   fcse_va_to_mva(current->mm, (e)))
+ 
+ /*
+  * Perform necessary cache operations to ensure that the TLB will
+@@ -399,7 +436,8 @@ static inline void flush_anon_page(struct vm_area_struct *vma,
+ 	extern void __flush_anon_page(struct vm_area_struct *vma,
+ 				struct page *, unsigned long);
+ 	if (PageAnon(page))
+-		__flush_anon_page(vma, page, vmaddr);
++		__flush_anon_page(vma, page,
++				  fcse_va_to_mva(vma->vm_mm, vmaddr));
+ }
+ 
+ #define ARCH_HAS_FLUSH_KERNEL_DCACHE_PAGE
+@@ -433,9 +471,11 @@ static inline void flush_kernel_dcache_page(struct page *page)
+  */
+ static inline void flush_cache_vmap(unsigned long start, unsigned long end)
+ {
+-	if (!cache_is_vipt_nonaliasing())
++	if (!cache_is_vipt_nonaliasing()) {
++		unsigned seq = fcse_flush_all_start();
+ 		flush_cache_all();
+-	else
++		fcse_flush_all_done(seq, 1);
++	} else
+ 		/*
+ 		 * set_pte_at() called from vmap_pte_range() does not
+ 		 * have a DSB after cleaning the cache line.
+@@ -445,8 +485,11 @@ static inline void flush_cache_vmap(unsigned long start, unsigned long end)
+ 
+ static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
+ {
+-	if (!cache_is_vipt_nonaliasing())
++	if (!cache_is_vipt_nonaliasing()) {
++		unsigned seq = fcse_flush_all_start();
+ 		flush_cache_all();
++		fcse_flush_all_done(seq, 1);
++	}
+ }
+ 
+ #endif
+diff --git a/src/arch/arm/include/asm/cpu-multi32.h b/src/arch/arm/include/asm/cpu-multi32.h
+index e2b5b0b..af6d49c 100644
+--- a/src/arch/arm/include/asm/cpu-multi32.h
++++ b/src/arch/arm/include/asm/cpu-multi32.h
+@@ -52,7 +52,13 @@ extern struct processor {
+ 	/*
+ 	 * Set the page table
+ 	 */
++#ifndef CONFIG_ARM_FCSE_BEST_EFFORT
+ 	void (*switch_mm)(unsigned long pgd_phys, struct mm_struct *mm);
++#else /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++	void (*switch_mm)(unsigned long pgd_phys,
++			  struct mm_struct *mm, unsigned flush);
++#endif /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++
+ 	/*
+ 	 * Set a possibly extended PTE.  Non-extended PTEs should
+ 	 * ignore 'ext'.
+@@ -66,4 +72,8 @@ extern struct processor {
+ #define cpu_do_idle()			processor._do_idle()
+ #define cpu_dcache_clean_area(addr,sz)	processor.dcache_clean_area(addr,sz)
+ #define cpu_set_pte_ext(ptep,pte,ext)	processor.set_pte_ext(ptep,pte,ext)
++#ifndef CONFIG_ARM_FCSE_BEST_EFFORT
+ #define cpu_do_switch_mm(pgd,mm)	processor.switch_mm(pgd,mm)
++#else /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++#define cpu_do_switch_mm(pgd,mm,flush)	processor.switch_mm(pgd,mm,flush)
++#endif /* !CONFIG_ARM_FCSE_BEST_EFFORT */
+diff --git a/src/arch/arm/include/asm/cpu-single.h b/src/arch/arm/include/asm/cpu-single.h
+index f073a6d..b6b6314 100644
+--- a/src/arch/arm/include/asm/cpu-single.h
++++ b/src/arch/arm/include/asm/cpu-single.h
+@@ -39,6 +39,11 @@ extern void cpu_proc_init(void);
+ extern void cpu_proc_fin(void);
+ extern int cpu_do_idle(void);
+ extern void cpu_dcache_clean_area(void *, int);
++#ifndef CONFIG_ARM_FCSE_BEST_EFFORT
+ extern void cpu_do_switch_mm(unsigned long pgd_phys, struct mm_struct *mm);
++#else /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++extern void cpu_do_switch_mm(unsigned long pgd_phys,
++			     struct mm_struct *mm, unsigned flush);
++#endif /* !CONFIG_ARM_FCSE_BEST_EFFORT */
+ extern void cpu_set_pte_ext(pte_t *ptep, pte_t pte, unsigned int ext);
+ extern void cpu_reset(unsigned long addr) __attribute__((noreturn));
+diff --git a/src/arch/arm/include/asm/fcse.h b/src/arch/arm/include/asm/fcse.h
+new file mode 100644
+index 0000000..1293076
+--- /dev/null
++++ b/src/arch/arm/include/asm/fcse.h
+@@ -0,0 +1,181 @@
++/*
++ * arch/arm/include/asm/fcse.h
++ *
++ * Helper header for using the ARM Fast Context Switch Extension with
++ * processors supporting it, lifted from the Fast Address Space
++ * Switching (FASS) patch for ARM Linux.
++ *
++ * Copyright (C) 2001, 2002 Adam Wiggins <awiggins@cse.unsw.edu.au>
++ * Copyright (C) 2007 Sebastian Smolorz <ssm@emlix.com>
++ * Copyright (C) 2008 Richard Cochran
++ * Copyright (C) 2009-2011 Gilles Chanteperdrix <gch@xenomai.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++#ifndef __ASM_ARM_FCSE_H
++#define __ASM_ARM_FCSE_H
++
++#ifdef CONFIG_ARM_FCSE
++
++#include <linux/mm_types.h>	/* For struct mm_struct */
++#include <linux/sched.h>
++#include <linux/hardirq.h>
++
++#include <asm/bitops.h>
++#include <asm/cachetype.h>
++
++#define FCSE_PID_SHIFT 25
++
++/* Size of PID relocation area */
++#define FCSE_PID_TASK_SIZE (1UL << FCSE_PID_SHIFT)
++
++/* Mask to get rid of PID from relocated address */
++#define FCSE_PID_MASK (FCSE_PID_TASK_SIZE - 1)
++
++#define FCSE_PID_INVALID (~0 << FCSE_PID_SHIFT)
++extern unsigned long fcse_pids_cache_dirty[];
++
++#ifdef CONFIG_ARM_FCSE_DEBUG
++#define FCSE_BUG_ON(expr) BUG_ON(expr)
++#else /* !CONFIG_ARM_FCSE_DEBUG */
++#define FCSE_BUG_ON(expr) do { } while(0)
++#endif /* !CONFIG_ARM_FCSE_DEBUG */
++
++#if defined(CONFIG_ARM_FCSE_DYNPID) && defined(CONFIG_PREEMPT)
++#define fcse_check_context(mm)					\
++	FCSE_BUG_ON(!in_atomic()				\
++		    && (mm)->context.fcse.active		\
++		    && atomic_read(&(mm)->mm_users)		\
++		    && !(mm)->core_state			\
++		    && !rwsem_is_locked(&(mm)->mmap_sem)	\
++		    && !irqs_disabled());
++#else /* !CONFIG_ARM_FCSE_DYNPID */
++#define fcse_check_context(mm) do { (void)(mm); } while(0)
++#endif /* !CONFIG_ARM_FCSE_DYNPID */
++
++int fcse_pid_alloc(struct mm_struct *mm);
++void fcse_pid_free(struct mm_struct *mm);
++unsigned fcse_flush_all_start(void);
++void fcse_flush_all_done(unsigned seq, unsigned dirty);
++unsigned long
++fcse_check_mmap_inner(struct mm_struct *mm, unsigned long start_addr,
++		      unsigned long addr, unsigned long len, unsigned long fl);
++
++/* Sets the CPU's PID Register */
++static inline void fcse_pid_set(unsigned long pid)
++{
++	__asm__ __volatile__ ("mcr p15, 0, %0, c13, c0, 0"
++			      : /* */: "r" (pid) : "cc", "memory");
++}
++
++static inline unsigned long
++fcse_va_to_mva(struct mm_struct *mm, unsigned long va)
++{
++	if (cache_is_vivt() && va < FCSE_PID_TASK_SIZE) {
++		fcse_check_context(mm);
++		return mm->context.fcse.pid | va;
++	}
++	return va;
++}
++
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++struct fcse_user {
++	struct mm_struct *mm;
++	unsigned count;
++};
++extern struct fcse_user fcse_pids_user[];
++int fcse_switch_mm_inner(struct mm_struct *prev, struct mm_struct *next);
++void fcse_pid_reference(unsigned pid);
++
++static inline int fcse_switch_mm(struct mm_struct *prev, struct mm_struct *next)
++{
++	if (!cache_is_vivt())
++		return 0;
++
++	return fcse_switch_mm_inner(prev, next);
++}
++
++static inline int fcse_mm_in_cache(struct mm_struct *mm)
++{
++	unsigned fcse_pid = mm->context.fcse.pid >> FCSE_PID_SHIFT;
++	int res;
++	fcse_check_context(mm);
++	res = test_bit(fcse_pid, fcse_pids_cache_dirty)
++		&& fcse_pids_user[fcse_pid].mm == mm;
++	return res;
++}
++
++static inline unsigned long
++fcse_check_mmap_addr(struct mm_struct *mm, unsigned long start_addr,
++		     unsigned long addr, unsigned long len, unsigned long fl)
++{
++       const unsigned long stack_base = ALIGN(mm->start_stack, PAGE_SIZE)
++	       - current->signal->rlim[RLIMIT_STACK].rlim_cur;
++
++       if (addr + len <= stack_base)
++	       return addr;
++
++       return fcse_check_mmap_inner(mm, start_addr, addr, len, fl);
++}
++
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++static inline int
++fcse_switch_mm(struct mm_struct *prev, struct mm_struct *next)
++{
++	unsigned fcse_pid;
++
++	if (!cache_is_vivt())
++		return 0;
++
++	fcse_pid = next->context.fcse.pid >> FCSE_PID_SHIFT;
++	set_bit(fcse_pid, fcse_pids_cache_dirty);
++	fcse_pid_set(next->context.fcse.pid);
++	return 0;
++}
++
++static inline int fcse_mm_in_cache(struct mm_struct *mm)
++{
++	unsigned fcse_pid = mm->context.fcse.pid >> FCSE_PID_SHIFT;
++	return test_bit(fcse_pid, fcse_pids_cache_dirty);
++}
++
++static inline unsigned long
++fcse_check_mmap_addr(struct mm_struct *mm, unsigned long start_addr,
++		     unsigned long addr, unsigned long len, unsigned long fl)
++{
++       if (addr + len <= FCSE_TASK_SIZE)
++	       return addr;
++
++       return fcse_check_mmap_inner(mm, start_addr, addr, len, fl);
++}
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
++
++static inline void fcse_mark_dirty(struct mm_struct *mm)
++{
++	if (cache_is_vivt()) {
++		set_bit(mm->context.fcse.pid >> FCSE_PID_SHIFT,
++			fcse_pids_cache_dirty);
++		FCSE_BUG_ON(!fcse_mm_in_cache(mm));
++	}
++}
++
++#else /* ! CONFIG_ARM_FCSE */
++#define fcse_switch_mm(prev, next) do { } while (0)
++#define fcse_va_to_mva(mm, x) ({ (void)(mm); (x); })
++#define fcse_mark_dirty(mm) do { (void)(mm); } while(0)
++#define fcse_flush_all_start() (0)
++#define fcse_flush_all_done(seq, dirty) do { (void)(seq); } while (0)
++#define fcse_mm_in_cache(mm) \
++		(cpumask_test_cpu(smp_processor_id(), mm_cpumask(mm)))
++#endif /* ! CONFIG_ARM_FCSE */
++
++#ifdef CONFIG_ARM_FCSE_MESSAGES
++void fcse_notify_segv(struct mm_struct *mm,
++		      unsigned long addr, struct pt_regs *regs);
++#else /* !FCSE_MESSAGES */
++#define fcse_notify_segv(mm, addr, regs) do { } while(0)
++#endif /* !FCSE_MESSAGES */
++
++#endif /* __ASM_ARM_FCSE_H */
+diff --git a/src/arch/arm/include/asm/memory.h b/src/arch/arm/include/asm/memory.h
+index 1d416e7..f72de06 100644
+--- a/src/arch/arm/include/asm/memory.h
++++ b/src/arch/arm/include/asm/memory.h
+@@ -33,7 +33,12 @@
+  */
+ #define PAGE_OFFSET		UL(CONFIG_PAGE_OFFSET)
+ #define TASK_SIZE		(UL(CONFIG_PAGE_OFFSET) - UL(0x01000000))
++#ifndef CONFIG_ARM_FCSE
+ #define TASK_UNMAPPED_BASE	(UL(CONFIG_PAGE_OFFSET) / 3)
++#else /* CONFIG_ARM_FCSE */
++#define TASK_UNMAPPED_BASE	UL(0x00800000)
++#define FCSE_TASK_SIZE		UL(0x02000000)
++#endif /* CONFIG_ARM_FCSE */
+ 
+ /*
+  * The maximum size of a 26-bit user space task.
+diff --git a/src/arch/arm/include/asm/mmu.h b/src/arch/arm/include/asm/mmu.h
+index 68870c7..f8624a1 100644
+--- a/src/arch/arm/include/asm/mmu.h
++++ b/src/arch/arm/include/asm/mmu.h
+@@ -8,6 +8,17 @@ typedef struct {
+ 	unsigned int id;
+ 	spinlock_t id_lock;
+ #endif
++#ifdef CONFIG_ARM_FCSE
++	struct {
++		unsigned long pid;
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++		unsigned shared_dirty_pages;
++		unsigned active : 1;
++		unsigned large : 1;
++		unsigned high_pages;
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++	} fcse;
++#endif /* CONFIG_ARM_FCSE */
+ 	unsigned int kvm_seq;
+ } mm_context_t;
+ 
+diff --git a/src/arch/arm/include/asm/mmu_context.h b/src/arch/arm/include/asm/mmu_context.h
+index a0b3cac..2939549 100644
+--- a/src/arch/arm/include/asm/mmu_context.h
++++ b/src/arch/arm/include/asm/mmu_context.h
+@@ -19,6 +19,7 @@
+ #include <asm/cachetype.h>
+ #include <asm/proc-fns.h>
+ #include <asm-generic/mm_hooks.h>
++#include <asm/fcse.h>
+ 
+ void __check_kvm_seq(struct mm_struct *mm);
+ 
+@@ -79,11 +80,58 @@ static inline void check_context(struct mm_struct *mm)
+ #endif
+ }
+ 
+-#define init_new_context(tsk,mm)	0
++static inline int
++init_new_context(struct task_struct *tsk, struct mm_struct *mm)
++{
++#ifdef CONFIG_ARM_FCSE
++	int fcse_pid;
++
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	if (!mm->context.fcse.large) {
++		fcse_pid = fcse_pid_alloc(mm);
++		mm->context.fcse.pid = fcse_pid << FCSE_PID_SHIFT;
++	} else {
++		/* We are normally forking a process vith a virtual address
++		   space larger than 32 MB, so its pid should be 0. */
++		FCSE_BUG_ON(mm->context.fcse.pid);
++		fcse_pid_reference(0);
++	}
++	/* If we are forking, set_pte_at will restore the correct high pages
++	   count, and shared writable pages are write-protected again. */
++	mm->context.fcse.shared_dirty_pages = 0;
++	mm->context.fcse.high_pages = 0;
++	mm->context.fcse.active = 0;
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++	fcse_pid = fcse_pid_alloc(mm);
++	if (fcse_pid < 0) {
++		/*
++		 * Set mm pid to FCSE_PID_INVALID, as even when
++		 * init_new_context fails, destroy_context is called.
++		 */
++		mm->context.fcse.pid = FCSE_PID_INVALID;
++		return fcse_pid;
++	}
++	mm->context.fcse.pid = fcse_pid << FCSE_PID_SHIFT;
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
++	FCSE_BUG_ON(fcse_mm_in_cache(mm));
++#endif /* CONFIG_ARM_FCSE */
++
++	return 0;
++}
+ 
+ #endif
+ 
+-#define destroy_context(mm)		do { } while(0)
++static inline void destroy_context(struct mm_struct *mm)
++{
++#ifdef CONFIG_ARM_FCSE
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	FCSE_BUG_ON(mm->context.fcse.shared_dirty_pages);
++	FCSE_BUG_ON(mm->context.fcse.high_pages);
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++	if (mm->context.fcse.pid != FCSE_PID_INVALID)
++		fcse_pid_free(mm);
++#endif /* CONFIG_ARM_FCSE */
++}
+ 
+ /*
+  * This is called when "tsk" is about to enter lazy TLB mode.
+@@ -124,14 +172,25 @@ switch_mm(struct mm_struct *prev, struct mm_struct *next,
+ 		*crt_mm = next;
+ #endif
+ 		check_context(next);
+-		cpu_switch_mm(next->pgd, next);
++		cpu_switch_mm(next->pgd, next, fcse_switch_mm(prev, next));
+ 		if (cache_is_vivt())
+ 			cpumask_clear_cpu(cpu, mm_cpumask(prev));
+-	}
++	} else
++		fcse_mark_dirty(next);
+ #endif
+ }
+ 
+ #define deactivate_mm(tsk,mm)	do { } while (0)
++
++#ifndef CONFIG_ARM_FCSE_BEST_EFFORT
+ #define activate_mm(prev,next)	switch_mm(prev, next, NULL)
++#else
++#define activate_mm(prev,next)						\
++	({								\
++	switch_mm(prev, next, NULL);					\
++	next->context.fcse.active = 1;					\
++	FCSE_BUG_ON(current->mm == next && !fcse_mm_in_cache(next));	\
++	})
++#endif
+ 
+ #endif
+diff --git a/src/arch/arm/include/asm/pgtable.h b/src/arch/arm/include/asm/pgtable.h
+index ab68cf1..a66e295 100644
+--- a/src/arch/arm/include/asm/pgtable.h
++++ b/src/arch/arm/include/asm/pgtable.h
+@@ -112,6 +112,8 @@
+ #define LIBRARY_TEXT_START	0x0c000000
+ 
+ #ifndef __ASSEMBLY__
++#include <asm/fcse.h>
++
+ extern void __pte_error(const char *file, int line, unsigned long val);
+ extern void __pmd_error(const char *file, int line, unsigned long val);
+ extern void __pgd_error(const char *file, int line, unsigned long val);
+@@ -248,6 +250,40 @@ extern pgprot_t		pgprot_kernel;
+ #define __S111  __PAGE_SHARED_EXEC
+ 
+ #ifndef __ASSEMBLY__
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++#define fcse_account_page_removal(mm, addr, val) do {		\
++	struct mm_struct *_mm = (mm);				\
++	unsigned long _addr = (addr);				\
++	unsigned long _val = (val);				\
++	if (pte_present(_val) && ((_val) & L_PTE_SHARED))	\
++		--_mm->context.fcse.shared_dirty_pages;		\
++	if (pte_present(_val) && _addr < TASK_SIZE) {		\
++		if (_addr >= FCSE_TASK_SIZE)			\
++			--_mm->context.fcse.high_pages;		\
++	}							\
++} while (0)
++
++#define fcse_account_page_addition(mm, addr, val) ({			\
++	struct mm_struct *_mm = (mm);					\
++	unsigned long _addr = (addr);					\
++	unsigned long _val = (val);					\
++	if (pte_present(_val) && (_val & L_PTE_SHARED)) {		\
++		if ((_val & (PTE_CACHEABLE | L_PTE_WRITE | L_PTE_DIRTY)) \
++		    != (PTE_CACHEABLE | L_PTE_WRITE | L_PTE_DIRTY))	\
++			_val &= ~L_PTE_SHARED;                          \
++		else                                                    \
++			++_mm->context.fcse.shared_dirty_pages;         \
++	}                                                               \
++	if (pte_present(_val)						\
++	    && _addr < TASK_SIZE && _addr >= FCSE_TASK_SIZE)		\
++		++_mm->context.fcse.high_pages;				\
++	_val;								\
++})
++#else /* CONFIG_ARM_FCSE_GUARANTEED || !CONFIG_ARM_FCSE */
++#define fcse_account_page_removal(mm, addr, val) do { } while (0)
++#define fcse_account_page_addition(mm, addr, val) (val)
++#endif /* CONFIG_ARM_FCSE_GUARANTEED || !CONFIG_ARM_FCSE */
++
+ /*
+  * ZERO_PAGE is a global shared page that is always zero: used
+  * for zero-mapped memory areas etc..
+@@ -259,7 +295,10 @@ extern struct page *empty_zero_page;
+ #define pfn_pte(pfn,prot)	(__pte(((pfn) << PAGE_SHIFT) | pgprot_val(prot)))
+ 
+ #define pte_none(pte)		(!pte_val(pte))
+-#define pte_clear(mm,addr,ptep)	set_pte_ext(ptep, __pte(0), 0)
++#define pte_clear(mm,addr,ptep)	do {				\
++	fcse_account_page_removal(mm, addr, pte_val(*ptep));	\
++	set_pte_ext(ptep, __pte(0), 0);				\
++} while (0)
+ #define pte_page(pte)		(pfn_to_page(pte_pfn(pte)))
+ #define pte_offset_kernel(dir,addr)	(pmd_page_vaddr(*(dir)) + __pte_index(addr))
+ 
+@@ -278,8 +317,11 @@ extern struct page *empty_zero_page;
+ 
+ #define set_pte_ext(ptep,pte,ext) cpu_set_pte_ext(ptep,pte,ext)
+ 
+-#define set_pte_at(mm,addr,ptep,pteval) do { \
+-	set_pte_ext(ptep, pteval, (addr) >= TASK_SIZE ? 0 : PTE_EXT_NG); \
++#define set_pte_at(mm,addr,ptep,pteval) do {				\
++	pte_t _pteval = pte_val(pteval);				\
++	fcse_account_page_removal(mm, addr, pte_val(*ptep));		\
++	_pteval = fcse_account_page_addition(mm, addr, _pteval);	\
++	set_pte_ext(ptep, _pteval, (addr) >= TASK_SIZE ? 0 : PTE_EXT_NG); \
+  } while (0)
+ 
+ /*
+@@ -372,10 +414,14 @@ static inline pte_t *pmd_page_vaddr(pmd_t pmd)
+ /* to find an entry in a page-table-directory */
+ #define pgd_index(addr)		((addr) >> PGDIR_SHIFT)
+ 
+-#define pgd_offset(mm, addr)	((mm)->pgd+pgd_index(addr))
++#define pgd_offset(mm, addr)						\
++	({								\
++		struct mm_struct *_mm = (mm);				\
++		(_mm->pgd + pgd_index(fcse_va_to_mva(_mm, (addr))));	\
++	})
+ 
+ /* to find an entry in a kernel page-table-directory */
+-#define pgd_offset_k(addr)	pgd_offset(&init_mm, addr)
++#define pgd_offset_k(addr)	(init_mm.pgd + pgd_index(addr))
+ 
+ /* Find an entry in the second-level page table.. */
+ #define pmd_offset(dir, addr)	((pmd_t *)(dir))
+diff --git a/src/arch/arm/include/asm/proc-fns.h b/src/arch/arm/include/asm/proc-fns.h
+index 8fdae9b..db066d2 100644
+--- a/src/arch/arm/include/asm/proc-fns.h
++++ b/src/arch/arm/include/asm/proc-fns.h
+@@ -261,7 +261,16 @@
+ 
+ #ifdef CONFIG_MMU
+ 
+-#define cpu_switch_mm(pgd,mm) cpu_do_switch_mm(virt_to_phys(pgd),mm)
++#ifndef CONFIG_ARM_FCSE_BEST_EFFORT
++#define cpu_switch_mm(pgd,mm,fcse_switch)			\
++	({							\
++		fcse_switch;					\
++		cpu_do_switch_mm(virt_to_phys(pgd), (mm));	\
++	})
++#else /* CONFIG_ARM_FCSE_BEST_EFFORT */
++#define cpu_switch_mm(pgd,mm,fcse_switch)	\
++	cpu_do_switch_mm(virt_to_phys(pgd), (mm), (fcse_switch))
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
+ 
+ #define cpu_get_pgd()	\
+ 	({						\
+diff --git a/src/arch/arm/include/asm/processor.h b/src/arch/arm/include/asm/processor.h
+index 7bed3da..69053c8 100644
+--- a/src/arch/arm/include/asm/processor.h
++++ b/src/arch/arm/include/asm/processor.h
+@@ -23,9 +23,14 @@
+ #include <asm/types.h>
+ 
+ #ifdef __KERNEL__
++#ifndef CONFIG_ARM_FCSE
+ #define STACK_TOP	((current->personality & ADDR_LIMIT_32BIT) ? \
+ 			 TASK_SIZE : TASK_SIZE_26)
+ #define STACK_TOP_MAX	TASK_SIZE
++#else /* CONFIG_ARM_FCSE */
++#define STACK_TOP	FCSE_TASK_SIZE
++#define STACK_TOP_MAX	FCSE_TASK_SIZE
++#endif /* CONFIG_ARM_FCSE */
+ #endif
+ 
+ union debug_insn {
+diff --git a/src/arch/arm/include/asm/tlbflush.h b/src/arch/arm/include/asm/tlbflush.h
+index 33b546a..9ff9b94 100644
+--- a/src/arch/arm/include/asm/tlbflush.h
++++ b/src/arch/arm/include/asm/tlbflush.h
+@@ -213,6 +213,7 @@
+ #ifndef __ASSEMBLY__
+ 
+ #include <linux/sched.h>
++#include <asm/fcse.h>
+ 
+ struct cpu_tlb_fns {
+ 	void (*flush_user_range)(unsigned long, unsigned long, struct vm_area_struct *);
+@@ -403,7 +404,8 @@ local_flush_tlb_page(struct vm_area_struct *vma, unsigned long uaddr)
+ 	const int zero = 0;
+ 	const unsigned int __tlb_flag = __cpu_tlb_flags;
+ 
+-	uaddr = (uaddr & PAGE_MASK) | ASID(vma->vm_mm);
++	uaddr = (fcse_va_to_mva(vma->vm_mm, uaddr) & PAGE_MASK)
++		| ASID(vma->vm_mm);
+ 
+ 	if (tlb_flag(TLB_WB))
+ 		dsb();
+@@ -540,7 +542,15 @@ static inline void clean_pmd_entry(pmd_t *pmd)
+ /*
+  * Convert calls to our calling convention.
+  */
+-#define local_flush_tlb_range(vma,start,end)	__cpu_flush_user_tlb_range(start,end,vma)
++#define local_flush_tlb_range(vma, start, end)			\
++	({							\
++		struct mm_struct *_mm = (vma)->vm_mm;		\
++		unsigned long _start, _end;			\
++		_start = fcse_va_to_mva(_mm, start);		\
++		_end = fcse_va_to_mva(_mm, end);		\
++		__cpu_flush_user_tlb_range(_start, _end, vma);	\
++	})
++
+ #define local_flush_tlb_kernel_range(s,e)	__cpu_flush_kern_tlb_range(s,e)
+ 
+ #ifndef CONFIG_SMP
+diff --git a/src/arch/arm/kernel/entry-armv.S b/src/arch/arm/kernel/entry-armv.S
+index cf4e69e..a41dbc5 100644
+--- a/src/arch/arm/kernel/entry-armv.S
++++ b/src/arch/arm/kernel/entry-armv.S
+@@ -114,6 +114,21 @@
+ 	mov	r1, #\reason
+ 	.endm
+ 
++	.macro fcse_dabt_mva_to_va
++#ifdef	CONFIG_ARM_FCSE
++	@
++	@ If FCSE is enabled the data abort fault address must be
++	@ converted from MVA to VA. This must happen before the irqs are
++	@ enabled if PREEMPT is enabled, as context switches may
++	@ change the FCSE pid.
++	@
++	mrc     p15, 0, r2, c13, c0, 0
++	eor	r2, r2, r0
++	tst	r2, #0xfe000000
++	moveq   r0, r2
++#endif
++	.endm
++
+ __pabt_invalid:
+ 	inv_entry BAD_PREFETCH
+ 	b	common_invalid
+@@ -234,6 +249,7 @@ __dabt_svc:
+ #else
+ 	bl	CPU_DABORT_HANDLER
+ #endif
++	fcse_dabt_mva_to_va
+ 
+ 	@
+ 	@ set desired IRQ state, then call main handler
+@@ -603,6 +619,7 @@ __dabt_usr:
+ #else
+ 	bl	CPU_DABORT_HANDLER
+ #endif
++	fcse_dabt_mva_to_va
+ 
+ 	@
+ 	@ IRQs on, then call the main handler
+diff --git a/src/arch/arm/mm/Kconfig b/src/arch/arm/mm/Kconfig
+index cbb32e8..8d87e03 100644
+--- a/src/arch/arm/mm/Kconfig
++++ b/src/arch/arm/mm/Kconfig
+@@ -840,3 +840,85 @@ config ARCH_HAS_BARRIERS
+ 	help
+ 	  This option allows the use of custom mandatory barriers
+ 	  included via the mach/barriers.h file.
++
++config ARM_FCSE
++	bool "Fast Context Switch Extension (EXPERIMENTAL)"
++	depends on EXPERIMENTAL && !SMP && (CPU_32v4 || CPU_32v4T || CPU_32v5)
++	help
++	  The Fast Context Switch Extension (FCSE for short) is an extension of
++	  some ARM processors which allows to switch contexts between processes
++	  without flushing cache and saves a few tens of microseconds in the
++	  worst case.
++
++	  Enabling this option makes linux use the FCSE.
++
++	  We propose two modes:
++	  - the guaranteed mode: we guarantee that there will never be any cache
++	    flush when switching context, but this means that there can not be
++	    more than 95 running processes in the system, each with a virtual
++	    memory space smaller than 32MB, and that the shared memory
++	    mappings do not use cache;
++	  - the best effort mode: we allow some cache flushes to happen from
++	    time to time, but do not limit the number of processes or the
++	    virtual memory space available for each process, and the shared
++	    memory mappings use cache.
++
++if ARM_FCSE
++
++choice
++	prompt "FCSE mode"
++	default ARM_FCSE_BEST_EFFORT
++	help
++	  This option allow setting which FCSE mode will be used.
++
++#config ARM_FCSE_GUARANTEED
++#	bool "guaranteed"
++#	help
++#	  Select guaranteed mode.
++
++config ARM_FCSE_BEST_EFFORT
++	bool "best effort"
++	help
++	  Select best-effort mode.
++
++endchoice
++
++config ARM_FCSE_DYNPID
++	bool "Dynamic FCSE pid allocation"
++	depends on ARM_FCSE_BEST_EFFORT
++	help
++	  When this option is enabled, the kernel may decide to change the FCSE
++	  pid of a process when switching context. This helps reducing the
++	  number of cache flushes, but adds some overhead to the context
++	  switches.
++
++config ARM_FCSE_PREEMPT_FLUSH
++	bool "Preemptible cache flushes"
++	default ARM_FCSE_GUARANTEED
++	help
++	  When FCSE is enabled, some cache flushes happen with preemption
++	  disabled by default, this allows avoiding more cache
++	  flushes, but increases the latency. This option allows making
++	  them preemptible. It probably only make sense in guaranteed mode.
++
++config ARM_FCSE_MESSAGES
++	bool "help messages"
++	default ARM_FCSE_BEST_EFFORT
++	help
++	  When FCSE is enabled in best-effort mode, due to the VM space
++	  reduction, a too large stack size limit may result in processes
++	  exceeding the 32MB limit too easily. A too small stack size may result
++	  in stack overflows. Enabling this option will print messages in these
++	  situations to assist you in tuning the stack size limit.
++
++	  In guaranteed mode, this option will cause message to be printed if
++	  one of the hard limits (95 proceses, 32 MB VM space) is exceeded.
++
++config ARM_FCSE_DEBUG
++       bool "FCSE debug"
++       select ARM_FCSE_MESSAGES
++       help
++	  This option enables some internal debug checks. It has a high
++	  overhead, and is only useful for debugging the FCSE code.
++
++endif
+diff --git a/src/arch/arm/mm/Makefile b/src/arch/arm/mm/Makefile
+index e8d34a8..80eb992 100644
+--- a/src/arch/arm/mm/Makefile
++++ b/src/arch/arm/mm/Makefile
+@@ -100,3 +100,4 @@ obj-$(CONFIG_CACHE_FEROCEON_L2)	+= cache-feroceon-l2.o
+ obj-$(CONFIG_CACHE_L2X0)	+= cache-l2x0.o
+ obj-$(CONFIG_CACHE_XSC3L2)	+= cache-xsc3l2.o
+ obj-$(CONFIG_CACHE_TAUROS2)	+= cache-tauros2.o
++obj-$(CONFIG_ARM_FCSE)		+= fcse.o
+diff --git a/src/arch/arm/mm/fault-armv.c b/src/arch/arm/mm/fault-armv.c
+index 56036ff..55c1cc1 100644
+--- a/src/arch/arm/mm/fault-armv.c
++++ b/src/arch/arm/mm/fault-armv.c
+@@ -28,6 +28,30 @@
+ 
+ static unsigned long shared_pte_mask = L_PTE_MT_BUFFERABLE;
+ 
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++static void fcse_set_pte_shared(struct vm_area_struct *vma,
++				unsigned long address, pte_t *ptep)
++{
++	pte_t entry;
++
++	if (!(vma->vm_flags & VM_MAYSHARE) || address >= TASK_SIZE)
++		return;
++
++	entry = *ptep;
++	if ((pte_val(entry)
++	     & (L_PTE_PRESENT | PTE_CACHEABLE | L_PTE_WRITE | L_PTE_DIRTY | L_PTE_SHARED))
++	    == (L_PTE_PRESENT | PTE_CACHEABLE | L_PTE_WRITE | L_PTE_DIRTY)) {
++		pte_val(entry) |= L_PTE_SHARED;
++		/* Bypass set_pte_at here, we are not changing
++		   hardware bits, flush is not needed */
++		++vma->vm_mm->context.fcse.shared_dirty_pages;
++		*ptep = entry;
++	}
++}
++#else /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++#define fcse_set_pte_shared(vma, addr, ptep) do { } while (0)
++#endif /* !CONFIG_ARM_FCSE_BEST_EFFORT */
++
+ /*
+  * We take the easy way out of this problem - we make the
+  * PTE uncacheable.  However, we leave the write buffer on.
+@@ -65,6 +89,7 @@ static int do_adjust_pte(struct vm_area_struct *vma, unsigned long address,
+ 	return ret;
+ }
+ 
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
+ #if USE_SPLIT_PTLOCKS
+ /*
+  * If we are using split PTE locks, then we need to take the page
+@@ -122,11 +147,13 @@ static int adjust_pte(struct vm_area_struct *vma, unsigned long address,
+ 
+ 	return ret;
+ }
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
+ 
+ static void
+ make_coherent(struct address_space *mapping, struct vm_area_struct *vma,
+ 	unsigned long addr, pte_t *ptep, unsigned long pfn)
+ {
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
+ 	struct mm_struct *mm = vma->vm_mm;
+ 	struct vm_area_struct *mpnt;
+ 	struct prio_tree_iter iter;
+@@ -158,6 +185,14 @@ make_coherent(struct address_space *mapping, struct vm_area_struct *vma,
+ 	flush_dcache_mmap_unlock(mapping);
+ 	if (aliases)
+ 		do_adjust_pte(vma, addr, pfn, ptep);
++	else {
++		fcse_set_pte_shared(vma, addr, ptep);
++		flush_cache_page(vma, addr, pfn);
++	}
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++	if (vma->vm_flags & VM_MAYSHARE)
++		do_adjust_pte(vma, addr, pfn, ptep);
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
+ }
+ 
+ /*
+diff --git a/src/arch/arm/mm/fault.c b/src/arch/arm/mm/fault.c
+index cbfb2ed..4368d89 100644
+--- a/src/arch/arm/mm/fault.c
++++ b/src/arch/arm/mm/fault.c
+@@ -74,6 +74,10 @@ void show_pte(struct mm_struct *mm, unsigned long addr)
+ 	if (!mm)
+ 		mm = &init_mm;
+ 
++#ifdef CONFIG_ARM_FCSE
++	printk(KERN_ALERT "fcse pid: %ld, 0x%08lx\n",
++	       mm->context.fcse.pid >> FCSE_PID_SHIFT, mm->context.fcse.pid);
++#endif /* CONFIG_ARM_FCSE */
+ 	printk(KERN_ALERT "pgd = %p\n", mm->pgd);
+ 	pgd = pgd_offset(mm, addr);
+ 	printk(KERN_ALERT "[%08lx] *pgd=%08lx", addr, pgd_val(*pgd));
+@@ -162,11 +166,21 @@ __do_user_fault(struct task_struct *tsk, unsigned long addr,
+ 	if (user_debug & UDBG_SEGV) {
+ 		printk(KERN_DEBUG "%s: unhandled page fault (%d) at 0x%08lx, code 0x%03x\n",
+ 		       tsk->comm, sig, addr, fsr);
++#ifdef CONFIG_ARM_FCSE_DYNPID
++		/* Disable preemption to avoid page tables changing under our
++		   feet */
++		preempt_disable();
++#endif /* CONFIG_ARM_FCSE_DYNPID */
+ 		show_pte(tsk->mm, addr);
++#ifdef CONFIG_ARM_FCSE_DYNPID
++		preempt_enable();
++#endif /* CONFIG_ARM_FCSE_DYNPID */
+ 		show_regs(regs);
+ 	}
+ #endif
+ 
++	fcse_notify_segv(tsk->mm, addr, regs);
++
+ 	tsk->thread.address = addr;
+ 	tsk->thread.error_code = fsr;
+ 	tsk->thread.trap_no = 14;
+diff --git a/src/arch/arm/mm/fcse.c b/src/arch/arm/mm/fcse.c
+new file mode 100755
+index 0000000..8cf564f
+--- /dev/null
++++ b/src/arch/arm/mm/fcse.c
+@@ -0,0 +1,458 @@
++/*
++ * arch/arm/kernel/fcse.c
++ *
++ * Helper functions for using the ARM Fast Context Switch Extension with
++ * processors supporting it.
++ *
++ * Copyright (C) 2008 Richard Cochran
++ * Copyright (C) 2009-2011 Gilles Chanteperdrix <gch@xenomai.org>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++
++#include <linux/bitops.h>
++#include <linux/memory.h>
++#include <linux/spinlock.h>
++#include <linux/mm.h>
++#include <linux/kernel_stat.h>
++#include <linux/mman.h>
++#include <linux/dcache.h>
++#include <linux/fs.h>
++#include <linux/hardirq.h>
++
++#include <asm/fcse.h>
++#include <asm/cacheflush.h>
++#include <asm/tlbflush.h>
++
++#define NR_PIDS (TASK_SIZE / FCSE_PID_TASK_SIZE)
++#define PIDS_LONGS ((NR_PIDS + BITS_PER_LONG - 1) / BITS_PER_LONG)
++
++static DEFINE_RAW_SPINLOCK(fcse_lock);
++static unsigned long fcse_pids_bits[PIDS_LONGS];
++unsigned long fcse_pids_cache_dirty[PIDS_LONGS];
++EXPORT_SYMBOL(fcse_pids_cache_dirty);
++
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++static unsigned random_pid;
++struct fcse_user fcse_pids_user[NR_PIDS];
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++
++static inline void fcse_pid_reference_inner(unsigned pid)
++{
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	if (++fcse_pids_user[pid].count == 1)
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++		__set_bit(pid, fcse_pids_bits);
++}
++
++static inline void fcse_pid_dereference(struct mm_struct *mm)
++{
++	unsigned fcse_pid = mm->context.fcse.pid >> FCSE_PID_SHIFT;
++
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	if (--fcse_pids_user[fcse_pid].count == 0)
++		__clear_bit(fcse_pid, fcse_pids_bits);
++
++	/*
++	 * The following means we suppose that by the time this
++	 * function is called, this mm is out of cache:
++	 * - when the caller is destroy_context, exit_mmap is called
++	 * by mmput before, which flushes the cache;
++	 * - when the caller is fcse_relocate_mm_to_pid from
++	 * fcse_switch_mm_inner, we only relocate when the mm is out
++	 * of cache;
++	 * - when the caller is fcse_relocate_mm_to_pid from
++	 * fcse_relocate_mm_to_null_pid, we flush the cache in this
++	 * function.
++	 */
++	if (fcse_pids_user[fcse_pid].mm == mm) {
++		fcse_pids_user[fcse_pid].mm = NULL;
++		__clear_bit(fcse_pid, fcse_pids_cache_dirty);
++	}
++#else /* CONFIG_ARM_FCSE_BEST_EFFORT */
++	__clear_bit(fcse_pid, fcse_pids_bits);
++	__clear_bit(fcse_pid, fcse_pids_cache_dirty);
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++}
++
++static inline unsigned find_free_pid(unsigned long bits[])
++{
++	unsigned fcse_pid;
++
++	fcse_pid = find_next_zero_bit(bits, NR_PIDS, 1);
++	if (fcse_pid == NR_PIDS)
++		/* Allocate zero pid last, since zero pid is also used by
++		   processes with address space larger than 32MB in
++		   best-effort mode. */
++		if (!test_bit(0, bits))
++			fcse_pid = 0;
++
++	return fcse_pid;
++}
++
++void fcse_pid_free(struct mm_struct *mm)
++{
++	unsigned long flags;
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++	fcse_pid_dereference(mm);
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++}
++
++int fcse_pid_alloc(struct mm_struct *mm)
++{
++	unsigned long flags;
++	unsigned fcse_pid;
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++	fcse_pid = find_free_pid(fcse_pids_bits);
++	if (fcse_pid == NR_PIDS) {
++		/* Allocate zero pid last, since zero pid is also used by
++		   processes with address space larger than 32MB in
++		   best-effort mode. */
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++		if(++random_pid == NR_PIDS)
++			random_pid = 0;
++		fcse_pid = random_pid;
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++		raw_spin_unlock_irqrestore(&fcse_lock, flags);
++#ifdef CONFIG_ARM_FCSE_MESSAGES
++		printk(KERN_WARNING "FCSE: %s[%d] would exceed the %lu processes limit.\n",
++		       current->comm, current->pid, NR_PIDS);
++#endif /* CONFIG_ARM_FCSE_MESSAGES */
++		return -EAGAIN;
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
++	}
++	fcse_pid_reference_inner(fcse_pid);
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++
++	return fcse_pid;
++}
++
++static inline void fcse_clear_dirty_all(void)
++{
++	switch(ARRAY_SIZE(fcse_pids_cache_dirty)) {
++	case 4:
++		fcse_pids_cache_dirty[3] = 0UL;
++	case 3:
++		fcse_pids_cache_dirty[2] = 0UL;
++	case 2:
++		fcse_pids_cache_dirty[1] = 0UL;
++	case 1:
++		fcse_pids_cache_dirty[0] = 0UL;
++	}
++}
++
++unsigned fcse_flush_all_start(void)
++{
++	if (!cache_is_vivt())
++		return 0;
++
++#ifdef CONFIG_ARM_FCSE_PREEMPT_FLUSH
++	return nr_context_switches();
++#else
++	preempt_disable();
++	return 0;
++#endif
++}
++
++noinline void
++fcse_flush_all_done(unsigned seq, unsigned dirty)
++{
++	unsigned long flags;
++
++	if (!cache_is_vivt())
++		return;
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++#ifdef CONFIG_ARM_FCSE_PREEMPT_FLUSH
++	if (seq == nr_context_switches())
++#endif /* CONFIG_ARM_FCSE_PREEMPT_FLUSH */
++		fcse_clear_dirty_all();
++
++	if (dirty && current->mm != &init_mm && current->mm) {
++		unsigned fcse_pid =
++			current->mm->context.fcse.pid >> FCSE_PID_SHIFT;
++		__set_bit(fcse_pid, fcse_pids_cache_dirty);
++	}
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++#ifndef CONFIG_ARM_FCSE_PREEMPT_FLUSH
++	preempt_enable();
++#endif /* CONFIG_ARM_FCSE_PREEMPT_FLUSH */
++}
++
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++/* Called with preemption disabled, mm->mmap_sem being held for writing. */
++static noinline int fcse_relocate_mm_to_pid(struct mm_struct *mm, int fcse_pid)
++{
++	const unsigned len = pgd_index(FCSE_TASK_SIZE) * sizeof(pgd_t);
++	unsigned long flags;
++	pgd_t *from, *to;
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++#if defined(CONFIG_ARM_FCSE_DYNPID)
++	/* pid == -1 means find a free pid. */
++	if (fcse_pid == -1) {
++		fcse_pid = find_free_pid(fcse_pids_bits);
++		if (fcse_pid == NR_PIDS) {
++			fcse_pid = find_free_pid(fcse_pids_cache_dirty);
++			if (unlikely(fcse_pid == NR_PIDS)) {
++				raw_spin_unlock_irqrestore(&fcse_lock, flags);
++				return -ENOENT;
++			}
++		}
++	}
++#endif /* CONFIG_ARM_FCSE_DYNPID */
++	fcse_pid_dereference(mm);
++	fcse_pid_reference_inner(fcse_pid);
++	fcse_pids_user[fcse_pid].mm = mm;
++	__set_bit(fcse_pid, fcse_pids_cache_dirty);
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++
++	from = pgd_offset(mm, 0);
++	mm->context.fcse.pid = fcse_pid << FCSE_PID_SHIFT;
++	to = pgd_offset(mm, 0);
++
++	memcpy(to, from, len);
++	memset(from, '\0', len);
++	barrier();
++	clean_dcache_area(from, len);
++	clean_dcache_area(to, len);
++
++	return fcse_pid;
++}
++
++int fcse_switch_mm_inner(struct mm_struct *prev, struct mm_struct *next)
++{
++	unsigned fcse_pid = next->context.fcse.pid >> FCSE_PID_SHIFT;
++	unsigned flush_needed, reused_pid = 0;
++	unsigned long flags;
++
++	if (unlikely(next == &init_mm)) {
++		raw_spin_lock_irqsave(&fcse_lock, flags);
++		goto is_flush_needed;
++	}
++
++#ifdef CONFIG_ARM_FCSE_DYNPID
++	/*
++	 * If the next mm's pid is currently in use, and not by that
++	 * mm, try and find a new, free, pid.
++	 */
++	if (unlikely(fcse_pids_user[fcse_pid].mm != next)
++	    && test_bit(fcse_pid, fcse_pids_cache_dirty)
++	    && fcse_pids_user[fcse_pid].mm
++	    && !rwsem_is_locked(&next->mmap_sem)
++	    && !next->context.fcse.large
++	    && !next->core_state) {
++		int new_fcse_pid = fcse_relocate_mm_to_pid(next, -1);
++		if (new_fcse_pid >= 0)
++			fcse_pid = new_fcse_pid;
++	}
++#endif /* CONFIG_ARM_FCSE_DYNPID */
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++	if (fcse_pids_user[fcse_pid].mm != next) {
++		if (fcse_pids_user[fcse_pid].mm)
++			reused_pid = test_bit(fcse_pid, fcse_pids_cache_dirty);
++		fcse_pids_user[fcse_pid].mm = next;
++	}
++
++  is_flush_needed:
++	flush_needed = reused_pid
++		|| prev->context.fcse.shared_dirty_pages
++		|| prev->context.fcse.high_pages
++		|| next->context.fcse.high_pages;
++
++	fcse_pid_set(fcse_pid << FCSE_PID_SHIFT);
++	if (flush_needed) {
++		fcse_clear_dirty_all();
++	}
++	if (next != &init_mm)
++		__set_bit(fcse_pid, fcse_pids_cache_dirty);
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++
++	return flush_needed;
++}
++
++void fcse_pid_reference(unsigned fcse_pid)
++{
++	unsigned long flags;
++
++	raw_spin_lock_irqsave(&fcse_lock, flags);
++	fcse_pid_reference_inner(fcse_pid);
++	raw_spin_unlock_irqrestore(&fcse_lock, flags);
++}
++
++/* Called with mm->mmap_sem write-locked. */
++static noinline void fcse_relocate_mm_to_null_pid(struct mm_struct *mm)
++{
++	if (!cache_is_vivt())
++		return;
++
++	preempt_disable();
++	while (fcse_mm_in_cache(mm)) {
++		unsigned seq;
++
++		preempt_enable();
++
++		seq = fcse_flush_all_start();
++		flush_cache_all();
++
++		preempt_disable();
++		fcse_flush_all_done(seq, 0);
++	}
++
++	fcse_relocate_mm_to_pid(mm, 0);
++	barrier();
++	flush_tlb_mm(mm);
++	fcse_pid_set(0);
++
++	preempt_enable();
++}
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++
++unsigned long
++fcse_check_mmap_inner(struct mm_struct *mm, unsigned long start_addr,
++		      unsigned long addr, unsigned long len, unsigned long fl)
++{
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	unsigned long stack_reserved =
++		current->signal->rlim[RLIMIT_STACK].rlim_cur;
++	unsigned long stack_base = PAGE_ALIGN(mm->start_stack) - stack_reserved;
++
++	/* We enfore the RLIMIT_STACK stack size, and here, the return
++	   address would fall in that reserved stack area */
++	if ((unsigned long)(addr + len - stack_base) < stack_reserved) {
++		/* Restart to try and find a hole, once. */
++		if (start_addr != TASK_UNMAPPED_BASE && !(fl & MAP_FIXED)
++		    && !mm->context.fcse.large)
++			return TASK_UNMAPPED_BASE;
++
++		/* Forcibly restart from above the stack */
++		if (!(fl & MAP_FIXED))
++			return PAGE_ALIGN(mm->start_stack);
++
++		/* If MAP_FIXED is set, we encroach upon the reserved
++		   stack area. No choice. */
++	}
++
++	/* Address above 32MB */
++	if (addr + len > FCSE_TASK_SIZE && !mm->context.fcse.high_pages) {
++		/* Restart to try and find a hole, once. */
++		if (start_addr != TASK_UNMAPPED_BASE && !(fl & MAP_FIXED))
++			return TASK_UNMAPPED_BASE;
++
++		if (!mm->context.fcse.large) {
++			/* Ok, the process is going to be larger than 32MB */
++#ifdef CONFIG_ARM_FCSE_MSSAGES
++			printk(KERN_INFO "FCSE: process %u(%s) VM exceeds 32MB.\n",
++			       current->pid, current->comm);
++#endif /* CONFIG_ARM_FCSE_MESSAGES */
++			mm->context.fcse.large = 1;
++		}
++		if (mm->context.fcse.pid)
++			fcse_relocate_mm_to_null_pid(mm);
++	}
++
++	return addr;
++
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++	/* Address above 32MB */
++	/* Restart to try and find a hole, once. */
++	if (start_addr != TASK_UNMAPPED_BASE && !(fl & MAP_FIXED))
++		return TASK_UNMAPPED_BASE;
++
++	/* Fail, no 32MB processes in guaranteed mode. */
++#ifdef CONFIG_ARM_FCSE_MESSAGES
++	printk(KERN_WARNING "FCSE: process %u(%s) VM would exceed the 32MB limit.\n",
++	       current->pid, current->comm);
++#endif /* CONFIG_ARM_FCSE_MESSAGES */
++	return -ENOMEM;
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
++}
++
++#ifdef CONFIG_ARM_FCSE_MESSAGES
++#define addr_in_vma(vma, addr)						\
++	({								\
++		struct vm_area_struct *_vma = (vma);			\
++		((unsigned long)((addr) - _vma->vm_start)		\
++		 < (unsigned long)((_vma->vm_end - _vma->vm_start)));	\
++	})
++
++#ifdef CONFIG_DEBUG_USER
++static noinline void
++dump_vmas(struct mm_struct *mm, unsigned long addr, struct pt_regs *regs)
++{
++	struct vm_area_struct *vma;
++	char path[128];
++	int locked = 0;
++
++	printk("mappings:\n");
++	if (!in_atomic())
++		locked = down_read_trylock(&mm->mmap_sem);
++	for(vma = mm->mmap; vma; vma = vma->vm_next) {
++		struct file *file = vma->vm_file;
++		int flags = vma->vm_flags;
++		const char *name;
++
++		printk("0x%08lx-0x%08lx %c%c%c%c 0x%08llx ",
++		       vma->vm_start,
++		       vma->vm_end,
++		       flags & VM_READ ? 'r' : '-',
++		       flags & VM_WRITE ? 'w' : '-',
++		       flags & VM_EXEC ? 'x' : '-',
++		       flags & VM_MAYSHARE ? 's' : 'p',
++		       ((loff_t)vma->vm_pgoff) << PAGE_SHIFT);
++
++		if (file)
++			name = d_path(&file->f_path, path, sizeof(path));
++		else if ((name = arch_vma_name(vma)))
++			;
++		else if (!vma->vm_mm)
++			name = "[vdso]";
++		else if (vma->vm_start <= mm->start_brk
++			 && vma->vm_end >= mm->brk)
++			name = "[heap]";
++		else if (vma->vm_start <= mm->start_stack &&
++			 vma->vm_end >= mm->start_stack)
++			name = "[stack]";
++		else
++			name = "";
++		printk("%s", name);
++		if (addr_in_vma(vma, regs->ARM_pc))
++			printk(" <- PC");
++		if (addr_in_vma(vma, regs->ARM_sp))
++			printk(" <- SP");
++		if (addr_in_vma(vma, addr))
++			printk("%s fault",
++			       (addr_in_vma(vma, regs->ARM_pc)
++				|| addr_in_vma(vma, regs->ARM_sp)
++				? "," : " <-"));
++		printk("\n");
++	}
++	if (locked)
++		up_read(&mm->mmap_sem);
++}
++#endif /* CONFIG_DEBUG_USER */
++
++void fcse_notify_segv(struct mm_struct *mm,
++		       unsigned long addr, struct pt_regs *regs)
++{
++	int locked = 0;
++
++#if defined(CONFIG_DEBUG_USER)
++	if (user_debug & UDBG_SEGV)
++		dump_vmas(mm, addr, regs);
++#endif /* CONFIG_DEBUG_USER */
++
++	if (!in_atomic())
++		locked = down_read_trylock(&mm->mmap_sem);
++	if (find_vma(mm, addr) == find_vma(mm, regs->ARM_sp))
++		printk(KERN_INFO "FCSE: process %u(%s) probably overflowed stack at 0x%08lx.\n",
++		       current->pid, current->comm, regs->ARM_pc);
++	if (locked)
++		up_read(&mm->mmap_sem);
++}
++#endif /* CONFIG_ARM_FCSE_MESSAGES */
+diff --git a/src/arch/arm/mm/flush.c b/src/arch/arm/mm/flush.c
+index c6844cb..e5c6127 100644
+--- a/src/arch/arm/mm/flush.c
++++ b/src/arch/arm/mm/flush.c
+@@ -105,7 +105,7 @@ void flush_ptrace_access(struct vm_area_struct *vma, struct page *page,
+ 			 unsigned long uaddr, void *kaddr, unsigned long len)
+ {
+ 	if (cache_is_vivt()) {
+-		if (cpumask_test_cpu(smp_processor_id(), mm_cpumask(vma->vm_mm))) {
++		if (fcse_mm_in_cache(vma->vm_mm)) {
+ 			unsigned long addr = (unsigned long)kaddr;
+ 			__cpuc_coherent_kern_range(addr, addr + len);
+ 		}
+@@ -144,6 +144,7 @@ void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
+ #ifdef CONFIG_SMP
+ 	preempt_disable();
+ #endif
++	fcse_flush_cache_user_range(vma, uaddr, uaddr + len);
+ 	memcpy(dst, src, len);
+ 	flush_ptrace_access(vma, page, uaddr, dst, len);
+ #ifdef CONFIG_SMP
+diff --git a/src/arch/arm/mm/mmap.c b/src/arch/arm/mm/mmap.c
+index f5abc51..fb22056 100644
+--- a/src/arch/arm/mm/mmap.c
++++ b/src/arch/arm/mm/mmap.c
+@@ -29,7 +29,8 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ {
+ 	struct mm_struct *mm = current->mm;
+ 	struct vm_area_struct *vma;
+-	unsigned long start_addr;
++	unsigned long start_addr = addr;
++
+ #ifdef CONFIG_CPU_V6
+ 	unsigned int cache_type;
+ 	int do_align = 0, aliasing = 0;
+@@ -50,6 +51,9 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ #define aliasing 0
+ #endif
+ 
++#ifdef CONFIG_ARM_FCSE
++	start_addr = addr;
++#endif /* CONFIG_ARM_FCSE */
+ 	/*
+ 	 * We enforce the MAP_FIXED case.
+ 	 */
+@@ -57,7 +61,7 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 		if (aliasing && flags & MAP_SHARED &&
+ 		    (addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1))
+ 			return -EINVAL;
+-		return addr;
++		goto found_addr;
+ 	}
+ 
+ 	if (len > TASK_SIZE)
+@@ -72,13 +76,13 @@ arch_get_unmapped_area(struct file *filp, unsigned long addr,
+ 		vma = find_vma(mm, addr);
+ 		if (TASK_SIZE - len >= addr &&
+ 		    (!vma || addr + len <= vma->vm_start))
+-			return addr;
++			goto found_addr;
+ 	}
+ 	if (len > mm->cached_hole_size) {
+-	        start_addr = addr = mm->free_area_cache;
++		start_addr = addr = mm->free_area_cache;
+ 	} else {
+-	        start_addr = addr = TASK_UNMAPPED_BASE;
+-	        mm->cached_hole_size = 0;
++		start_addr = addr = TASK_UNMAPPED_BASE;
++		mm->cached_hole_size = 0;
+ 	}
+ 
+ full_search:
+@@ -106,14 +110,31 @@ full_search:
+ 			 * Remember the place where we stopped the search:
+ 			 */
+ 			mm->free_area_cache = addr + len;
+-			return addr;
++			goto found_addr;
+ 		}
+ 		if (addr + mm->cached_hole_size < vma->vm_start)
+-		        mm->cached_hole_size = vma->vm_start - addr;
++			mm->cached_hole_size = vma->vm_start - addr;
+ 		addr = vma->vm_end;
+ 		if (do_align)
+ 			addr = COLOUR_ALIGN(addr, pgoff);
+ 	}
++
++  found_addr:
++#ifdef CONFIG_ARM_FCSE
++	{
++		unsigned long new_addr = fcse_check_mmap_addr(mm, start_addr,
++							      addr, len, flags);
++		if (new_addr != addr) {
++			addr = new_addr;
++			if (!(addr & ~PAGE_MASK)) {
++				start_addr = TASK_UNMAPPED_BASE;
++				mm->cached_hole_size = 0;
++				goto full_search;
++			}
++		}
++	}
++#endif /* CONFIG_ARM_FCSE */
++	return addr;
+ }
+ 
+ 
+diff --git a/src/arch/arm/mm/pgd.c b/src/arch/arm/mm/pgd.c
+index be5f58e..8776ec6 100644
+--- a/src/arch/arm/mm/pgd.c
++++ b/src/arch/arm/mm/pgd.c
+@@ -44,6 +44,11 @@ pgd_t *get_pgd_slow(struct mm_struct *mm)
+ 	clean_dcache_area(new_pgd, PTRS_PER_PGD * sizeof(pgd_t));
+ 
+ 	if (!vectors_high()) {
++#ifdef CONFIG_ARM_FCSE
++		/* FCSE does not work without high vectors. */
++		BUG();
++#endif /* CONFIG_ARM_FCSE */
++
+ 		/*
+ 		 * On ARM, first page must always be allocated since it
+ 		 * contains the machine vectors.
+@@ -82,7 +87,7 @@ void free_pgd_slow(struct mm_struct *mm, pgd_t *pgd)
+ 		return;
+ 
+ 	/* pgd is always present and good */
+-	pmd = pmd_off(pgd, 0);
++	pmd = pmd_off(pgd + pgd_index(fcse_va_to_mva(mm, 0)), 0);
+ 	if (pmd_none(*pmd))
+ 		goto free;
+ 	if (pmd_bad(*pmd)) {
+diff --git a/src/arch/arm/mm/proc-arm920.S b/src/arch/arm/mm/proc-arm920.S
+index 8be8199..589ba24 100644
+--- a/src/arch/arm/mm/proc-arm920.S
++++ b/src/arch/arm/mm/proc-arm920.S
+@@ -346,6 +346,11 @@ ENTRY(cpu_arm920_dcache_clean_area)
+ ENTRY(cpu_arm920_switch_mm)
+ #ifdef CONFIG_MMU
+ 	mov	ip, #0
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	cmp	r2, #0
++	beq	3f
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
+ #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
+ 	mcr	p15, 0, ip, c7, c6, 0		@ invalidate D cache
+ #else
+@@ -363,6 +368,10 @@ ENTRY(cpu_arm920_switch_mm)
+ #endif
+ 	mcr	p15, 0, ip, c7, c5, 0		@ invalidate I cache
+ 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
++#endif /* !CONFIG_ARM_FCSE_GUARANTEED */
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++3:
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
+ 	mcr	p15, 0, r0, c2, c0, 0		@ load page table pointer
+ 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate I & D TLBs
+ #endif
+diff --git a/src/arch/arm/mm/proc-arm926.S b/src/arch/arm/mm/proc-arm926.S
+index 75b707c..6bdfe06 100644
+--- a/src/arch/arm/mm/proc-arm926.S
++++ b/src/arch/arm/mm/proc-arm926.S
+@@ -362,6 +362,11 @@ ENTRY(cpu_arm926_dcache_clean_area)
+ ENTRY(cpu_arm926_switch_mm)
+ #ifdef CONFIG_MMU
+ 	mov	ip, #0
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	cmp	r2, #0
++	beq	2f
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
+ #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
+ 	mcr	p15, 0, ip, c7, c6, 0		@ invalidate D cache
+ #else
+@@ -371,6 +376,10 @@ ENTRY(cpu_arm926_switch_mm)
+ #endif
+ 	mcr	p15, 0, ip, c7, c5, 0		@ invalidate I cache
+ 	mcr	p15, 0, ip, c7, c10, 4		@ drain WB
++#endif /* !CONFIG_ARM_FCSE_GUARANTEED */
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++2:
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
+ 	mcr	p15, 0, r0, c2, c0, 0		@ load page table pointer
+ 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate I & D TLBs
+ #endif
+diff --git a/src/arch/arm/mm/proc-feroceon.S b/src/arch/arm/mm/proc-feroceon.S
+index 53e6323..1e4cd8f 100644
+--- a/src/arch/arm/mm/proc-feroceon.S
++++ b/src/arch/arm/mm/proc-feroceon.S
+@@ -460,6 +460,12 @@ ENTRY(cpu_feroceon_dcache_clean_area)
+ 	.align	5
+ ENTRY(cpu_feroceon_switch_mm)
+ #ifdef CONFIG_MMU
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	cmp	r2, #0
++	mov	r2, lr
++	beq	2f
++#else /* !CONFIG_ARM_FCSE */
+ 	/*
+ 	 * Note: we wish to call __flush_whole_cache but we need to preserve
+ 	 * lr to do so.  The only way without touching main memory is to
+@@ -467,12 +473,19 @@ ENTRY(cpu_feroceon_switch_mm)
+ 	 * compensate locally for the skipped ops if it is not set.
+ 	 */
+ 	mov	r2, lr				@ abuse r2 to preserve lr
++#endif /* !CONFIG_ARM_FCSE */
+ 	bl	__flush_whole_cache
+ 	@ if r2 contains the VM_EXEC bit then the next 2 ops are done already
+ 	tst	r2, #VM_EXEC
+ 	mcreq	p15, 0, ip, c7, c5, 0		@ invalidate I cache
+ 	mcreq	p15, 0, ip, c7, c10, 4		@ drain WB
+ 
++#ifdef CONFIG_ARM_FCSE
++2:
++#endif
++#else /* CONFIG_ARM_FCSE_GUARANTEED */
++	mov	r2, lr
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
+ 	mcr	p15, 0, r0, c2, c0, 0		@ load page table pointer
+ 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate I & D TLBs
+ 	mov	pc, r2
+diff --git a/src/arch/arm/mm/proc-xscale.S b/src/arch/arm/mm/proc-xscale.S
+index 63037e2..830854d 100644
+--- a/src/arch/arm/mm/proc-xscale.S
++++ b/src/arch/arm/mm/proc-xscale.S
+@@ -453,9 +453,18 @@ ENTRY(cpu_xscale_dcache_clean_area)
+  */
+ 	.align	5
+ ENTRY(cpu_xscale_switch_mm)
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++	cmp	r2, #0
++	beq	2f
++#endif /* CONFIG_ARM_FCSE_BEST_EFFORT */
++#ifndef CONFIG_ARM_FCSE_GUARANTEED
+ 	clean_d_cache r1, r2
+ 	mcr	p15, 0, ip, c7, c5, 0		@ Invalidate I cache & BTB
+ 	mcr	p15, 0, ip, c7, c10, 4		@ Drain Write (& Fill) Buffer
++#endif /* CONFIG_ARM_FCSE_GUARANTEED */
++#ifdef CONFIG_ARM_FCSE_BEST_EFFORT
++2:
++#endif /* !CONFIG_ARM_FCSE_GUARANTEED */
+ 	mcr	p15, 0, r0, c2, c0, 0		@ load page table pointer
+ 	mcr	p15, 0, ip, c8, c7, 0		@ invalidate I & D TLBs
+ 	cpwait_ret lr, ip
+

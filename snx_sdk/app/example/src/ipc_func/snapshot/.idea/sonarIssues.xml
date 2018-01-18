@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="issues">
+    <option name="index">
+      <map>
+        <entry key="$PROJECT_DIR$/snx_m2m_one_stream.c">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/snx_video_codec.c">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/git-workspace/tristan/vtb-de/vtb-de-acceptance/CommonImport.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/git-workspace/tristan/vtb-de/vtb-de-acceptance/src/main/java/de/xcom/vtb/acceptance/StandardIT.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/git-workspace/tristan/vtb-de/vtb-de-acceptance/src/main/java/de/xcom/vtb/acceptance/fints/sepa/singremitt1/standard/SendSEPASingRemitt1ReqInternationnalCreditorAccount.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/git-workspace/tristan/vtb-de/vtb-de-acceptance/target-system-config.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/git-workspace/tristan/vtb-de/vtb-de-acceptance/test-replacement.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

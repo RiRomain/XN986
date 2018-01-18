@@ -1,0 +1,14 @@
+# /etc/fstab: static file system information.
+#
+# <file system> <mount pt>     <type>	<options>         <dump> <pass>
+/dev/root	/		cramfs	noauto            0      1
+proc		/proc		proc	defaults	  0	 0
+sysfs		/sys		sysfs	defaults          0      0
+tmpfs		/tmp		tmpfs	size=100%          0      0
+lock		/var/lock	tmpfs	defaults          0      0
+log		/var/log	tmpfs	defaults          0      0
+run		/var/run	tmpfs	defaults          0      0
+spool		/var/spool	tmpfs	defaults          0      0
+tmp		/var/tmp	tmpfs	defaults          0      0
+mq		/var/mq		tmpfs	defaults          0      0
+media		/media		tmpfs	defaults          0      0

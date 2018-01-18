@@ -1,0 +1,18 @@
+
+#!/bin/sh
+
+# Stop on error
+set -e
+
+script_dir=`cd "$(dirname "$0")";pwd`
+
+KO=$script_dir/ko
+
+if [ "$4" = "rescue" ]; then
+        KO=$script_dir/ko_rescue
+fi
+
+if [ -d $KO ]; then
+	make -C $KO $1 INSTALL_DIR=$2 AUTOCONF_DIR=$3 KO_INSTALL_DIR=$KO
+fi
+

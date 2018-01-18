@@ -1,0 +1,16 @@
+#libevent pkg-config source file
+
+prefix=/media/data/hudson_build/32bitProduct_SN986_1.50/ST58600_SRC/middleware/libevent-2.0.21/middleware
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libevent_pthreads
+Description: libevent_pthreads adds pthreads-based threading support to libevent
+Version: 2.0.21-stable
+Requires: libevent
+Conflicts:
+Libs: -L${libdir} -levent_pthreads
+Libs.private:  
+Cflags: -I${includedir} -pthread
+

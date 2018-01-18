@@ -1,0 +1,67 @@
+# Create at 2011/05/06 by yanjie_yang
+
+menu "SONiX SN986XX Implementations"
+
+choice
+	prompt "Select target board"
+	default MACH_SN98600 
+
+config MACH_SN98600
+	bool "Support SONiX SN98600 Platform"
+	help
+	  Include support for the SONiX SN98600 platform.
+
+config MACH_SN98601
+	bool "Support SONiX SN98601 Platform"
+	help
+	  Include support for the SONiX SN98601 platform.
+
+config MACH_SN98605
+	bool "Support SONiX SN98605 Platform"
+	help
+	  Include support for the SONiX SN98605 platform.
+
+config MACH_SN98610
+	bool "Support SONiX SN98610 Platform"
+	help
+	  Include support for the SONiX SN98610 platform.
+
+config MACH_SN98660
+	bool "Support SONiX SN98660 Platform"
+	help
+	  Include support for the SONiX SN98660 platform.
+
+endchoice
+
+comment "Board configuration"
+
+config PLL_CLK
+	int "PLL clock frequency (PLL clock)"
+	default 744000000
+	help
+	  Manual setting of PLL clock frequency. 
+
+config TICK_CLOCK_RATIO
+	int "Ratio of PLL/TICK clock frequency"
+	default 32
+	help
+	  Manual setting of tick clock frequency ratio. 
+	  Tick clock frequency should be equal to APB clock frequency.
+
+config SPECIAL_HW_TIMER
+	bool "Support special hardware timer"
+	help
+	  Include support for the special hardware timer.
+
+config SNX_LOG_TIMESTAMP
+	bool "Sonix log timestamp"
+	help
+	  Support log timestamp for traceing system performace or latency
+
+	  How to use:
+	  1. include linux/timex.h
+	  2. Insert snx_log_timestamp(int tag) for log timestamp that tag number
+	     up to you
+	  3. Read /proc/snx_timestamp to trace system
+
+endmenu

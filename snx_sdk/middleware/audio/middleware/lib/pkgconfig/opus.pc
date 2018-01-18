@@ -1,0 +1,16 @@
+# Opus codec reference implementation pkg-config file
+
+prefix=/media/data/hudson_build/32bitProduct_SN986_1.50/ST58600_SRC/middleware/audio/middleware
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Opus
+Description: Opus IETF audio codec (fixed-point build)
+URL: http://opus-codec.org/
+Version: 1.1
+Requires:
+Conflicts:
+Libs: -L${libdir} -lopus
+Libs.private: -lm
+Cflags: -I${includedir}/opus

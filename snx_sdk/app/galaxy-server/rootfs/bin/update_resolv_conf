@@ -1,0 +1,3 @@
+#!/bin/sh
+echo domain `xmlutil /etc/sonix/conf.xml -e /config/network -r /config/network/dns/domain` >/etc/resolv.conf
+echo nameserver `xmlutil /etc/sonix/conf.xml -e /config/network -r /config/network/dns/ns` >> /etc/resolv.conf

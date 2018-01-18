@@ -1,0 +1,42 @@
+#!/bin/sh
+
+MNT_TARGET=mmcblk0
+
+if [ $ACTION = "add" ]; then
+	mkdir -p /media/mmcblk0
+
+	#mount /dev/$MDEV /media/mmcblk0
+	#if [ $? -ne 0 ]; then
+	#	rmdir /media/mmcblk0
+	#fi
+
+	P=`ls /dev/mmcblk0p*`
+	if [ "$P" != "" ]; then
+		case $MDEV in
+			"mmcblk0p1")
+				mount /dev/mmcblk0p1 /media/$MNT_TARGET
+				if [ $? -ne 0 ]; then
+					rmdir /media/$MNT_TARGET
+				fi
+			;;
+			"mmcblk0p2")
+				#mount /dev/mmcblk0p2 /media/mmcblk0
+				#if [ $? -ne 0 ]; then
+				#	rmdir /media/mmcblk0
+				#fi
+			;;
+			*)
+				exit 1
+			;;
+		esac
+	else
+		mount /dev/mmcblk0 /media/$MNT_TARGET
+		if [ $? -ne 0 ]; then
+			rmdir /media/$MNT_TARGET
+		fi
+	fi
+else
+	umount /dev/$MDEV
+	rmdir /media/$MNT_TARGET
+fi
+

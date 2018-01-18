@@ -1,0 +1,35 @@
+#!/bin/sh
+
+if [ $ACTION = "add" ]; then
+	mkdir -p /media/$MDEV
+	
+	lsblk -o KNAME,FSTYPE | grep "sda" > /tmp/sda.all.log
+	grep "vfat" /tmp/sda.all.log > /tmp/sda.vfat.log
+	grep "exfat" /tmp/sda.all.log > /tmp/sda.exfat.log
+	grep "ntfs" /tmp/sda.all.log > /tmp/sda.ntfs.log
+	
+	grep -w $MDEV /tmp/sda.vfat.log
+	if [ $? == 0 ]; then
+		mount -t vfat -o rw /dev/$MDEV /media/$MDEV
+		echo "1" > /tmp/$MDEV
+		exit 0
+	fi
+	
+	grep -w $MDEV /tmp/sda.exfat.log
+	if [ $? == 0 ]; then
+		mount.exfat-fuse /dev/$MDEV /media/$MDEV
+		echo "1" > /tmp/$MDEV
+		exit 0
+	fi
+	
+	grep -w $MDEV /tmp/sda.ntfs.log
+	if [ $? == 0 ]; then
+		ntfs-3g /dev/$MDEV /media/$MDEV
+		echo "1" > /tmp/$MDEV
+		exit 0
+	fi
+else
+	umount /media/$MDEV
+	rm -rf /media/$MDEV
+	rm -f /tmp/sda*
+fi

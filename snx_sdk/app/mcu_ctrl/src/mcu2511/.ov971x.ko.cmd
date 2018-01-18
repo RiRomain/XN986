@@ -1,0 +1,1 @@
+cmd_/home/haoweilo/st58600_new/app/example/src/i2c/ov971x.ko := arm-linux-ld -EL -r  -T /home/haoweilo/st58600_new/kernel/linux-2.6.35.12/src/scripts/module-common.lds --build-id -o /home/haoweilo/st58600_new/app/example/src/i2c/ov971x.ko /home/haoweilo/st58600_new/app/example/src/i2c/ov971x.o /home/haoweilo/st58600_new/app/example/src/i2c/ov971x.mod.o

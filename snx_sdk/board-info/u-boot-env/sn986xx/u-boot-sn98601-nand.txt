@@ -1,0 +1,28 @@
+Envs-Args=Envs-Cmds
+---
+bootargs=console=ttyS0,115200 root=/dev/mtdblock2 init=/linuxrc mem=64M isp=7M vc=12M vo=0M  mtdparts=snx-nand:2M(uboot),3M(kernel),16M(rootfs),32M(etc),256K(userconfig),73088K(user),3456K(other)
+bootcmd=nand read 0x00007FFC 0x00200000 0x300000;bootm 0x00008000
+ramboot=NULL
+nfsboot=NULL
+bootdelay=0
+netretry=3
+baudrate=115200
+loads_echo=NULL
+ethaddr=00:B0:27:08:90:14
+eth1addr=NULL
+eth2addr=NULL
+eth3addr=NULL
+eth4addr=NULL
+eth5addr=NULL
+ipaddr=10.19.1.194
+serverip=172.18.101.141
+autoload=NULL
+preboot=NULL
+rootpath=NULL
+gatewayip=10.19.1.254
+netmask=255.255.254.0
+hostname=NULL
+bootfile=uImage
+loadaddr=NULL
+clocks_in_mhz=NULL
+pcidelay=NULL

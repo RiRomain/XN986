@@ -1,0 +1,11 @@
+prefix=/media/data/hudson_build/32bitProduct_SN986_1.50/ST58600_SRC/middleware/zbar-0.10/src/zbar-0.10-lib/_install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: zbar
+Description: bar code scanning and decoding
+URL: http://zbar.sourceforge.net
+Version: 0.10
+Libs: -L${libdir} -lzbar
+Cflags: -I${includedir}

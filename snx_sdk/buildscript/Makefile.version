@@ -1,0 +1,8 @@
+alias  := a
+prefix          := master
+date  := 20151022
+time  := 1049
+number          := 1
+revision  := 037
+build  := 72
+sdk_version     := $(prefix)_$(revision)$(alias)_$(date)_$(time)

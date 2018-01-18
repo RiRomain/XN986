@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ $ACTION = "add" ]; then
+	mkdir -p /media/$MDEV
+	mount /dev/$MDEV /media/$MDEV
+else
+	umount /media/$MDEV
+	rmdir /media/$MDEV
+fi

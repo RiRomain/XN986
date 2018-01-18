@@ -1,0 +1,141 @@
+#!/bin/sh
+#/copy_shared_library $(FS_DIR) $(CROSSTOOL_DIR) $(MIDDLEWARE_INS_DIR)
+
+#copy_library $lib_src_dir $lib_dst_dir $lib_name
+function copy_library()
+{
+	lib_src_file=`find $1 -name $3`
+	if [ -n "$lib_src_file" ]; then
+#		echo "cp $lib_src_file $2"
+		cp $lib_src_file $2
+		if [ $? -ne 0 ]; then
+			echo "Fail to copy '$3' library"
+			echo "Source file: $lib_src_file"
+			echo "Destination folder: $2"
+			exit 255
+		fi
+	else
+		return 1
+	fi
+
+	return 0
+}
+
+if [ $# -eq 2 ]
+then
+	filesystem_dir=$1
+	crosstool_dir=$2
+elif [ $# -eq 3 ]
+then
+	filesystem_dir=$1
+	crosstool_dir=$2
+	middleware_ins_dir=$3
+	middleware_lib_dir=$middleware_ins_dir/lib
+	if ! [ -d $middleware_lib_dir ]; then
+		echo "fold: $middleware_lib_dir isn't exist"
+		exit 1
+	fi
+else
+	echo "$0 <filesystem dir> <crosstool dir> [middleware install dir]"
+	exit 2
+fi
+
+lib_dst_dir=$filesystem_dir/lib
+if ! [ -d $lib_dst_dir ]; then
+	install -d $lib_dst_dir
+fi
+
+crosstool_lib_dir=$crosstool_dir/arm-linux/sysroot/lib
+if ! [ -d $crosstool_lib_dir ]; then
+	echo "fold: $crosstool_lib_dir isn't exist"
+	exit 3
+fi
+crosstool_usr_lib_dir=$crosstool_dir/arm-linux/sysroot/usr/lib
+if ! [ -d $crosstool_usr_lib_dir ]; then
+	echo "fold: $crosstool_usr_lib_dir isn't exist"
+	exit 4
+fi
+shared_libs=`find $filesystem_dir -type f -exec arm-linux-readelf -d {} + 2>/dev/null | grep '.*Shared library:.*\[.*\].*' | sed 's/.*\[\(.*\)\].*/\1/p' | sort | uniq`
+#find $filesystem_dir -type f -exec arm-linux-readelf -d {} + 2>/dev/null
+
+for loop in $shared_libs
+do
+	lib_name=`echo ${loop##*/}`
+#	echo $lib_name
+#	continue
+	copy_library $crosstool_lib_dir $lib_dst_dir $lib_name
+	if [ $? -eq 0 ]; then
+		continue
+	fi
+	
+	copy_library $crosstool_usr_lib_dir $lib_dst_dir $lib_name
+	if [ $? -eq 0 ]; then
+		continue
+	fi
+
+	if [ $# -eq 3 ]; then
+		copy_library $middleware_lib_dir $lib_dst_dir $lib_name
+		if [ $? -eq 0 ]; then
+			continue
+		fi
+	fi
+
+	if [ -f $lib_dst_dir/$lib_name ]; then
+		continue
+	fi
+
+	echo "Fail to find '$lib_name' library"
+	exit 5
+done
+
+
+count=0
+lib_copy=1
+while [ $lib_copy -ne 0 ]
+do
+	lib_copy=0
+	let count++
+	shared_libs=`find $lib_dst_dir -type f -exec arm-linux-readelf -d {} + 2>/dev/null | grep '.*Shared library:.*\[.*\].*' | sed 's/.*\[\(.*\)\].*/\1/p' | sort | uniq`
+	for loop in $shared_libs
+	do
+		lib_name=`echo ${loop##*/}`
+#		echo $lib_name
+#		continue
+		if [ -f $lib_dst_dir/$lib_name ]; then
+			continue
+		fi
+
+		echo "Dependence '$lib_name' library"
+
+		copy_library $crosstool_lib_dir $lib_dst_dir $lib_name
+		if [ $? -eq 0 ]; then
+			lib_copy=1
+			continue
+		fi
+	
+		copy_library $crosstool_usr_lib_dir $lib_dst_dir $lib_name
+		if [ $? -eq 0 ]; then
+			lib_copy=1
+			continue
+		fi
+
+		if [ $# -eq 3 ]; then
+			copy_library $middleware_lib_dir $lib_dst_dir $lib_name
+			if [ $? -eq 0 ]; then
+				lib_copy=1
+				continue
+			fi
+		fi
+
+		echo "Fail to find '$lib_name' library"
+		exit 7
+	done
+
+	if [ $count -eq 10 ]; then
+		echo "Too much recursion!"
+		exit 8
+	fi
+done
+
+
+exit 0

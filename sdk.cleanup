@@ -1,0 +1,50 @@
+#!/bin/sh
+source script_lib/script.lib
+
+ECHO "Cleanup SDK" COLOR_YELLOW
+
+if [ "$#" -eq "0" ]
+then
+	WARN "ALL THE SOUCE FILES WILL BE DELETED, FILES YOU MOTIFIED WILL BE LOST !!!"
+	ECHO ""
+	ECHO "To continue, type 'y' or 'Y'  and then press ENTER ..."
+	read choice
+	if [ $choice != Y ] && [ $choice != y ]
+	then 
+		exit 1;
+	fi
+	
+	run_command "rm snx_sdk -frv" 0 "find snx_sdk | wc -l"
+	exit 0
+elif [ "$#" -eq "2" ]
+then
+	search_path="snx_sdk/$2"
+	pushd $search_path >/dev/null
+	module_path=`find ./ -name "$1" -print`
+elif [ "$#" -eq "1" ]
+then
+	search_path="snx_sdk"
+	pushd $search_path >/dev/null
+	module_path=`find ./ -maxdepth 1 -name "$1" -print`
+else 
+	ERR "wrong params !!!"
+	exit 1
+fi
+		
+	if [ -z "$module_path" ]
+	then 
+		ERR "Wrong module path $search_path/$1 !!!"
+		exit 1
+	fi
+	WARN "THE MODULE $search_path/$1 FILES WILL BE DELETED, FILES YOU MOTIFIED WILL BE LOST !!!"
+	ECHO ""
+	ECHO "To continue, type 'y' or 'Y' and then press ENTER ..."
+	read choice
+	if [ $choice != Y ] && [ $choice != y ]
+	then 
+		exit 1;
+	fi	
+	run_command "rm $module_path -frv" 0 "find $module_path | wc -l"
+	popd >/dev/null
+	 
+

@@ -1,0 +1,6 @@
+<!-- discovery config -->
+
+<!-- 是否禁用设备发现服务 -->
+<disabled>0</disabled>
+<!-- 设备发现服务范围 -->
+<scopes>onvif://www.onvif.org/type/video_encoder onvif://www.onvif.org/type/ptz onvif://www.onvif.org/type/audio_encoder onvif://www.onvif.org/hardware/M1054 onvif://www.onvif.org/name/AXIS%20M1054 onvif://www.onvif.org/location/</scopes>

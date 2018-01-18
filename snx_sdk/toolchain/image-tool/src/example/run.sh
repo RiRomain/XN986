@@ -1,0 +1,12 @@
+../code/image_tool          \
+	-e ../header/header.bin \
+	-f ./flash_info.txt     \
+	-h ./hw_setting.txt     \
+	-u ./u-boot.bin         \
+	-n ./u-boot-env.bin		\
+	-l ./flash_layout.bin	\
+	-t ./factory.bin		\
+	-g ./ulogo.bin			\
+	-s ./rescue.bin         \
+	-v 0x12345678           \
+	-o ./

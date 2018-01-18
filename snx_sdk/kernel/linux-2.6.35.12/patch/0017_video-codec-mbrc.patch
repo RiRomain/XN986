@@ -1,0 +1,51 @@
+diff --git a/src/drivers/media/video/videobuf2-core.c b/src/drivers/media/video/videobuf2-core.c
+old mode 100644
+new mode 100755
+index 268c7dd..bd447e7
+--- a/src/drivers/media/video/videobuf2-core.c
++++ b/src/drivers/media/video/videobuf2-core.c
+@@ -340,7 +340,12 @@ static int __fill_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b)
+ 	memcpy(b, &vb->v4l2_buf, offsetof(struct v4l2_buffer, m));
+ 	b->reserved2 = vb->v4l2_buf.reserved2;
+ 	b->reserved = vb->v4l2_buf.reserved;
+-
++	b->vc_mbrc.snx_video_codec_mbrc_qp_part = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_qp_part;
++	b->vc_mbrc.snx_video_codec_mbrc_mad_sum = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_mad_sum;
++	b->vc_mbrc.snx_video_codec_mbrc_bs_actual0 = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_bs_actual0;
++	b->vc_mbrc.snx_video_codec_mbrc_bs_actual1 = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_bs_actual1;
++	b->vc_mbrc.snx_video_codec_mbrc_bs_actual2 = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_bs_actual2;
++	b->vc_mbrc.snx_video_codec_mbrc_bs_actual3 = vb->v4l2_buf.vc_mbrc.snx_video_codec_mbrc_bs_actual3;
+ 	if (V4L2_TYPE_IS_MULTIPLANAR(q->type)) {
+ 		ret = __verify_planes_array(vb, b);
+ 		if (ret)
+
+diff --git a/src/include/linux/videodev2.h b/src/include/linux/videodev2.h
+old mode 100644
+new mode 100755
+index 558aebb..b3a428e
+--- a/src/include/linux/videodev2.h
++++ b/src/include/linux/videodev2.h
+@@ -616,6 +616,15 @@ struct v4l2_plane {
+ 	__u32			reserved[11];
+ };
+ 
++struct snx_vc_mbrc{
++	__u32			snx_video_codec_mbrc_qp_part;
++	__u32			snx_video_codec_mbrc_mad_sum;
++	__u32			snx_video_codec_mbrc_bs_actual0;
++	__u32			snx_video_codec_mbrc_bs_actual1;
++	__u32			snx_video_codec_mbrc_bs_actual2;
++	__u32			snx_video_codec_mbrc_bs_actual3;
++};
++
+ /**
+  * struct v4l2_buffer - video buffer info
+  * @index:	id number of the buffer
+@@ -665,6 +674,7 @@ struct v4l2_buffer {
+ 	__u32			length;
+ 	__u32			reserved2;
+ 	__u32			reserved;
++	struct snx_vc_mbrc	vc_mbrc;
+ };
+ 
+ /*  Flags for 'flags' field */

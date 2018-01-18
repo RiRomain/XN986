@@ -1,0 +1,43 @@
+diff --git a/src/arch/arm/include/asm/resource.h b/src/arch/arm/include/asm/resource.h
+index 734b581..8489999 100644
+--- a/src/arch/arm/include/asm/resource.h
++++ b/src/arch/arm/include/asm/resource.h
+@@ -1,6 +1,9 @@
+ #ifndef _ARM_RESOURCE_H
+ #define _ARM_RESOURCE_H
+ 
++#define _STK_LIM               (1024*1024)
++#define _STK_LIM_MAX		RLIM_INFINITY
++
+ #include <asm-generic/resource.h>
+ 
+ #endif
+diff --git a/src/include/asm-generic/resource.h b/src/include/asm-generic/resource.h
+index 587566f..6c74105 100644
+--- a/src/include/asm-generic/resource.h
++++ b/src/include/asm-generic/resource.h
+@@ -64,6 +64,11 @@
+ # define _STK_LIM_MAX		RLIM_INFINITY
+ #endif
+ 
++#ifndef _STK_LIM
++# define _STK_LIM              (8*1024*1024)
++#endif
++
++
+ #ifdef __KERNEL__
+ 
+ /*
+diff --git a/src/include/linux/resource.h b/src/include/linux/resource.h
+index f1e914e..f2dfec0 100644
+--- a/src/include/linux/resource.h
++++ b/src/include/linux/resource.h
+@@ -54,7 +54,7 @@ struct rlimit {
+  * Limit the stack by to some sane default: root can always
+  * increase this limit if needed..  8MB seems reasonable.
+  */
+-#define _STK_LIM	(8*1024*1024)
++/* #define _STK_LIM	(8*1024*1024) */
+ 
+ /*
+  * GPG2 wants 64kB of mlocked memory, to make sure pass phrases

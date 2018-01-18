@@ -1,0 +1,13 @@
+/root/etc_default/SNIP39/default.conf
+/root/etc_default/SNIP39/EyeOn39.conf
+/root/etc_default/SNIP39/hostapd_wpa2.conf
+/root/etc_default/SNIP39/SNIP39_UID.conf
+/root/etc_default/SNIP39/SNIP39_VERSION.conf
+/root/etc_default/SNIP39/udhcpd.conf
+/root/etc_default/SNIP39/uidbackup.conf
+/root/etc_default/SNIP39/wpa_supplicant.conf
+/root/etc_default/resolv.conf
+/root/etc_default/download_fw_info
+/root/etc_default/upgrade_flag
+/root/etc_default/camera_config
+/root/etc_default/SNIP39/wifi_info

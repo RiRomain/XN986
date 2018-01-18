@@ -1,0 +1,48 @@
+<config>
+	<!-- NVT设备基本信息 -->
+	<device id="uuid:4fe963b6-e06a-409b-8000-276900005c05">
+		<firmware-version>2.3</firmware-version>
+		<serial>3487457jduy3s927</serial>
+		<model>TestModel</model>
+		<manufacturer>Test Manufacturer</manufacturer>
+		<hw-id>hwid:94727439293ldkjd</hw-id>
+	</device>
+	<!-- wsdd服务专用配置 -->
+	<wsdd src="./wsdd.xml" />
+	<!-- 网络配置	-->
+	<network src="./network.xml" />
+	<onvif>
+		<!-- 设备发现服务器配置 -->
+		<serv>
+			<multicast>239.255.255.250</multicast>
+			<port>3702</port>
+		</serv>
+		<!-- ONVIF服务地址配置 -->
+		<service>
+			<protocol>http</protocol>
+			<path>/onvif/device_service</path>
+		</service>
+		<!-- 设备发现通用配置 -->
+		<discovery src="./discovery.xml" />
+		<!-- 用户配置	-->
+		<users src="./users.xml" />
+	</onvif>
+	<!--
+		stream是为流媒体相关的配置
+		type参数控制流媒体服务器地址生成策略.
+		为0时,ONVIF在获取视频地址时,会向流媒体服务器查询(我方实现的媒体服务器可以支持).
+		为1时,ONVIF在获取视频地址时,直接读取profiles.xml中的具体映射地址.比如<mapped-url>/99.3gp</mapped-url>.
+	-->
+	<stream type="0">
+		<!-- 媒体服务器基本配置 -->
+		<serv src="./stream-serv.xml" />
+		<!-- 设备配置,视频源,音频源,编码/解码器,PTZ设备,IO设备 -->
+		<fpga_sources src="./fpga_sources.xml" />
+		<asic_sources src="./asic_sources.xml" />
+		<!-- 流媒体配置 -->
+		<profiles src="./profiles.xml" />
+		<!-- snapshot开关配置 -->
+		<snapshots src="./snapshots.xml" />
+	</stream>
+	<log src="./log.xml" />
+</config>

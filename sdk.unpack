@@ -1,0 +1,42 @@
+#!/bin/sh
+source script_lib/script.lib
+
+ECHO "Unpacking SDK" COLOR_YELLOW
+
+if [ "$#" -eq "0" ]
+then
+	pushd package >/dev/null
+	tar_module_type ".tgz" "../snx_sdk"
+	popd >/dev/null
+	exit 0
+elif [ "$#" -eq "2" ]
+then
+	search_path="package/$2"
+	pushd $search_path >/dev/null
+	module_path=`find ./ -name "$1.tgz" -print`
+	popd >/dev/null
+elif [ "$#" -eq "1" ]
+then
+	search_path="package"
+	pushd $search_path >/dev/null
+	module_path=`find ./ -maxdepth 1 -name "$1.tgz" -print`
+	popd >/dev/null
+else
+	ERR "wrong params !!!"
+	exit 1
+fi
+		
+if [ -z "$module_path" ]
+then 
+	ERR "Wrong module type $search_path/$1 !!!"
+	exit 1
+fi
+
+str=`echo ${module_path#*/}`
+module_path=$search_path/$str
+str=`echo ${module_path#*/}`
+str=snx_sdk/$str
+dst_path=`echo ${str%/*}`
+run_command "tar -xvzf $module_path -C $dst_path" 0 "tar -tzf $module_path | wc -l"
+
+

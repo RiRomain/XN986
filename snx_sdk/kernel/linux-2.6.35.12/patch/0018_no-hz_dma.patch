@@ -1,0 +1,515 @@
+diff --git a/src/arch/arm/Kconfig b/src/arch/arm/Kconfig
+index a5e3f1e..dfe0e79 100644
+--- a/src/arch/arm/Kconfig
++++ b/src/arch/arm/Kconfig
+@@ -635,6 +635,7 @@ config ARCH_SN986XX
+ 	select CPU_ARM926T
+ 	select ARCH_USES_GETTIMEOFFSET
+ 	select HAVE_TCM
++	select GENERIC_CLOCKEVENTS	
+ 	help
+ 	   Support for SONiX SN986XX based board.
+ # << Add at 2011/05/06 by yanjie_yang
+@@ -1217,6 +1218,7 @@ config HZ
+ 	default 128 if ARCH_L7200
+ 	default 200 if ARCH_EBSA110 || ARCH_S3C2410 || ARCH_S5P6440 || ARCH_S5P6442 || ARCH_S5PV210
+ 	default OMAP_32K_TIMER_HZ if ARCH_OMAP && OMAP_32K_TIMER
++	default SNX_TIMER_HZ if ARCH_SN986XX
+ 	default AT91_TIMER_HZ if ARCH_AT91
+ 	default 100
+ 
+diff --git a/src/arch/arm/configs/sn98360a_sf_defconfig b/src/arch/arm/configs/sn98360a_sf_defconfig
+index edb1a7f..b4b7323 100755
+--- a/src/arch/arm/configs/sn98360a_sf_defconfig
++++ b/src/arch/arm/configs/sn98360a_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig b/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
+index 6ae1729..2a4ba94 100755
+--- a/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
++++ b/src/arch/arm/configs/sn98600_ip2_xilinx_v5_defconfig
+@@ -276,6 +276,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_ltp_defconfig b/src/arch/arm/configs/sn98600_ltp_defconfig
+index 5625e19..8a88d2d 100755
+--- a/src/arch/arm/configs/sn98600_ltp_defconfig
++++ b/src/arch/arm/configs/sn98600_ltp_defconfig
+@@ -312,6 +312,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_nand_defconfig b/src/arch/arm/configs/sn98600_nand_defconfig
+index 01f0c27..a45e763 100755
+--- a/src/arch/arm/configs/sn98600_nand_defconfig
++++ b/src/arch/arm/configs/sn98600_nand_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_sf_defconfig b/src/arch/arm/configs/sn98600_sf_defconfig
+index a5fc4fe..b91ff7b 100755
+--- a/src/arch/arm/configs/sn98600_sf_defconfig
++++ b/src/arch/arm/configs/sn98600_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_sf_ltp_defconfig b/src/arch/arm/configs/sn98600_sf_ltp_defconfig
+index 52e3b5f..595d694 100755
+--- a/src/arch/arm/configs/sn98600_sf_ltp_defconfig
++++ b/src/arch/arm/configs/sn98600_sf_ltp_defconfig
+@@ -291,6 +291,10 @@ CONFIG_ARM_FCSE_BEST_EFFORT=y
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98600_usb_defconfig b/src/arch/arm/configs/sn98600_usb_defconfig
+index 0c84149..baa1c8c 100755
+--- a/src/arch/arm/configs/sn98600_usb_defconfig
++++ b/src/arch/arm/configs/sn98600_usb_defconfig
+@@ -282,7 +282,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ 
+ #
+ # Kernel Features
+-#
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y#
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98601_nand_defconfig b/src/arch/arm/configs/sn98601_nand_defconfig
+index 41be989..27214a7 100755
+--- a/src/arch/arm/configs/sn98601_nand_defconfig
++++ b/src/arch/arm/configs/sn98601_nand_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98601_sf_defconfig b/src/arch/arm/configs/sn98601_sf_defconfig
+index 760c307..cc08cf4 100755
+--- a/src/arch/arm/configs/sn98601_sf_defconfig
++++ b/src/arch/arm/configs/sn98601_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98605_sf_defconfig b/src/arch/arm/configs/sn98605_sf_defconfig
+index a5fc4fe..b91ff7b 100755
+--- a/src/arch/arm/configs/sn98605_sf_defconfig
++++ b/src/arch/arm/configs/sn98605_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98610_nand_defconfig b/src/arch/arm/configs/sn98610_nand_defconfig
+index cb8e7eb..cf513bd 100755
+--- a/src/arch/arm/configs/sn98610_nand_defconfig
++++ b/src/arch/arm/configs/sn98610_nand_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98610_sf_defconfig b/src/arch/arm/configs/sn98610_sf_defconfig
+index e14e785..1ad6cd2 100755
+--- a/src/arch/arm/configs/sn98610_sf_defconfig
++++ b/src/arch/arm/configs/sn98610_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn98660_sf_defconfig b/src/arch/arm/configs/sn98660_sf_defconfig
+index 752d863..2a82488 100755
+--- a/src/arch/arm/configs/sn98660_sf_defconfig
++++ b/src/arch/arm/configs/sn98660_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+index ec9dee8..a7d45e4 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+index 5f161e7..8616872 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+@@ -281,6 +281,10 @@ CONFIG_ARM_L1_CACHE_SHIFT=5
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/configs/sn986xx_rescue_defconfig b/src/arch/arm/configs/sn986xx_rescue_defconfig
+index 802d27b..dd13f05 100755
+--- a/src/arch/arm/configs/sn986xx_rescue_defconfig
++++ b/src/arch/arm/configs/sn986xx_rescue_defconfig
+@@ -300,6 +300,10 @@ CONFIG_ARM_FCSE_BEST_EFFORT=y
+ #
+ # Kernel Features
+ #
++CONFIG_TICK_ONESHOT=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+ CONFIG_VMSPLIT_3G=y
+ # CONFIG_VMSPLIT_2G is not set
+ # CONFIG_VMSPLIT_1G is not set
+diff --git a/src/arch/arm/mach-sn986xx/Kconfig b/src/arch/arm/mach-sn986xx/Kconfig
+index 71e830f..13d35e5 100644
+--- a/src/arch/arm/mach-sn986xx/Kconfig
++++ b/src/arch/arm/mach-sn986xx/Kconfig
+@@ -48,6 +48,12 @@ config TICK_CLOCK_RATIO
+ 	  Manual setting of tick clock frequency ratio. 
+ 	  Tick clock frequency should be equal to APB clock frequency.
+ 
++config SNX_TIMER_HZ
++	int "Set system_HZ"
++	default 100
++	help
++	  Manual setting for HZ
++
+ config SPECIAL_HW_TIMER
+ 	bool "Support special hardware timer"
+ 	help
+diff --git a/src/arch/arm/mach-sn986xx/time.c b/src/arch/arm/mach-sn986xx/time.c
+index 7d0a8d0..02924dd 100644
+--- a/src/arch/arm/mach-sn986xx/time.c
++++ b/src/arch/arm/mach-sn986xx/time.c
+@@ -11,6 +11,7 @@
+ #include <linux/module.h>
+ #include <linux/interrupt.h>
+ #include <linux/irq.h>
++#include <linux/clockchips.h>
+ 
+ #include <linux/io.h>
+ #include <linux/spinlock.h>
+@@ -49,6 +50,28 @@ static struct clocksource clksrc_ftclock = {
+         .flags          = CLOCK_SOURCE_IS_CONTINUOUS,
+ };
+ 
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++#define MAX_DELTA		(0xfffffffe)
++#define MIN_DELTA		(16)
++
++static int snx_timer_set_next_event(unsigned long delta,
++				struct clock_event_device *dev);
++static void snx_timer_set_mode(enum clock_event_mode mode,
++			   struct clock_event_device *dev);
++			   
++static struct clock_event_device clk_event = {
++	.name		= "clockevent",
++	.features	= CLOCK_EVT_FEAT_ONESHOT,
++	.shift		= 32,
++	.rating		= 200,
++//	.set_next_event	= timer_set_next_event,
++//	.set_mode	= timer_set_mode,
++	.set_next_event	= snx_timer_set_next_event,
++	.set_mode	= snx_timer_set_mode,
++
++};
++#endif
++
+ int init_timestamp_buf(void)
+ {
+ 	timestamp_prt = kmalloc(TOTAL_COUNT * 8, GFP_KERNEL);
+@@ -131,6 +154,8 @@ struct sonix_hw_timer
+ 	spinlock_t lock;
+ };
+ 
++
++
+ struct sonix_hw_timer snx_hw_timer[SPECIAL_TIMER_NUM];
+ 
+ /**
+@@ -582,6 +607,8 @@ static unsigned long snx_gettimeoffset (void)
+ 	return usec;
+ }
+ 
++
++
+ /** \fn static irqreturn_t snx_timer_interrupt(int irq, void *dev_id)
+  * \brief IRQ handler of timer
+  */
+@@ -594,7 +621,15 @@ static irqreturn_t snx_timer_interrupt (int irq, void *dev_id)
+ //	BUG_ON(!irqs_disabled());	// mingfeng
+ 
+ 	writel (CLR_TM1OF, TIMER_INTRFLAG);
++
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++	struct clock_event_device *c = dev_id;
++//	writel (0x0, TIMER_CTRL);
++
++	c->event_handler(c);
++#else
+ 	timer_tick ();
++#endif
+ 
+ #ifdef CONFIG_SPECIAL_HW_TIMER
+ 	/* clear the interrupt of timer overflow */
+@@ -623,6 +658,9 @@ static struct irqaction snx_timer_irq = {
+ 	.name		= "snx-timer",
+ 	.flags		= IRQF_DISABLED | IRQF_TIMER,
+ 	.handler	= snx_timer_interrupt,
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++	.dev_id		= &clk_event,
++#endif
+ };
+ 
+ /** \fn static void __init snx_timer_setup(void)
+@@ -630,11 +668,27 @@ static struct irqaction snx_timer_irq = {
+  */
+ static void __init snx_timer_setup (void)
+ {
++	unsigned int timer_ctl;
++	unsigned int value;
++	
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++	timer_ctl = readl (TIMER_CTRL);	
++	value =  timer_ctl & (TM2ENABLE | TM2OFENABLE | TM2UPDOWN | TM2CLOCK );
++	
++	/* disalble timer1/3 */
++	writel (value, TIMER_CTRL);
++	
++	/* clear timer1/3 */
++	value = (CLR_TM1MATCH1 | CLR_TM1MATCH2 | CLR_TM1OF 
++			| CLR_TM3MATCH1 | CLR_TM3MATCH2 | CLR_TM3OF);
++	writel (value, TIMER_INTRFLAG);
++
++#else
+ 	/* disalble timer1/2/3 */
+ 	writel (0x0, TIMER_CTRL);
+ 	/* clear timer1/2/3 */
+ 	writel (CLR_TM_INT_STS, TIMER_INTRFLAG);
+-
++#endif
+ 	/* setup counter value for the first time */
+ 	writel (LATCH, TIMER1_COUNT);
+ 	/* setup load value */
+@@ -644,13 +698,21 @@ static void __init snx_timer_setup (void)
+ 
+ 	/* enbale timer1, overflow, count down */
+ 	//writel ((TM1ENABLE | TM1OFENABLE | TM3OFENABLE | TM3ENABLE | TM3UPDOWN) & (~(TM1CLOCK | TM1UPDOWN)), TIMER_CTRL);
+-//#ifdef CONFIG_SYSTEM_PLATFORM_ST58660FPGA
++
+ #if defined(CONFIG_SYSTEM_PLATFORM_ST58660FPGA) || defined(CONFIG_SYSTEM_PLATFORM_SN98660)
+-	if (APB_CLK >= MAX_ST58660_APB)
+-		writel ((((TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~ TM1UPDOWN)) | (TM1CLOCK | TM3CLOCK)), TIMER_CTRL);
++	if (APB_CLK >= MAX_ST58660_APB) {
++		value = timer_ctl | (((TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~ TM1UPDOWN)) | (TM1CLOCK | TM3CLOCK));
++		writel (value, TIMER_CTRL);
++//		writel ((((TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~ TM1UPDOWN)) | (TM1CLOCK | TM3CLOCK)), TIMER_CTRL);
++		
++	}
+ 	else
+ #endif
+-		writel ((TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~(TM1CLOCK | TM1UPDOWN | TM3CLOCK)), TIMER_CTRL);
++	{
++		value = (TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~(TM1CLOCK | TM1UPDOWN | TM3CLOCK));
++		writel (value, TIMER_CTRL);
++//		writel ((TM1ENABLE | TM1OFENABLE | TM3ENABLE | TM3UPDOWN) & (~(TM1CLOCK | TM1UPDOWN | TM3CLOCK)), TIMER_CTRL);
++	}
+ }
+ 
+ /** \fn static void __init snx_timer_init(void)
+@@ -666,6 +728,14 @@ static void __init snx_timer_init (void)
+ #endif
+ 		timer_clock = APB_CLK;
+ 	
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++	clk_event.mult = div_sc(CLOCK_TICK_RATE, NSEC_PER_SEC, clk_event.shift);
++	clk_event.max_delta_ns = clockevent_delta2ns(MAX_DELTA, &clk_event);
++	clk_event.min_delta_ns = clockevent_delta2ns(MIN_DELTA, &clk_event);
++	clk_event.cpumask = cpumask_of(0);
++	clockevents_register_device(&clk_event);
++#endif	
++	
+ 	clksrc_ftclock.mult = clocksource_hz2mult((LATCH * HZ), clksrc_ftclock.shift);
+ 	/*
+          * We want an even value to automatically clear the top bit
+@@ -678,8 +748,9 @@ static void __init snx_timer_init (void)
+ 	snx_clock_init();
+ 
+ 	/* setup timer */
++#ifndef CONFIG_GENERIC_CLOCKEVENTS
+ 	snx_timer_setup ();
+-
++#endif
+ 	/* Init log timestamp buffer */
+ 	init_timestamp_buf();
+ 
+@@ -704,3 +775,51 @@ unsigned long long sched_clock(void)
+ 	return clocksource_cyc2ns(v, clksrc_ftclock.mult ,clksrc_ftclock.shift);
+ }
+ 
++#ifdef CONFIG_GENERIC_CLOCKEVENTS
++
++/** \fn static void snx_timer_set_mode(enum clock_event_mode mode, struct clock_event_device *dev)
++ * \brief timer event set mode
++ */
++static void snx_timer_set_mode(enum clock_event_mode mode,
++			   struct clock_event_device *dev)
++{
++	unsigned long flags;
++
++	local_irq_save(flags);
++	switch (mode) {
++	case CLOCK_EVT_MODE_ONESHOT:
++	case CLOCK_EVT_MODE_UNUSED:
++	case CLOCK_EVT_MODE_SHUTDOWN:
++		/* disable the matching interrupt */
++		//
++		break;
++	case CLOCK_EVT_MODE_RESUME:
++	case CLOCK_EVT_MODE_PERIODIC:
++		break;
++	}
++	local_irq_restore(flags);
++}
++
++/** \fn static int snx_timer_set_next_event(unsigned long delta, struct clock_event_device *dev)
++ * \brief timer set next event
++ */
++static int snx_timer_set_next_event(unsigned long delta,
++				struct clock_event_device *dev)
++{
++	unsigned long flags, next;
++
++	local_irq_save(flags);
++
++	/* clear pending interrupt status and enable */
++//	__raw_writel(0x01, TIMERS_VIRT_BASE + TMR_ICR(0));
++//	__raw_writel(0x01, TIMERS_VIRT_BASE + TMR_IER(0));
++//	next = timer_read() + delta;
++//	__raw_writel(next, TIMERS_VIRT_BASE + TMR_TN_MM(0, 0));
++
++	next = readl(TIMER3_COUNT) + delta;
++	snx_timer_setup ();
++
++	local_irq_restore(flags);
++	return 0;
++}
++#endif
+\ No newline at end of file
+diff --git a/src/include/linux/async_tx.h b/src/include/linux/async_tx.h
+index a1c486a..78fc53b 100644
+--- a/src/include/linux/async_tx.h
++++ b/src/include/linux/async_tx.h
+@@ -183,6 +183,13 @@ async_memcpy(struct page *dest, struct page *src, unsigned int dest_offset,
+ 	     struct async_submit_ctl *submit);
+ 
+ struct dma_async_tx_descriptor *
++snx_async_memcpy(struct page *dest, struct page *src, unsigned int dest_offset,
++	     unsigned int src_offset, size_t len,
++	     dma_addr_t dma_dest, dma_addr_t dma_src,
++	     struct async_submit_ctl *submit);
++
++
++struct dma_async_tx_descriptor *
+ async_memset(struct page *dest, int val, unsigned int offset,
+ 	     size_t len, struct async_submit_ctl *submit);
+ 

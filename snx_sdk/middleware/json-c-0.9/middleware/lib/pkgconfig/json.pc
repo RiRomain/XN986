@@ -1,0 +1,11 @@
+prefix=/media/data/hudson_build/32bitProduct_SN986_1.50/ST58600_SRC/middleware/json-c-0.9/middleware
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: json
+Description: JSON implementation in C
+Version: 0.9
+Requires: 
+Libs:  -L${libdir} -ljson
+Cflags: -I${includedir}/json

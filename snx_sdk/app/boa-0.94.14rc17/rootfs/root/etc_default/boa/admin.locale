@@ -1,0 +1,5 @@
+# Locale define for WebAdmin module
+# do not edit it manually
+# JA or zh_CN.GB2312 
+# add locale 'C' 2006.12.08
+ADMIN_LOCALE=zh_CN.GB2312

@@ -1,0 +1,426 @@
+diff --git a/src/arch/arm/configs/sn98600_nand_defconfig b/src/arch/arm/configs/sn98600_nand_defconfig
+index 33d929a..81405dc 100755
+--- a/src/arch/arm/configs/sn98600_nand_defconfig
++++ b/src/arch/arm/configs/sn98600_nand_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98600_sf_defconfig b/src/arch/arm/configs/sn98600_sf_defconfig
+index 50e4e32..94048a1 100755
+--- a/src/arch/arm/configs/sn98600_sf_defconfig
++++ b/src/arch/arm/configs/sn98600_sf_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98605_sf_defconfig b/src/arch/arm/configs/sn98605_sf_defconfig
+index 50e4e32..94048a1 100755
+--- a/src/arch/arm/configs/sn98605_sf_defconfig
++++ b/src/arch/arm/configs/sn98605_sf_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98600_usb_defconfig b/src/arch/arm/configs/sn98600_usb_defconfig
+index 89f8e7c..30c02d9 100755
+--- a/src/arch/arm/configs/sn98600_usb_defconfig
++++ b/src/arch/arm/configs/sn98600_usb_defconfig
+@@ -248,6 +248,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98601_nand_defconfig b/src/arch/arm/configs/sn98601_nand_defconfig
+index d81291b..40d027b 100755
+--- a/src/arch/arm/configs/sn98601_nand_defconfig
++++ b/src/arch/arm/configs/sn98601_nand_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98601_sf_defconfig b/src/arch/arm/configs/sn98601_sf_defconfig
+index 2896cdf..7a85139 100755
+--- a/src/arch/arm/configs/sn98601_sf_defconfig
++++ b/src/arch/arm/configs/sn98601_sf_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98610_nand_defconfig b/src/arch/arm/configs/sn98610_nand_defconfig
+index 2ceb309..fc99429 100755
+--- a/src/arch/arm/configs/sn98610_nand_defconfig
++++ b/src/arch/arm/configs/sn98610_nand_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn98610_sf_defconfig b/src/arch/arm/configs/sn98610_sf_defconfig
+index 2d29071..fb6e218 100755
+--- a/src/arch/arm/configs/sn98610_sf_defconfig
++++ b/src/arch/arm/configs/sn98610_sf_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=744000000
+ CONFIG_TICK_CLOCK_RATIO=32
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+index 3d1b6f3..b75f5d8 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_nand_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=100000000
+ CONFIG_TICK_CLOCK_RATIO=8
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+index eb4edc5..c1402c9 100755
+--- a/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
++++ b/src/arch/arm/configs/sn986xx_fpga_sf_defconfig
+@@ -247,6 +247,7 @@ CONFIG_PLL_CLK=100000000
+ CONFIG_TICK_CLOCK_RATIO=8
+ CONFIG_SPECIAL_HW_TIMER=y
+ # CONFIG_SNX_LOG_TIMESTAMP is not set
++CONFIG_PRE_ALLOCATE_ALGO_ENHANCE=y
+ 
+ #
+ # Processor Type
+diff --git a/src/arch/arm/mach-sn986xx/Kconfig b/src/arch/arm/mach-sn986xx/Kconfig
+index 4071e00..3962ae3 100644
+--- a/src/arch/arm/mach-sn986xx/Kconfig
++++ b/src/arch/arm/mach-sn986xx/Kconfig
+@@ -54,4 +54,9 @@ config SNX_LOG_TIMESTAMP
+ 	     up to you
+ 	  3. Read /proc/snx_timestamp to trace system
+ 
++config PRE_ALLOCATE_ALGO_ENHANCE
++	bool "Enhance Linux pre-allocate memory algorithm"
++	default y
++	help
++	  Enhance algorithm for Linux pre-allocate memory on the device.
+ endmenu
+diff --git a/src/arch/arm/mm/dma-mapping.c b/src/arch/arm/mm/dma-mapping.c
+index 9e7742f..f8c6be0 100644
+--- a/src/arch/arm/mm/dma-mapping.c
++++ b/src/arch/arm/mm/dma-mapping.c
+@@ -309,10 +309,13 @@ void *
+ dma_alloc_coherent(struct device *dev, size_t size, dma_addr_t *handle, gfp_t gfp)
+ {
+ 	void *memory;
+-
++#ifndef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
+ 	if (dma_alloc_from_coherent(dev, size, handle, &memory))
+ 		return memory;
+-
++#else
++	if (dma_alloc_from_coherent_page(dev, size, handle, &memory))
++		return memory;
++#endif
+ 	return __dma_alloc(dev, size, handle, gfp,
+ 			   pgprot_dmacoherent(pgprot_kernel));
+ }
+@@ -382,12 +385,15 @@ EXPORT_SYMBOL(dma_mmap_writecombine);
+ void dma_free_coherent(struct device *dev, size_t size, void *cpu_addr, dma_addr_t handle)
+ {
+ 	WARN_ON(irqs_disabled());
+-
++#ifndef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE 
+ 	if (dma_release_from_coherent(dev, get_order(size), cpu_addr))
+ 		return;
+-
++#endif
+ 	size = PAGE_ALIGN(size);
+-
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++	if (dma_release_from_coherent_page(dev, size >> PAGE_SHIFT, cpu_addr))
++		return;
++#endif
+ 	if (!arch_is_coherent())
+ 		__dma_free_remap(cpu_addr, size);
+ 
+diff --git a/src/drivers/base/dma-coherent.c b/src/drivers/base/dma-coherent.c
+index d4d8ce5..0548e09 100644
+--- a/src/drivers/base/dma-coherent.c
++++ b/src/drivers/base/dma-coherent.c
+@@ -148,6 +148,49 @@ err:
+ }
+ EXPORT_SYMBOL(dma_alloc_from_coherent);
+ 
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++int dma_alloc_from_coherent_page(struct device *dev, ssize_t size,
++				       dma_addr_t *dma_handle, void **ret)
++{
++	struct dma_coherent_mem *mem;
++	int pageno;
++
++	if (!dev)
++		return 0;
++	mem = dev->dma_mem;
++	if (!mem)
++		return 0;
++
++	*ret = NULL;
++
++	if (unlikely(size > (mem->size << PAGE_SHIFT)))
++		goto err;
++
++	size = PAGE_ALIGN(size);
++	pageno = bitmap_find_free_region_page(mem->bitmap, mem->size, size >> PAGE_SHIFT);
++	if (unlikely(pageno < 0))
++		goto err;
++
++	/*
++	 * Memory was found in the per-device area.
++	 */
++	*dma_handle = mem->device_base + (pageno << PAGE_SHIFT);
++	*ret = mem->virt_base + (pageno << PAGE_SHIFT);
++	memset(*ret, 0, size);
++
++	return 1;
++
++err:
++	/*
++	 * In the case where the allocation can not be satisfied from the
++	 * per-device area, try to fall back to generic memory if the
++	 * constraints allow it.
++	 */
++	return mem->flags & DMA_MEMORY_EXCLUSIVE;
++}
++EXPORT_SYMBOL(dma_alloc_from_coherent_page);
++#endif
++
+ /**
+  * dma_release_from_coherent() - try to free the memory allocated from per-device coherent memory pool
+  * @dev:	device from which the memory was allocated
+@@ -175,3 +218,20 @@ int dma_release_from_coherent(struct device *dev, int order, void *vaddr)
+ 	return 0;
+ }
+ EXPORT_SYMBOL(dma_release_from_coherent);
++
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++int dma_release_from_coherent_page(struct device *dev, int num_page, void *vaddr)
++{
++	struct dma_coherent_mem *mem = dev ? dev->dma_mem : NULL;
++
++	if (mem && vaddr >= mem->virt_base && vaddr <
++		   (mem->virt_base + (mem->size << PAGE_SHIFT))) {
++		int page = (vaddr - mem->virt_base) >> PAGE_SHIFT;
++
++		bitmap_release_region_page(mem->bitmap, page, num_page);
++		return 1;
++	}
++	return 0;
++}
++EXPORT_SYMBOL(dma_release_from_coherent_page);
++#endif
+diff --git a/src/include/asm-generic/dma-coherent.h b/src/include/asm-generic/dma-coherent.h
+index 85a3ffa..8e2c939 100644
+--- a/src/include/asm-generic/dma-coherent.h
++++ b/src/include/asm-generic/dma-coherent.h
+@@ -9,7 +9,11 @@
+ int dma_alloc_from_coherent(struct device *dev, ssize_t size,
+ 				       dma_addr_t *dma_handle, void **ret);
+ int dma_release_from_coherent(struct device *dev, int order, void *vaddr);
+-
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++int dma_alloc_from_coherent_page(struct device *dev, ssize_t size,
++				       dma_addr_t *dma_handle, void **ret);
++int dma_release_from_coherent_page(struct device *dev, int size, void *vaddr);
++#endif
+ /*
+  * Standard interface
+  */
+diff --git a/src/include/linux/bitmap.h b/src/include/linux/bitmap.h
+index daf8c48..ce6b685 100644
+--- a/src/include/linux/bitmap.h
++++ b/src/include/linux/bitmap.h
+@@ -139,6 +139,10 @@ extern void bitmap_fold(unsigned long *dst, const unsigned long *orig,
+ 		int sz, int bits);
+ extern int bitmap_find_free_region(unsigned long *bitmap, int bits, int order);
+ extern void bitmap_release_region(unsigned long *bitmap, int pos, int order);
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++extern int bitmap_find_free_region_page(unsigned long *bitmap, int bits, int size);
++extern void bitmap_release_region_page(unsigned long *bitmap, int pos, int size);
++#endif
+ extern int bitmap_allocate_region(unsigned long *bitmap, int pos, int order);
+ extern void bitmap_copy_le(void *dst, const unsigned long *src, int nbits);
+ 
+diff --git a/src/lib/bitmap.c b/src/lib/bitmap.c
+index ffb78c9..bc0c604 100644
+--- a/src/lib/bitmap.c
++++ b/src/lib/bitmap.c
+@@ -981,6 +981,7 @@ static int __reg_op(unsigned long *bitmap, int pos, int order, int reg_op)
+ 	nlongs_reg = BITS_TO_LONGS(nbits_reg);
+ 	nbitsinlong = min(nbits_reg,  BITS_PER_LONG);
+ 
++//printk(KERN_ERR "%s(%d): nbits_reg=%d, index=%d, offset=%d, nlongs_reg=%d, nbitsinlong=%d\n", __func__, __LINE__, nbits_reg, index, offset, nlongs_reg, nbitsinlong);
+ 	/*
+ 	 * Can't do "mask = (1UL << nbitsinlong) - 1", as that
+ 	 * overflows if nbitsinlong == BITS_PER_LONG.
+@@ -1012,6 +1013,85 @@ done:
+ 	return ret;
+ }
+ 
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++static int __reg_op_page(unsigned long *bitmap, int pos, int num_page, int reg_op)
++{
++	int nbits_reg;		/* number of bits in region */
++	int index;		/* index first long of region in bitmap */
++	int offset;		/* bit offset region in bitmap[index] */
++	int nlongs_reg;		/* num longs spanned by region in bitmap */
++	int nbitsinlong;	/* num bits of region in each spanned long */
++	unsigned long first_mask, mask_all, last_mask;	/* bitmask for one long of region */
++	int i;			/* scans bitmap by longs */
++	int ret = 0;		/* return value */
++
++	/*
++	 * Either nlongs_reg == 1 (for small orders that fit in one long)
++	 * or (offset == 0 && mask == ~0UL) (for larger multiword orders.)
++	 */
++	nbits_reg = num_page;
++	index = pos / BITS_PER_LONG;
++	offset = pos - (index * BITS_PER_LONG);
++	nlongs_reg = BITS_TO_LONGS(nbits_reg - BITS_PER_LONG + offset);
++	nbitsinlong = min(nbits_reg,  BITS_PER_LONG);
++
++	/*
++	 * Can't do "mask = (1UL << nbitsinlong) - 1", as that
++	 * overflows if nbitsinlong == BITS_PER_LONG.
++	 */
++	mask_all = (1UL << (nbitsinlong - 1));
++	mask_all += mask_all - 1;
++	first_mask = mask_all << offset;
++	last_mask = (1 << (nbits_reg - BITS_PER_LONG + offset) % BITS_PER_LONG) - 1;
++
++//printk(KERN_ERR "%s(%d): ***%d> pos=%d, nbits_reg=%d, index=%d, offset=%d, nlongs_reg=%d, nbitsinlong=%d, mask=(0x%x, 0x%x, 0x%x)\n", __func__, __LINE__, reg_op, pos, nbits_reg, index, offset, nlongs_reg, nbitsinlong, first_mask, mask_all, last_mask);
++
++	switch (reg_op) {
++	case REG_OP_ISFREE:
++		if (bitmap[index] & first_mask)
++			goto done;
++
++		for (i = 1; i < nlongs_reg; i++) {
++//printk(KERN_ERR "%s(%d): bitmap[%d]=0x%x, mask=(0x%x, 0x%x, 0x%x)\n", __func__, __LINE__, index + i, bitmap[index + i], first_mask, mask_all, last_mask);
++			if (bitmap[index + i] & mask_all)
++				goto done;
++		}
++		if (bitmap[index + nlongs_reg] & last_mask)
++			goto done;
++		ret = 1;	/* all bits in region free (zero) */
++		break;
++
++	case REG_OP_ALLOC:
++		bitmap[index] |= first_mask;
++
++		for (i = 1; i < nlongs_reg; i++) {
++			bitmap[index + i] |= mask_all;
++//printk(KERN_ERR "++%s(%d): bitmap[%d]=0x%x, mask=(0x%x, 0x%x, 0x%x)\n", __func__, __LINE__, index + i, bitmap[index + i], first_mask, mask_all, last_mask);
++		}
++		bitmap[index + nlongs_reg] |= last_mask;
++		break;
++
++	case REG_OP_RELEASE:
++		bitmap[index] &= ~first_mask;
++
++		for (i = 1; i < nlongs_reg; i++) {
++			bitmap[index + i] &= ~mask_all;
++//printk(KERN_ERR "--%s(%d): bitmap[%d]=0x%x, mask=(0x%x, 0x%x, 0x%x)\n", __func__, __LINE__, index + i, bitmap[index + i], first_mask, mask_all, last_mask);
++		}
++		bitmap[index + nlongs_reg] &= ~last_mask;
++		break;
++	}
++#if 0
++//if (reg_op == REG_OP_ALLOC)
++for (i = 0; i < 96; i++) {
++	printk("bitmap[%d]=0x%x\n", i, bitmap[i]);
++}
++#endif
++done:
++	return ret;
++}
++#endif
++
+ /**
+  * bitmap_find_free_region - find a contiguous aligned mem region
+  *	@bitmap: array of unsigned longs corresponding to the bitmap
+@@ -1040,6 +1120,32 @@ int bitmap_find_free_region(unsigned long *bitmap, int bits, int order)
+ }
+ EXPORT_SYMBOL(bitmap_find_free_region);
+ 
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++// Search number of pages once. Value can be 1 / 2 / 4 / ...
++#define SEARCH_RANGE_DIV	4
++int bitmap_find_free_region_page(unsigned long *bitmap, int bits, int num_page)
++{
++	int pos, end;		/* scans bitmap by regions of size order */
++	int pages;
++//printk("%s(%d)--------------------------------------------------\n", __func__, __LINE__);
++	if (num_page <= BITS_PER_LONG)
++		pages = 1 << get_order(num_page << PAGE_SHIFT);
++	else
++		pages = 1 << get_order((num_page / SEARCH_RANGE_DIV) << PAGE_SHIFT);
++//		pages = 1 << get_order(((num_page + SEARCH_RANGE_DIV - 1) / SEARCH_RANGE_DIV) << PAGE_SHIFT);
++
++	for (pos = 0 ; pos + num_page <= bits; pos += pages) {		// Search 1/n * num_page once
++//printk(KERN_ERR "%s(%d): pos=%d, num_page=%d, bits=%d\n", __func__, __LINE__, pos, num_page, bits);
++		if (!__reg_op_page(bitmap, pos, num_page, REG_OP_ISFREE))
++			continue;
++		__reg_op_page(bitmap, pos, num_page, REG_OP_ALLOC);
++		return pos;
++	}
++	return -ENOMEM;
++}
++EXPORT_SYMBOL(bitmap_find_free_region_page);
++#endif
++
+ /**
+  * bitmap_release_region - release allocated bitmap region
+  *	@bitmap: array of unsigned longs corresponding to the bitmap
+@@ -1057,6 +1163,14 @@ void bitmap_release_region(unsigned long *bitmap, int pos, int order)
+ }
+ EXPORT_SYMBOL(bitmap_release_region);
+ 
++#ifdef CONFIG_PRE_ALLOCATE_ALGO_ENHANCE
++void bitmap_release_region_page(unsigned long *bitmap, int pos, int num_page)
++{
++	__reg_op_page(bitmap, pos, num_page, REG_OP_RELEASE);
++}
++EXPORT_SYMBOL(bitmap_release_region_page);
++#endif
++
+ /**
+  * bitmap_allocate_region - allocate bitmap region
+  *	@bitmap: array of unsigned longs corresponding to the bitmap

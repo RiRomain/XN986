@@ -1,0 +1,27 @@
+diff --git a/src/drivers/usb/host/ehci-q.c b/src/drivers/usb/host/ehci-q.c
+old mode 100644
+new mode 100755
+index fe81b17..bf44172
+--- a/src/drivers/usb/host/ehci-q.c
++++ b/src/drivers/usb/host/ehci-q.c
+@@ -306,6 +306,8 @@ static int qh_schedule (struct ehci_hcd *ehci, struct ehci_qh *qh);
+  * Chases up to qh->hw_current.  Returns number of completions called,
+  * indicating how much "real" work we did.
+  */
++u32 error_counter = 0;
++
+ static unsigned
+ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
+ {
+@@ -371,6 +373,10 @@ qh_completions (struct ehci_hcd *ehci, struct ehci_qh *qh)
+ 		rmb ();
+ 		token = hc32_to_cpu(ehci, qtd->hw_token);
+ 
++		/* Only bug fix for Sonix USB-host controller */
++		if (unlikely(token == qtd->hw_buf[4]))
++			goto rescan;
++
+ 		/* always clean up qtds the hc de-activated */
+  retry_xacterr:
+ 		if ((token & QTD_STS_ACTIVE) == 0) {
+
