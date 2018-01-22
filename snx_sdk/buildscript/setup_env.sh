@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #find .git file
-function find_project_dir()
+find_project_dir()
 {
 	find_dir=$1
 	while :
@@ -21,7 +21,7 @@ function find_project_dir()
 }
 
 #read key in normal module
-function read_norkey()  
+read_norkey()  
 {
 	file_name=$1  
 	section=$2  
@@ -31,7 +31,7 @@ function read_norkey()
 }
 
 #read key in special module
-function read_sokey()  
+read_sokey()  
 {
 	file_name=$1  
 	section=$2  
@@ -74,7 +74,7 @@ find_module_from_section()
 }
 
 #generate Makefile.mod(3):for [common]###
-function find_common()
+find_common()
 {
 	time_enter=0
 	flag_common=""
@@ -111,7 +111,7 @@ function find_common()
 }
 
 ###for 11 type###
-function generate_bootloader_type()
+generate_bootloader_type()
 {
 	par_mai=${para_arr[0]}
         par_sub=${para_arr[1]}
@@ -187,7 +187,7 @@ function generate_bootloader_type()
 }
 
 ###for 11 type###
-function generate_kernel_type()
+generate_kernel_type()
 {
 	par_mai=${para_arr[0]}
         par_sub=${para_arr[1]}
@@ -275,7 +275,7 @@ function generate_kernel_type()
 }
 
 ###for 12 type###
-function generate_rootfs_type()
+generate_rootfs_type()
 {
 	par_mai=${para_arr[0]}
 	par_sub=${para_arr[1]}
@@ -334,7 +334,7 @@ function generate_rootfs_type()
 }
 
 ###for 20 24 type###
-function generate_app_driver_bs_type()
+generate_app_driver_bs_type()
 {	
 
 	par_mai=${para_arr[0]}
@@ -628,7 +628,7 @@ function generate_app_driver_bs_type()
 	echo "" >> $par_fil
 }
 ###for 22 type###
-function generate_middleware_type()
+generate_middleware_type()
 {
 	par_mai=${para_arr[0]}
 	par_sub=${para_arr[1]}
@@ -745,7 +745,7 @@ function generate_middleware_type()
 }
 
 #abstract include file
-function find_include()
+find_include()
 {
 	for line in `cat $1`
 	do
@@ -761,7 +761,7 @@ function find_include()
 }
 
 #get every line type
-function judge_format()
+judge_format()
 {
 	line_judg=$1 
    
@@ -797,7 +797,7 @@ function judge_format()
 }
 
 #check reduplication
-function check_reduplication()
+check_reduplication()
 {
 	empty=0
 	for line in `cat $1`
@@ -831,7 +831,7 @@ function check_reduplication()
 }
 
 #check format
-function check_format()
+check_format()
 {
 	line_num=0
 	common_flag=0
@@ -1050,7 +1050,7 @@ check_type_flag()
 }
 
 #####create dst file Makefile.mod(1):for [non-common]###
-function all_files_generate()
+all_files_generate()
 {
 	unset result
 	unset module_arr

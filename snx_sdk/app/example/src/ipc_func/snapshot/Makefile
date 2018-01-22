@@ -22,6 +22,7 @@ INC     	= -I $(KERNEL_DIR)/src/include
 INC     	+= -I$(MIDDLEWARE_INS_DIR)
 INC			+= -I $(PWD)/include
 INC			+= -I$(MIDDLEWARE_INS_DIR)/include/snx_rc
+INC     += -I ../../../../../middleware/video/middleware/include
 
 EXTRA_CFLAGS	+= -I$(AUTOCONF_DIR)
 CFLAGS      := -Wall -g -O2 $(EXTRA_CFLAGS) $(INC)
@@ -30,12 +31,12 @@ LDFLAGS 	+= -pthread
 
 SNX_VC_LIB = $(MIDDLEWARE_INS_DIR)/lib/libsnx_vc.so
 SNX_RC_LIB = $(MIDDLEWARE_INS_DIR)/lib/libsnx_rc.so
-SNX_RC_LIB += $(MIDDLEWARE_INS_DIR)/lib/libsnx_isp.so 
+SNX_RC_LIB += $(MIDDLEWARE_INS_DIR)/lib/libsnx_isp.so
 #SNX_RC_LIB += $(MIDDLEWARE_INS_DIR)/lib/libsnx_common.so
 
 SNX_VIDEO_CODEC = snx_video_codec.o
 
-targets = snx_snapshot 
+targets = snx_snapshot
 
 .PHONY : clean distclean all
 %.o : %.c

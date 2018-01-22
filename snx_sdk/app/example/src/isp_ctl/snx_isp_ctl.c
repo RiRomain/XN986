@@ -3,7 +3,7 @@
  * SONiX SDK Example Code
  * Category: ISP_CTL
  * File: snx_isp_ctl.c
- *       
+ *
  */
 
 #include <stdio.h>
@@ -13,8 +13,7 @@
 #include <string.h>
 #include <unistd.h>
 
-
-#include "snx_isp/isp_lib_api.h"
+#include <snx_isp/isp_lib_api.h>
 
 #define OPT_ENUM_INPUTS			256
 #define OPT_OSD_SET_EN			OPT_ENUM_INPUTS + 1
@@ -83,8 +82,8 @@
 #define OPT_FILTER_SET_CONTRAST		OPT_ENUM_INPUTS + 61
 #define OPT_FILTER_SET_SHARPNESS	OPT_ENUM_INPUTS + 62
 #define OPT_FILTER_SET_SATURATION	OPT_ENUM_INPUTS + 63
-#define OPT_FILTER_SET_HUE			OPT_ENUM_INPUTS + 64 
-#define OPT_FILTER_SET_BRIGHTNESS	OPT_ENUM_INPUTS + 65 
+#define OPT_FILTER_SET_HUE			OPT_ENUM_INPUTS + 64
+#define OPT_FILTER_SET_BRIGHTNESS	OPT_ENUM_INPUTS + 65
 #define OPT_HDR_SET_EN			OPT_ENUM_INPUTS + 66
 
 #define OPT_AF_GET_SUM			OPT_ENUM_INPUTS + 90
@@ -101,7 +100,7 @@ static char ascii32x16[]=
 
 
 static struct option opts[] = {
-	{"channel", 1, 0, 'c'}, 
+	{"channel", 1, 0, 'c'},
     {"osdset-en", 1, 0, OPT_OSD_SET_EN},
     {"osdget-datastr", 0, 0, OPT_OSD_GET_DATA_STR},
     {"osdset-datastr", 1, 0, OPT_OSD_SET_DATA_STR},
@@ -137,7 +136,7 @@ static struct option opts[] = {
     {"mdset-y_step", 1, 0, OPT_MD_SET_Y_STEP_SIZE},
     {"mdget-blkmask", 0, 0, OPT_MD_GET_BLOCK_MASK},
     {"mdset-blkmask", 1, 0, OPT_MD_SET_BLOCK_MASK},
-    {"mdget-blkrepo", 0, 0, OPT_MD_GET_BLOCK_REPO},  
+    {"mdget-blkrepo", 0, 0, OPT_MD_GET_BLOCK_REPO},
     {"iqget-en", 0, 0, OPT_IQ_GET_EN},
     {"iqset-en", 1, 0, OPT_IQ_SET_EN},
     {"iqwrite", 1, 0, OPT_IQ_WRITE},
@@ -168,7 +167,7 @@ static struct option opts[] = {
     {"filterset-hue", 1, 0, OPT_FILTER_SET_HUE},
     {"filterset-bright", 1, 0, OPT_FILTER_SET_BRIGHTNESS},
     {"hdrset-en", 1, 0, OPT_HDR_SET_EN},
-     
+
 	{"afget-sum", 1, 0, OPT_AF_GET_SUM},
 
 	{0, 0, 0, 0}
@@ -229,30 +228,30 @@ static void usage(const char *argv0)
 	printf("	 --aecset-en			Enable ISP AEC(auto exposure control)enable(enable:1,disable:0)\n");
 	printf("	 --awbset-en			Enable ISP AWB(auto white balance)(enable:1,disable:0)\n");
 	printf("		\n");
-	
+
 	printf("	 --sensorset-mir		Enable sensor mirror(mode:enable 1, disable 0)\n");
 	printf("	 --sensorset-flip		Enable sensor flip(mode:enable 1, disable 0)\n");
 	printf("	 --sensorset-aec		Enable sensor AEC (mode:enable 1, disable 0)\n");
-	printf("	 --sensorset-exp		Set sensor exposure time(exp:0x1 ~0xffff)\n");	
-	printf("	 --sensorset-awb		Enable sensor AWB(val:enable 1, disable 0)note:when use ISP AWB, should disable sensor AWB\n");	
+	printf("	 --sensorset-exp		Set sensor exposure time(exp:0x1 ~0xffff)\n");
+	printf("	 --sensorset-awb		Enable sensor AWB(val:enable 1, disable 0)note:when use ISP AWB, should disable sensor AWB\n");
 	printf("	 --sensorset-rgain		Set sensor red gain(gain:0x0000~0xffff)\n");
 	printf("	 --sensorset-ggain		Set sensor green gain(gain:0x0000~0xffff)\n");
 	printf("	 --sensorset-bgain		Set sensor blue gain(gain:0x0000~0xffff)\n");
 	printf("	 --sensorget-name		Get current sensor name\n");
 	printf("		\n");
-	
+
 	printf("	 --hdrset-en			Enable hdr (enable 1, disable 0)\n");
 	printf("	 --drcget-status		Get drc status(enable 1, disable 0)\n");
 	printf("	 --drcset-status		Set drc status(enable 1, disable 0)\n");
 	printf("	 --drcget-value			Get drc intensity value\n");
 	printf("	 --drcset-value			Set drc intensity value(val:0~15)\n");
 	printf("		\n");
-	
+
 	printf("	 --pmset-en			Enable private mask(enable:1,disable:0)\n");
 	printf("	 --pmset-color			Set private mask block color(color:rgb888 format)\n");
 	printf("	 --pmset-area			Set private mask area(area:[6], 6*32bit represent 192blocks)(0x11 0x11 0x11 0x11 0x11 0x11)\n");
 	printf("		\n");
-	
+
 	printf("	 --filterset-contrast		Set image contrast (val range is [0~64])\n");
 	printf("	 --filterset-sharp		Set image sharpness (val range is [0~6])\n");
 	printf("	 --filterset-sat		Set image saturation (val range is [0~127])\n");
@@ -267,10 +266,10 @@ void snx_md_report_thread(void *arg)
 {
 	int status;
 	unsigned int tmp_md_block_repo[6];
-	
+
 	while(1){
 		snx_isp_md_int_get(&status);
-		
+
 		if(0 == status){
 			printf("Motion Detection (have no motion, status = %d)\n", status);
 		}else{
@@ -288,13 +287,13 @@ int main(int argc, char* argv[])
 {
 	char *endptr;
 	unsigned int i;
-	
+
 	int ret;
 	pthread_t md_report_thread;
 	//char font[2048];
-	
+
 	int isp_channel = 0;
-	
+
 	int do_osd_en_set = 0;
 	int do_osd_datastr_get = 0;
 	int do_osd_datastr_set = 0;
@@ -315,7 +314,7 @@ int main(int argc, char* argv[])
 	int do_osd_font_set = 0;
 	int do_osd_width_get = 0;
 	int do_osd_height_get = 0;
-	
+
 
 	int m_osd_en_val = 0;
 	char osd_data_str[15];
@@ -369,11 +368,11 @@ int main(int argc, char* argv[])
 	int m_iq_write_buf[20];
 	//int m_iq_write_size = 0;
  #endif
- 
+
 	int do_mf_mode_set = 0;
 	int do_aec_en_set = 0;
 	int do_awb_en_set = 0;
-	
+
 	int do_sensor_mirror_set = 0;
 	int do_sensor_flip_set = 0;
 	int do_sensor_aec_set = 0;
@@ -383,17 +382,17 @@ int main(int argc, char* argv[])
 	int do_sensor_ggain_set = 0;
 	int do_sensor_bgain_set = 0;
 	int do_sensor_name_get = 0;
-	
+
 	int do_hdr_en_set = 0;
 	int do_drc_status_get = 0;
 	int do_drc_status_set = 0;
 	int do_drc_value_get = 0;
 	int do_drc_value_set = 0;
-	
+
 	int do_pm_en_set = 0;
 	int do_pm_color_set = 0;
 	int do_pm_area_set = 0;
-	
+
 	int do_filter_contrast_set = 0;
 	int do_filter_sharpness_set = 0;
 	int do_filter_saturation_set = 0;
@@ -401,12 +400,12 @@ int main(int argc, char* argv[])
 	int do_filter_brightness_set = 0;
 
 	int do_af_sum_get = 0;
-	
+
 
 	int m_mf_mode_val = 0;
 	int m_aec_en_val = 0;
 	int m_awb_en_val = 0;
-	
+
 	int m_sensor_mirror_val = 0;
 	int m_sensor_flip_val = 0;
 	int m_sensor_aec_val = 0;
@@ -415,15 +414,15 @@ int main(int argc, char* argv[])
 	int m_sensor_rgain_val = 0;
 	int m_sensor_ggain_val = 0;
 	int m_sensor_bgain_val = 0;
-	
+
 	int m_hdr_en_val = 0;
 	int m_drc_status_val = 0;
 	int m_drc_value_val = 0;
-	
+
 	int m_pm_en_val = 0;
 	int m_pm_color_val = 0;
 	int m_pm_area_val[6];
-	
+
 	int m_filter_contrast_val = 0;
 	int m_filter_sharpness_val = 0;
 	int m_filter_saturation_val = 0;
@@ -431,17 +430,17 @@ int main(int argc, char* argv[])
 	int m_filter_brightness_val = 0;
 
 	int af_sum_get_period = 200;
-	
-	
-	 
-	
-	
+
+
+
+
+
 	int c;
 	opterr = 0;
-	while ((c = getopt_long(argc, argv, "c:h", opts, NULL)) != -1) 
+	while ((c = getopt_long(argc, argv, "c:h", opts, NULL)) != -1)
 	{
 		printf("optind:%d  optopt:%d\n",optind,optopt);
-		
+
 		switch (c)
 		{
 			case 'h':
@@ -509,23 +508,23 @@ int main(int argc, char* argv[])
 			case OPT_OSD_SET_POSITION:
 				do_osd_position_set = 1;
 				m_osd_position_x = strtol(optarg, &endptr, 10);
-				if (*endptr != ',' || endptr == optarg) 
-				{			
-					printf("Invalid size '%s'\n", optarg);				
-					return 1;			
+				if (*endptr != ',' || endptr == optarg)
+				{
+					printf("Invalid size '%s'\n", optarg);
+					return 1;
 				}
-				m_osd_position_y = strtol(endptr + 1, &endptr, 10);			
-				if (*endptr != 0) 
-				{				
-					printf("Invalid size '%s'\n", optarg);				
-					return 1;			
+				m_osd_position_y = strtol(endptr + 1, &endptr, 10);
+				if (*endptr != 0)
+				{
+					printf("Invalid size '%s'\n", optarg);
+					return 1;
 				}
-				
+
 				break;
 			case OPT_OSD_SET_TEMPLATE:
 				do_osd_template_set = 1;
 				do_osd_font_set = 1;
-				
+
 				memset(osd_template, 0, 33);
 				memset(m_osd_font, 0, 2048);
 				sscanf(optarg, "%s", osd_template);
@@ -741,12 +740,12 @@ int main(int argc, char* argv[])
 				do_af_sum_get = 1;
 				af_sum_get_period += atoi(optarg);
 				break;
-	
+
 			default:
 			printf("Invalid option -%c\n", c);
 			printf("Run %s -h for help.\n", argv[0]);
 			return 1;
-								
+
 		}
 	}
 
@@ -848,7 +847,7 @@ int main(int argc, char* argv[])
 		printf("snx_isp_osd_position_set(x:%d, y:%d) ==>\n", m_osd_position_x, m_osd_position_y);
 		snx_isp_osd_position_set(isp_channel, m_osd_position_x, m_osd_position_y);
 	}
-	
+
 	if(do_osd_template_set)
 	{
 		printf("snx_isp_osd_template_set(%s) ==>\n", osd_template);
@@ -860,7 +859,7 @@ int main(int argc, char* argv[])
 		printf("snx_isp_osd_font_set(%s) ==>\n", m_osd_font);
 		snx_isp_osd_font_set(isp_channel, m_osd_font);
 	}
-	
+
 	if(do_osd_width_get)
 	{
 		printf("snx_isp_osd_width_get ==>\n");
@@ -875,7 +874,7 @@ int main(int argc, char* argv[])
 		snx_isp_osd_height_get(isp_channel, &tmp_heigt);
 		printf("osd_height is %d\n", tmp_heigt);
 	}
-	
+
 	//Motion Detection
 	if(do_md_en_get)
 	{
@@ -932,7 +931,7 @@ int main(int argc, char* argv[])
 		printf("snx_isp_md_int_threshold_set(%d) ==>\n", m_md_int_thre_val);
 		snx_isp_md_int_threshold_set(m_md_int_thre_val);
 	}
-#if 0	
+#if 0
 	if(do_md_x_step_size_get)
 	{
 		//printf("snx_isp_md_x_step_size_get ==>\n");
@@ -978,7 +977,7 @@ int main(int argc, char* argv[])
 		//printf("md block report val is %08x %08x %08x %08x %08x %08x\n", tmp_md_block_repo[0], tmp_md_block_repo[1], tmp_md_block_repo[2], tmp_md_block_repo[3], tmp_md_block_repo[4], tmp_md_block_repo[5] );
 		ret = pthread_create(&md_report_thread, NULL, (void *)snx_md_report_thread, NULL);
 	}
-	
+
 #if 0
 	if(do_iq_en_get)
 	{
@@ -1010,14 +1009,14 @@ int main(int argc, char* argv[])
 		snx_isp_iq_firmware_reload();
 	}
 #endif
-	
+
 	//mirror/flip
 	if(do_mf_mode_set)
 	{
 		printf("snx_isp_mirror_flip_mode_set(%d) ==>\n", m_mf_mode_val);
 		snx_isp_mirror_flip_mode_set(m_mf_mode_val);
 	}
-	
+
 	//sensor
 	if(do_sensor_mirror_set)
 	{
@@ -1109,7 +1108,7 @@ int main(int argc, char* argv[])
 		printf("snx_isp_drc_value_set(%d) ==>\n", m_drc_value_val);
 		snx_isp_drc_value_set(m_drc_value_val);
 	}
-	
+
 	//private mask
 	if(do_pm_en_set)
 	{
@@ -1126,7 +1125,7 @@ int main(int argc, char* argv[])
 		printf("snx_isp_pm_area_set(%08x %08x %08x %08x %08x %08x) ==>\n", m_pm_area_val[0], m_pm_area_val[1], m_pm_area_val[2], m_pm_area_val[3], m_pm_area_val[4], m_pm_area_val[5]);
 		snx_isp_pm_area_set(m_pm_area_val);
 	}
-	
+
 	//filter
 	if(do_filter_contrast_set)
 	{
@@ -1167,15 +1166,10 @@ int main(int argc, char* argv[])
 
 		}
 
-		
+
 	}
-	
+
 	pthread_join(md_report_thread, NULL);
-	
+
 	return 0;
 }
-
-
-
-
-

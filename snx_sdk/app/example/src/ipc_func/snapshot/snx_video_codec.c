@@ -317,8 +317,6 @@ void snx_m2m_cap_rc_flow(void *arg)
 	/* Set Codec GOP */
 	snx_codec_set_gop(m2m);
 
-	//sprintf(OSD_text,"test %d",999);
-	//snx_cds_set_datastamp(stream->cds.dev_name, OSD_text, sizeof(OSD_text));
 
 	/* Bitrate Rate Control is only support for H264 */
 	if((m2m->bit_rate) && (m2m->codec_fmt == V4L2_PIX_FMT_H264)) {
@@ -411,8 +409,8 @@ void snx_m2m_cap_rc_flow(void *arg)
 						size =m2m->cap_bytesused;
 						target_ptr = m2m->cap_buffers[m2m->cap_index].start;
 						// TODO
-						sprintf(filename_temp, "%s/snapshot_t.jpg\0", outputpath);
-						sprintf(filename, "%s/snapshot.jpg\0", outputpath);
+						sprintf(filename_temp, "%s/snapshot_t.jpg", outputpath);
+						sprintf(filename, "%s/snapshot.jpg", outputpath);
 					}
 					else {	//if(pYUV420)
 						if (yuv_rate == yuv_count) {
@@ -427,10 +425,10 @@ void snx_m2m_cap_rc_flow(void *arg)
 							target_ptr = pYUV420;
 
 							if (stream->y_only)
-								sprintf(filename, "%s/snapshot_%u_%u.y\0",
+								sprintf(filename, "%s/snapshot_%u_%u.y",
 								outputpath, (unsigned int)tv.tv_sec,(unsigned int)tv.tv_usec);
 							else
-								sprintf(filename, "%s/snapshot_%u_%u.yuv\0",
+								sprintf(filename, "%s/snapshot_%u_%u.yuv",
 								outputpath, (unsigned int)tv.tv_sec,(unsigned int)tv.tv_usec);
 								yuv_count =0;
 						} else {
@@ -577,7 +575,7 @@ void snx_vc_data_stamp(int op, void *arg)
 		        snx_cds_set_enable(cds->dev_name, 0);
 #else
 			snx_cds_get_scale(cds->dev_name, &cds->scale);
-			snx_cds_set_font(cds, &ascii_2_font, &osd_font, sizeof(osd_font));
+			//snx_cds_set_font(cds, &ascii_2_font, &osd_font, sizeof(osd_font));
 #endif	// CONFIG_SYSTEM_PLATFORM_ST58660FPGA
 			break;
 		case DS_SET_DATA:
@@ -601,4 +599,3 @@ void snx_vc_data_stamp(int op, void *arg)
 
 
 }
-
