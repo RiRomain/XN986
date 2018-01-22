@@ -1,3 +1,7 @@
+
+
+
+
 PWD     	:= $(shell pwd)
 TARGET      ?= arm-linux
 CROSS_COMPILE   ?= $(TARGET)-
@@ -16,9 +20,9 @@ AUTOCONF_DIR	?= ../../../../../buildscript/include
 
 INC     	= -I $(KERNEL_DIR)/src/include
 INC     	+= -I$(MIDDLEWARE_INS_DIR)
-INC     	+= -I$(MIDDLEWARE_INS_DIR)/include/snx_vc
-INC			+= -I$(MIDDLEWARE_INS_DIR)/include/snx_rc
 INC			+= -I $(PWD)/include
+INC			+= -I$(MIDDLEWARE_INS_DIR)/include/snx_rc
+
 EXTRA_CFLAGS	+= -I$(AUTOCONF_DIR)
 CFLAGS      := -Wall -g -O2 $(EXTRA_CFLAGS) $(INC)
 LDFLAGS     := $(EXTRA_LDFLAGS) -Wl,--as-needed
