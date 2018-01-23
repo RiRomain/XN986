@@ -21,6 +21,8 @@
  *----------------------------------------------------------------------------*/
 
 #define SNX_SNAPSHOT_VER	"V0.1.1"
+#define	TEMPLATE_LENGTH	32
+
 
 /*----------------- Stream 1 M2M stream --------------------------------------*/
 #define FORMAT			V4L2_PIX_FMT_MJPEG	// V4L2_PIX_FMT_H264 or V4L2_PIX_FMT_MJPEG or V4L2_PIX_FMT_SNX420
@@ -66,10 +68,52 @@ void sighandler(int n)
 	The bitstreams of the stream will be record on the SD card.
 */
 
+static int SetOSD(char *text)
+{
+	char template[TEMPLATE_LENGTH + 1];
+	char font[2048];                       //TEMPLATE_LENGTH*64=2048
+	int i=0,j=0;
+
+	memset(template, 0, TEMPLATE_LENGTH+1);
+	memset(font, 0, 2048);
+	strcat(template,SPACE_TEMP); //generate template
+	if(strlen(text)!=0)
+	{
+		for(i=0,j=strlen(template); i<strlen(text); i++)
+		{
+			if(index(template,text[i]) == NULL)
+			{
+				if(j<TEMPLATE_LENGTH)
+					template[j++]=text[i];
+				else
+				{
+					fprintf(stderr, "osd text too long to store.");
+					break;
+				}
+			}
+		}
+	}
+	//generate font
+	{
+		int i=0,index=0;
+		for(i =0; i < strlen(template); i++)
+		{
+			index = template[i];
+			index *= 64;
+			memcpy(font +i*64, ascii32x16+index, 64);
+		}
+	}
+
+	snx_isp_osd_template_set(0,template);
+	snx_isp_osd_font_set(0,font);
+	snx_isp_osd_data_str_set(0, text);
+	return 0;
+}
+
 int main(int argc, char **argv)
 {
 	int ret = 0;
-	char outputpath[120];
+	char outputpath[20];
 	char syscmd[120];
 	stream_conf_t *stream1 = NULL;
 	stream1 = malloc(sizeof(stream_conf_t));
@@ -78,6 +122,14 @@ int main(int argc, char **argv)
 	// decode parameters
 	int c = 0;
 	int yuv_output = 0;
+
+	// overlay
+	char osd_template[50];
+	char cam_name[120];
+	int osd_en = 1;
+	int osd_x = -1;
+	int osd_y = 0;
+
 
 	//struct stat tst;
 
@@ -99,14 +151,15 @@ int main(int argc, char **argv)
 	m2m->out_mem = V4L2_MEMORY_USERPTR;
 	m2m->m2m = 0;								//Default its a Capture Path
 	m2m->isp_mem = V4L2_MEMORY_MMAP;
-    m2m->isp_fmt = V4L2_PIX_FMT_SNX420;
-    m2m->qp = 60;
-    m2m->dyn_fps_en = 0;
+	m2m->isp_fmt = V4L2_PIX_FMT_SNX420;
+  m2m->qp = 60;
+  m2m->dyn_fps_en = 0;
 
 	strcpy(m2m->isp_dev,IMG_DEV_NAME);
 	strcpy(m2m->codec_dev,CAP_DEV_NAME);
 	/*strcpy(outputpath,"/tmp");*/
 	strcpy(outputpath,"/tmp/www");
+	sprintf(cam_name,"CAM");
 
 	stream1->outputpath = outputpath;
 	stream1->frame_num = FRAME_NUM;
@@ -115,11 +168,15 @@ int main(int argc, char **argv)
 	stream1->yuv_frame = YUV_DIV_RATE;
 	stream1->y_only = 0;
 
-	while ((c = getopt (argc, argv, "hmo:i:f:W:H:q:n:s:drv:y")) != -1)
+	while ((c = getopt (argc, argv, "hmo:i:f:W:H:q:a:e:x:z:n:s:drv:y")) != -1)
 	{
 		switch (c)
 		{
 			case 'o':	strcpy(outputpath, optarg); break;
+			case 'a': strcpy(cam_name, optarg); break;
+			case 'e': if(atoi(optarg)==0) { osd_en=0; }; break;
+			case 'x':	osd_x = atoi(optarg); break;
+			case 'z': osd_y = atoi(optarg); break;
 			case 'm':	m2m->m2m = 1; break;
 			case 'i':	m2m->isp_fps = atoi(optarg); break;
 			case 'f':	m2m->codec_fps = atoi(optarg); break;
@@ -140,6 +197,10 @@ int main(int argc, char **argv)
 				"Options:\n"
 				"\t-h			Print this message\n"
 		        "\t-m			m2m path enable (default is Capture Path)\n"
+						"\t-a			add cam name to OSD\n"
+						"\t-e			overlay on/off (1/0) (default is 1)\n"
+						"\t-x			overlay x-position (default is -1 = center)\n"
+						"\t-z			overlay y-position (default is 0)\n"
 		        "\t-o			outputPath (default is /tmp)\n"
 		        "\t-i			isp fps (Only in M2M path, default is 30)\n"
 		        "\t-f			codec fps (default is 30 fps, NOT more than M2M path)\n"
@@ -163,38 +224,30 @@ int main(int argc, char **argv)
 	{
 		strcpy(m2m->codec_dev,argv[optind]);
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 		//--osdset-en 1
-	snx_isp_osd_enable_set(0, 1);
-	//--osdset-ts 1
-	snx_isp_osd_timestamp_set(0, 1);
-	//--osdset-gain 2
-	snx_isp_osd_gain_set(0, 2);
-	//--gtransp 0x0
-	snx_isp_osd_bg_transp_set(0, 0);
-	//--osdset-position 0,-30
-	snx_isp_osd_position_set(0, 0, -30);
-
-	char osd_template[30];
-	char m_osd_font[2048];
-	sprintf(osd_template,"1234567890./-:Date");
-
-	memset(m_osd_font, 0, 2048);
-	strcat(osd_template," ");
-	//strcat(osd_template, "0123456789:/.sonix");
-	{
-		int i=0,index=0;
-		for(i =0; i < strlen(osd_template); i++)
-		{
-			printf("%d, strlen= %d\n", i, strlen(osd_template));
-			index = osd_template[i];
-			index *= 64;
-			memcpy(m_osd_font +i*64, ascii32x16+index, 64);
+	if(osd_en){
+		snx_isp_osd_enable_set(0, 1);
+		//--osdset-ts 1
+		snx_isp_osd_timestamp_set(0, 0); // we do that ourself
+		//--osdset-gain 2
+		snx_isp_osd_gain_set(0, 2);
+		//--gtransp 0x0
+		snx_isp_osd_bg_transp_set(0, 0);
+		//--osdset-position 0,-30
+		if(osd_x==-1){ // calc center
+			osd_x=(m2m->width-32*(15+strlen(cam_name)))/2;
 		}
+		snx_isp_osd_position_set(0, osd_x, osd_y);
+	} else {
+		snx_isp_osd_enable_set(0, 0);
 	}
-	snx_isp_osd_template_set(0, osd_template);
-	snx_isp_osd_font_set(0, m_osd_font);
 
+
+	time_t timep;
+	struct tm *p;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	if (yuv_output) {
@@ -250,6 +303,13 @@ int main(int argc, char **argv)
 		if ((stream1->state == 0)) {
 			stream1->state = 1;
 			printf("Start to snapshot\n");
+
+			if(osd_en){
+				time(&timep);
+				p = localtime(&timep);
+				sprintf(osd_template, "%s %02d-%02d %02d:%02d:%02d",cam_name, (p->tm_mon + 1), p->tm_mday, p->tm_hour, p->tm_min, p->tm_sec);
+				SetOSD(osd_template);
+			}
 		/*	memset(syscmd, 0x00, sizeof(syscmd)); */
 			/*sprintf(syscmd, "rm -f %s", SNAPSHOT_TRIGGER); */
 		/*	system(syscmd);      */
