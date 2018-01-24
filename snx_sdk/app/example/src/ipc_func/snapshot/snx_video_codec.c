@@ -5,16 +5,16 @@
  * File: video_codec.c
  *
  * NOTE:
- *       
+ *
  */
- 
+
 #include "snx_video_codec.h"
 
 #include "generated/snx_sdk_conf.h"
 /*
 	Before capture stream starts, make sure one m2m stream is started.
-	The capture stream is related to the m2m stream, including 
-	frame rate 
+	The capture stream is related to the m2m stream, including
+	frame rate
 	scaling down (1 1/2 1/4)
 	format (H264, MJPEG, RAW)
 */
@@ -45,121 +45,121 @@ char ascii_2_font[] =
 unsigned int  osd_font[] =
 {
 	//////////////////// 0 ////////////////////
-	0X00000000, 0X007C0000, 0X00E600C6, 0X00DE00F6, 
-	0X00C600CE, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00E600C6, 0X00DE00F6,
+	0X00C600CE, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// 1 ////////////////////
-	0X00000000, 0X00300000, 0X003C0038, 0X00300030, 
-	0X00300030, 0X00FC0030, 0X00000000, 0X00000000, 
+	0X00000000, 0X00300000, 0X003C0038, 0X00300030,
+	0X00300030, 0X00FC0030, 0X00000000, 0X00000000,
 	//////////////////// 2 ////////////////////
-	0X00000000, 0X007C0000, 0X00C000C6, 0X00300060, 
-	0X000C0018, 0X00FE00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C000C6, 0X00300060,
+	0X000C0018, 0X00FE00C6, 0X00000000, 0X00000000,
 	//////////////////// 3 ////////////////////
-	0X00000000, 0X007C0000, 0X00C000C6, 0X007800C0, 
-	0X00C000C0, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C000C6, 0X007800C0,
+	0X00C000C0, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// 4 ////////////////////
-	0X00000000, 0X00600000, 0X00780070, 0X0066006C, 
-	0X006000FE, 0X00F00060, 0X00000000, 0X00000000, 
+	0X00000000, 0X00600000, 0X00780070, 0X0066006C,
+	0X006000FE, 0X00F00060, 0X00000000, 0X00000000,
 	//////////////////// 5 ////////////////////
-	0X00000000, 0X00FE0000, 0X00060006, 0X007E0006, 
-	0X00C000C0, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FE0000, 0X00060006, 0X007E0006,
+	0X00C000C0, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// 6 ////////////////////
-	0X00000000, 0X00380000, 0X0006000C, 0X007E0006, 
-	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00380000, 0X0006000C, 0X007E0006,
+	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// 7 ////////////////////
-	0X00000000, 0X00FE0000, 0X00C000C6, 0X00300060, 
-	0X00180018, 0X00180018, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FE0000, 0X00C000C6, 0X00300060,
+	0X00180018, 0X00180018, 0X00000000, 0X00000000,
 	//////////////////// 8 ////////////////////
-	0X00000000, 0X007C0000, 0X00C600C6, 0X007C00C6, 
-	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C600C6, 0X007C00C6,
+	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// 9 ////////////////////
-	0X00000000, 0X007C0000, 0X00C600C6, 0X00FC00C6, 
-	0X00C000C0, 0X003C0060, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C600C6, 0X00FC00C6,
+	0X00C000C0, 0X003C0060, 0X00000000, 0X00000000,
 	//////////////////// A ////////////////////
-	0X00000000, 0X00100000, 0X006C0038, 0X00C600C6, 
-	0X00C600FE, 0X00C600C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00100000, 0X006C0038, 0X00C600C6,
+	0X00C600FE, 0X00C600C6, 0X00000000, 0X00000000,
 	//////////////////// B ////////////////////
-	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC, 
-	0X00CC00CC, 0X007E00CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC,
+	0X00CC00CC, 0X007E00CC, 0X00000000, 0X00000000,
 	//////////////////// C ////////////////////
-	0X00000000, 0X00780000, 0X008600CC, 0X00060006, 
-	0X00860006, 0X007800CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X00780000, 0X008600CC, 0X00060006,
+	0X00860006, 0X007800CC, 0X00000000, 0X00000000,
 	//////////////////// D ////////////////////
-	0X00000000, 0X003E0000, 0X00CC006C, 0X00CC00CC, 
-	0X00CC00CC, 0X003E006C, 0X00000000, 0X00000000, 
+	0X00000000, 0X003E0000, 0X00CC006C, 0X00CC00CC,
+	0X00CC00CC, 0X003E006C, 0X00000000, 0X00000000,
 	//////////////////// E ////////////////////
-	0X00000000, 0X00FE0000, 0X008C00CC, 0X003C002C, 
-	0X008C002C, 0X00FE00CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FE0000, 0X008C00CC, 0X003C002C,
+	0X008C002C, 0X00FE00CC, 0X00000000, 0X00000000,
 	//////////////////// F ////////////////////
-	0X00000000, 0X00FE0000, 0X008C00CC, 0X003C002C, 
-	0X000C002C, 0X001E000C, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FE0000, 0X008C00CC, 0X003C002C,
+	0X000C002C, 0X001E000C, 0X00000000, 0X00000000,
 	//////////////////// G ////////////////////
-	0X00000000, 0X00780000, 0X008600CC, 0X00060006, 
-	0X00C600F6, 0X003E006C, 0X00000000, 0X00000000, 
+	0X00000000, 0X00780000, 0X008600CC, 0X00060006,
+	0X00C600F6, 0X003E006C, 0X00000000, 0X00000000,
 	//////////////////// H ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X00FE00C6, 
-	0X00C600C6, 0X00C600C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X00FE00C6,
+	0X00C600C6, 0X00C600C6, 0X00000000, 0X00000000,
 	//////////////////// I ////////////////////
-	0X00000000, 0X003C0000, 0X00180018, 0X00180018, 
-	0X00180018, 0X003C0018, 0X00000000, 0X00000000, 
+	0X00000000, 0X003C0000, 0X00180018, 0X00180018,
+	0X00180018, 0X003C0018, 0X00000000, 0X00000000,
 	//////////////////// J ////////////////////
-	0X00000000, 0X00F00000, 0X00600060, 0X00600060, 
-	0X00660060, 0X003C0066, 0X00000000, 0X00000000, 
+	0X00000000, 0X00F00000, 0X00600060, 0X00600060,
+	0X00660060, 0X003C0066, 0X00000000, 0X00000000,
 	//////////////////// K ////////////////////
-	0X00000000, 0X00CE0000, 0X006C00CC, 0X003C006C, 
-	0X006C006C, 0X00CE00CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X00CE0000, 0X006C00CC, 0X003C006C,
+	0X006C006C, 0X00CE00CC, 0X00000000, 0X00000000,
 	//////////////////// L ////////////////////
-	0X00000000, 0X001E0000, 0X000C000C, 0X000C000C, 
-	0X008C000C, 0X00FE00CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X001E0000, 0X000C000C, 0X000C000C,
+	0X008C000C, 0X00FE00CC, 0X00000000, 0X00000000,
 	//////////////////// M ////////////////////
-	0X00000000, 0X00C60000, 0X00FE00EE, 0X00C600D6, 
-	0X00C600C6, 0X00C600C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00FE00EE, 0X00C600D6,
+	0X00C600C6, 0X00C600C6, 0X00000000, 0X00000000,
 	//////////////////// N ////////////////////
-	0X00000000, 0X00C60000, 0X00DE00CE, 0X00F600FE, 
-	0X00C600E6, 0X00C600C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00DE00CE, 0X00F600FE,
+	0X00C600E6, 0X00C600C6, 0X00000000, 0X00000000,
 	//////////////////// O ////////////////////
-	0X00000000, 0X00380000, 0X00C6006C, 0X00C600C6, 
-	0X00C600C6, 0X0038006C, 0X00000000, 0X00000000, 
+	0X00000000, 0X00380000, 0X00C6006C, 0X00C600C6,
+	0X00C600C6, 0X0038006C, 0X00000000, 0X00000000,
 	//////////////////// P ////////////////////
-	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC, 
-	0X000C000C, 0X001E000C, 0X00000000, 0X00000000, 
+	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC,
+	0X000C000C, 0X001E000C, 0X00000000, 0X00000000,
 	//////////////////// Q ////////////////////
-	0X00000000, 0X007C0000, 0X00C600C6, 0X00C600C6, 
-	0X00F600D6, 0X0060007C, 0X000000E0, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C600C6, 0X00C600C6,
+	0X00F600D6, 0X0060007C, 0X000000E0, 0X00000000,
 	//////////////////// R ////////////////////
-	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC, 
-	0X00CC006C, 0X00CE00CC, 0X00000000, 0X00000000, 
+	0X00000000, 0X007E0000, 0X00CC00CC, 0X007C00CC,
+	0X00CC006C, 0X00CE00CC, 0X00000000, 0X00000000,
 	//////////////////// S ////////////////////
-	0X00000000, 0X007C0000, 0X00C600C6, 0X0038000C, 
-	0X00C60060, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X007C0000, 0X00C600C6, 0X0038000C,
+	0X00C60060, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// T ////////////////////
-	0X00000000, 0X00FF0000, 0X00180099, 0X00180018, 
-	0X00180018, 0X003C0018, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FF0000, 0X00180099, 0X00180018,
+	0X00180018, 0X003C0018, 0X00000000, 0X00000000,
 	//////////////////// U ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6, 
-	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6,
+	0X00C600C6, 0X007C00C6, 0X00000000, 0X00000000,
 	//////////////////// V ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6, 
-	0X006C00C6, 0X00100038, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6,
+	0X006C00C6, 0X00100038, 0X00000000, 0X00000000,
 	//////////////////// W ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6, 
-	0X00FE00D6, 0X00C600EE, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X00C600C6,
+	0X00FE00D6, 0X00C600EE, 0X00000000, 0X00000000,
 	//////////////////// X ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X0038006C, 
-	0X00C6006C, 0X00C600C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X0038006C,
+	0X00C6006C, 0X00C600C6, 0X00000000, 0X00000000,
 	//////////////////// Y ////////////////////
-	0X00000000, 0X00C60000, 0X00C600C6, 0X0038006C, 
-	0X00380038, 0X007C0038, 0X00000000, 0X00000000, 
+	0X00000000, 0X00C60000, 0X00C600C6, 0X0038006C,
+	0X00380038, 0X007C0038, 0X00000000, 0X00000000,
 	//////////////////// Z ////////////////////
-	0X00000000, 0X00FE0000, 0X006200C6, 0X00180030, 
-	0X0086000C, 0X00FE00C6, 0X00000000, 0X00000000, 
+	0X00000000, 0X00FE0000, 0X006200C6, 0X00180030,
+	0X0086000C, 0X00FE00C6, 0X00000000, 0X00000000,
 	//////////////////// S ////////////////////
-	0X00000000, 0X00000000, 0X00000000, 0X00000000, 
-	0X00000000, 0X00000000, 0X00000000, 0X00000000, 
+	0X00000000, 0X00000000, 0X00000000, 0X00000000,
+	0X00000000, 0X00000000, 0X00000000, 0X00000000,
 	//////////////////// = ////////////////////
-	0X00000000, 0X00000000, 0X00000000, 0X0000007E, 
-	0X007E0000, 0X00000000, 0X00000000, 0X00000000, 
+	0X00000000, 0X00000000, 0X00000000, 0X0000007E,
+	0X007E0000, 0X00000000, 0X00000000, 0X00000000,
 	//////////////////// , ////////////////////
-	0X00000000, 0X00000000, 0X00000000, 0X00000000, 
+	0X00000000, 0X00000000, 0X00000000, 0X00000000,
 	0X00180000, 0X00180018, 0X0000000C, 0X00000000,
 	//////////////////// : ////////////////////
 	0X00000000, 0X00000000, 0X001C003C, 0X00000000,
@@ -212,7 +212,7 @@ unsigned int  osd_font[] =
 	//////////////////// ? ////////////////////
 	0X00000000, 0X01C700FE, 0X01EE01CF, 0X007000E0,
 	0X00180038, 0X00000000, 0X003C003C, 0X00000000,
-	//////////////////// ; ////////////////////	
+	//////////////////// ; ////////////////////
 	0X00000000, 0X00000000, 0X00000000, 0X00380038,
 	0X00000000, 0X00180000, 0X0030003C, 0X00180038,
 	//////////////////// ^ ////////////////////
@@ -256,14 +256,14 @@ unsigned int  osd_font[] =
 void snx_m2m_cap_rc_flow(void *arg)
 {
 	long long unsigned int data_size = 0;					//Count the total datasize
-	stream_conf_t *stream = (stream_conf_t *)arg;		
+	stream_conf_t *stream = (stream_conf_t *)arg;
 	struct snx_m2m *m2m = &stream->m2m;
 	char* outputpath = stream->outputpath;
 	struct snx_rc *rc = NULL;			//rate control use
-	
+
 	struct timeval tv;					//for time calculation
 	unsigned long long start_t =0, end_t =0, period=0, pre_period=0;
-	
+
 	int count_num = 0;					//Encoded frame count
 	int real_fps = 0;					//real_fps frame count
 	int ret;
@@ -272,6 +272,8 @@ void snx_m2m_cap_rc_flow(void *arg)
 
 	int frame_num = stream->frame_num;
 	char filename[120];
+	char filename_temp[120];
+	char OSD_text[120];
 	char syscmd[120];
 
 	unsigned char * pYUV420 = NULL;
@@ -296,7 +298,7 @@ void snx_m2m_cap_rc_flow(void *arg)
 	if(m2m->m2m) {
 		/* Open ISP device */
 		m2m->isp_fd = snx_open_device(m2m->isp_dev);
-		
+
 		/* Initialize ISP */
 		ret = snx_isp_init(m2m);
 		if(ret != 0) goto err_init;
@@ -306,7 +308,7 @@ void snx_m2m_cap_rc_flow(void *arg)
 	}
 
 	/* Open Video Encode Device */
-	m2m->codec_fd = snx_open_device(m2m->codec_dev);	
+	m2m->codec_fd = snx_open_device(m2m->codec_dev);
 
 	/* Initialize Video Encode */
 	ret = snx_codec_init(m2m);
@@ -315,11 +317,12 @@ void snx_m2m_cap_rc_flow(void *arg)
 	/* Set Codec GOP */
 	snx_codec_set_gop(m2m);
 
+
 	/* Bitrate Rate Control is only support for H264 */
 	if((m2m->bit_rate) && (m2m->codec_fmt == V4L2_PIX_FMT_H264)) {
-		
+
 		rc = malloc(sizeof(struct snx_rc));
-		
+
 		/* Initialize rate control arguments */
 		rc->width = m2m->width;				//Bit-rate control width
 		rc->height = m2m->height;			//Bit rate control height
@@ -335,20 +338,20 @@ void snx_m2m_cap_rc_flow(void *arg)
 	// Set QP for MJPEG
 	if (m2m->codec_fmt == V4L2_PIX_FMT_MJPEG)
 		snx_codec_set_qp(m2m, V4L2_CID_JPEG_COMPRESSION_QUALITY);
-	
+
 	/* Start Video Encode */
 	ret = snx_codec_start(m2m);
 	if(ret != 0) goto err_start;
-	
+
 	/* Data Stamp */
-	if(strlen(stream->cds.dev_name))
-		snx_vc_data_stamp(DS_SET_ALL, (void *)&stream->cds);
+	//if(strlen(stream->cds.dev_name))
+	//	snx_vc_data_stamp(DS_SET_ALL, (void *)&stream->cds);
 
 	/* Start M2M Video Fetech and Record */
 	gettimeofday(&tv,NULL);
 	start_t = tv.tv_sec * 1000000 + tv.tv_usec;
-	
-	while(stream->live) {
+
+	while(stream->live){
 		/* Read from Video Codec */
 		ret = snx_codec_read(m2m);
 		/* Check if any frame encodec */
@@ -358,31 +361,33 @@ void snx_m2m_cap_rc_flow(void *arg)
 			gettimeofday(&tv,NULL);
 			end_t = tv.tv_sec * 1000000 + tv.tv_usec;
 			period = end_t - start_t;
-			
+
 			data_size += m2m->cap_bytesused;
-			
+
 			if (stream->debug != 0) {
 				if (period - pre_period >= 1000000) {
 					pre_period = period;
-					
+
 					printf("snx_record %d x %d Real fps = %d,(real_frames= %d)\n"
 					,(m2m->width/m2m->scale)
-					,(m2m->height/m2m->scale) 
+					,(m2m->height/m2m->scale)
 					, real_fps
 					,count_num);
-					
+
 					printf("Datasize %lld bytes,BitRate %lld Kbps  QP == %d\n"
 					, data_size
-					, (data_size>>7) 
+					, (data_size>>7)
 					, m2m->qp);
 
 					real_fps = 0;
 					data_size = 0;
 				}
 			}
-			
-			/* 
-				Bit Rate Control Flow 
+			// TODO
+			sprintf(OSD_text,"test %d",count_num);
+			//snx_cds_set_datastamp(stream->cds.dev_name, OSD_text, sizeof(OSD_text));
+			/*
+				Bit Rate Control Flow
 				Update the QP of the next frame to keep the bitrate. (CBR).
 			*/
 			if((m2m->bit_rate) && (m2m->codec_fmt == V4L2_PIX_FMT_H264)) {
@@ -390,34 +395,25 @@ void snx_m2m_cap_rc_flow(void *arg)
 			        snx_md_drop_fps(rc, &m2m->force_i_frame);
 			}
 
-			
+
 			/* Handle the encoded frame */
 			if((frame_num > 0) && (stream->state == 1)) {
-					
-
 					int has_written = 0;
 					int leng;
 					int size =0;
 					memset(syscmd, 0x00, sizeof(filename));
 					memset(syscmd, 0x00, sizeof(syscmd));
-
 					unsigned char * target_ptr = NULL;
 
-					
-
 					if(m2m->codec_fmt != V4L2_PIX_FMT_SNX420) {
-
 						size =m2m->cap_bytesused;
 						target_ptr = m2m->cap_buffers[m2m->cap_index].start;
-
-						sprintf(filename, "%s/snapshot.jpg\0", outputpath);
-                        /*sprintf(filename, "%s/snapshot_%u_%u.jpg\0",
-                                                    outputpath, (unsigned int)tv.tv_sec,(unsigned int)tv.tv_usec);*/
+						// TODO
+						sprintf(filename_temp, "%s/snapshot_t.jpg", outputpath);
+						sprintf(filename, "%s/snapshot.jpg", outputpath);
 					}
 					else {	//if(pYUV420)
-
 						if (yuv_rate == yuv_count) {
-
 							if (stream->y_only)
 								size =((m2m->width/m2m->scale)*(m2m->height/m2m->scale));
 							else
@@ -429,25 +425,22 @@ void snx_m2m_cap_rc_flow(void *arg)
 							target_ptr = pYUV420;
 
 							if (stream->y_only)
-								sprintf(filename, "%s/snapshot_%u_%u.y\0", 
+								sprintf(filename, "%s/snapshot_%u_%u.y",
 								outputpath, (unsigned int)tv.tv_sec,(unsigned int)tv.tv_usec);
-							else 
-								sprintf(filename, "%s/snapshot_%u_%u.yuv\0", 
+							else
+								sprintf(filename, "%s/snapshot_%u_%u.yuv",
 								outputpath, (unsigned int)tv.tv_sec,(unsigned int)tv.tv_usec);
-
 								yuv_count =0;
 						} else {
 							target_ptr = NULL;
-							yuv_count++;   
+							yuv_count++;
 						}
 					}
 
-					
+
 					if (target_ptr) {
 						printf("SNAPSHOT....\n");
-
-						stream->fd = open(filename, O_RDWR | O_NONBLOCK | O_CREAT);
-
+						stream->fd = open(filename_temp, O_RDWR | O_NONBLOCK | O_CREAT);
 						while(1){
 							leng = write(stream->fd, target_ptr + has_written, size - has_written);
 							if(leng <= 0);
@@ -460,33 +453,27 @@ void snx_m2m_cap_rc_flow(void *arg)
 								break;
 							}
 						}
-					
-
-						sprintf(syscmd, "echo %s >> %s/snaplist.txt", 
-								filename, outputpath);
-						system(syscmd);
+						// TODO move filename
+						rename(filename_temp,filename);
+						//sprintf(syscmd, "echo %s >> %s/snaplist.txt",filename, outputpath);
+						//system(syscmd);
 						close(stream->fd);
-
-						frame_num--;	//recording 
+						frame_num--;	//recording
 					}
 			}  else if((frame_num == 0) && (stream->state == 1)) {
-
 				memset(syscmd, 0x00, sizeof(syscmd));
 				printf("Snapshot Done\n");
-				sprintf(syscmd, "cat %s/snaplist.txt >> /dev/console", outputpath);
-				system(syscmd);
+				//sprintf(syscmd, "cat %s/snaplist.txt >> /dev/console", outputpath);
+				//system(syscmd);
 				stream->state = 0;
 				frame_num = stream->frame_num;
 			} else {
 				frame_num = stream->frame_num;
 				stream->state = 0;
 			}
-	    	
 		} //if(m2m->cap_bytesused != 0)
-
 		/* Reset Codec for the next frame */
 		ret = snx_codec_reset(m2m);
-	
 	}
 
 	/* To finish the m2m stream properly, call the apis in order */
@@ -513,8 +500,8 @@ err_init:
 		close(m2m->isp_fd);
 	}
 	if(pYUV420)
-		free(pYUV420);	
-	printf("============snx_m2m_cap_rc_flow============End\n");	
+		free(pYUV420);
+	printf("============snx_m2m_cap_rc_flow============End\n");
 	pthread_exit(0);
 }
 
@@ -529,8 +516,8 @@ void snx_vc_data_stamp(int op, void *arg)
 		printf("NO Devname for Data stamp\n");
 		return;
 	}
-	
-	switch (op) 
+
+	switch (op)
 	{
 		case DS_SET_ALL:
 			snx_cds_set_all(cds->dev_name, cds);
@@ -574,10 +561,10 @@ void snx_vc_data_stamp(int op, void *arg)
 			snx_cds_set_string(cds->dev_name, cds->string, cds->scale);
 			break;
 #endif
-		case DS_SET_FONT_STRING:			
+		case DS_SET_FONT_STRING:
 //#ifdef CONFIG_SYSTEM_PLATFORM_ST58660FPGA
 #if defined(CONFIG_SYSTEM_PLATFORM_ST58660FPGA) || defined(CONFIG_SYSTEM_PLATFORM_SN98660)
-			if(cds->enable){				
+			if(cds->enable){
 				//font_table = malloc(((cds->font_width <= 32?32:64)>>3)*(cds->font_height)*strlen(cds->string));
 				font_table = snx_cds_get_font_table(cds);
 				if(font_table)
@@ -588,7 +575,7 @@ void snx_vc_data_stamp(int op, void *arg)
 		        snx_cds_set_enable(cds->dev_name, 0);
 #else
 			snx_cds_get_scale(cds->dev_name, &cds->scale);
-			snx_cds_set_font(cds, &ascii_2_font, &osd_font, sizeof(osd_font));
+			//snx_cds_set_font(cds, &ascii_2_font, &osd_font, sizeof(osd_font));
 #endif	// CONFIG_SYSTEM_PLATFORM_ST58660FPGA
 			break;
 		case DS_SET_DATA:
@@ -609,7 +596,6 @@ void snx_vc_data_stamp(int op, void *arg)
 			snx_cds_get_scale(cds->dev_name, &cds->scale);
 			break;
 	}
-	
+
 
 }
-
